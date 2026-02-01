@@ -1,0 +1,454 @@
+{
+  "city": [
+    {
+      "key": "1",
+      "value": "Ha Noi",
+      "id": "2868"
+    },
+    {
+      "key": "2",
+      "value": "Ho Chi Minh",
+      "id": "5206"
+    },
+    {
+      "key": "3",
+      "value": "Da Nang",
+      "id": "9206"
+    },
+    {
+      "key": "4",
+      "value": "Hai Phong",
+      "id": "caf3"
+    },
+    {
+      "key": "5",
+      "value": "Can Tho",
+      "id": "a31a"
+    }
+  ],
+  "tags": [
+    {
+      "id": "1",
+      "name": "HTML"
+    },
+    {
+      "id": "2",
+      "name": "CSS"
+    },
+    {
+      "id": "3",
+      "name": "JavaScript"
+    },
+    {
+      "id": "4",
+      "name": "ReactJS"
+    },
+    {
+      "id": "5",
+      "name": "NodeJS"
+    },
+    {
+      "id": "6",
+      "name": "TypeScript"
+    },
+    {
+      "id": "7",
+      "name": "VueJS"
+    },
+    {
+      "id": "8",
+      "name": "Angular"
+    },
+    {
+      "id": "9",
+      "name": "Python"
+    },
+    {
+      "id": "10",
+      "name": "Java"
+    },
+    {
+      "id": "11",
+      "name": "C#"
+    },
+    {
+      "id": "12",
+      "name": "PHP"
+    },
+    {
+      "id": "13",
+      "name": "SQL"
+    },
+    {
+      "id": "14",
+      "name": "MongoDB"
+    },
+    {
+      "id": "15",
+      "name": "Git"
+    },
+    {
+      "id": "16",
+      "name": "Docker"
+    },
+    {
+      "id": "17",
+      "name": "React Native"
+    },
+    {
+      "id": "18",
+      "name": "Express"
+    },
+    {
+      "id": "19",
+      "name": "PostgreSQL"
+    },
+    {
+      "id": "20",
+      "name": "REST API"
+    },
+    {
+      "id": "21",
+      "name": "Expo"
+    },
+    {
+      "id": "22",
+      "name": "Figma"
+    },
+    {
+      "id": "23",
+      "name": "TailwindCSS"
+    }
+  ],
+  "jobs": [
+    {
+      "id": "1",
+      "idCompany": 1,
+      "name": "Frontend Developer",
+      "tags": [
+        "ReactJS",
+        "TypeScript",
+        "HTML",
+        "CSS"
+      ],
+      "salary": "1000 - 1500 USD",
+      "description": "Develop and maintain web applications using ReactJS and TypeScript. Collaborate with designers and backend engineers to deliver user-friendly products.",
+      "status": true,
+      "createAt": "29-04-2023 21:22:17",
+      "updateAt": "29-04-2023 21:22:17",
+      "city": [
+        "Ha Noi",
+        "Da Nang",
+        "Ho Chi Minh"
+      ]
+    },
+    {
+      "id": "2",
+      "idCompany": 1,
+      "name": "Frontend Developer 2",
+      "tags": [
+        "ReactJS",
+        "TypeScript",
+        "HTML",
+        "CSS"
+      ],
+      "salary": "1000 - 1500 USD",
+      "description": "Develop and maintain web applications using ReactJS and TypeScript. Collaborate with designers and backend engineers to deliver user-friendly products.",
+      "status": true,
+      "createAt": "29-04-2023 21:22:17",
+      "updateAt": "29-04-2023 21:22:17",
+      "city": [
+        "Ha Noi",
+        "Da Nang",
+        "Ho Chi Minh"
+      ]
+    },
+    {
+      "id": "2",
+      "idCompany": 2,
+      "name": "Fullstack Developer",
+      "tags": [
+        "Angular",
+        "NodeJS",
+        "Express",
+        "MongoDB"
+      ],
+      "salary": "1200 - 2000 USD",
+      "description": "Responsible for both frontend (Angular) and backend (NodeJS, Express) development. Ensure high performance and responsiveness of applications.",
+      "status": true,
+      "createAt": "29-04-2023 21:22:17",
+      "updateAt": "29-04-2023 21:22:17",
+      "city": [
+        "Ha Noi",
+        "Ho Chi Minh"
+      ]
+    },
+    {
+      "id": "3",
+      "idCompany": 3,
+      "name": "Backend Engineer",
+      "tags": [
+        "NodeJS",
+        "TypeScript",
+        "PostgreSQL",
+        "REST API"
+      ],
+      "salary": "1300 - 1800 USD",
+      "description": "Design, build, and maintain efficient server-side logic. Work with databases and APIs to support frontend applications.",
+      "status": true,
+      "createAt": "29-04-2023 21:22:17",
+      "updateAt": "29-04-2023 21:22:17",
+      "city": [
+        "Da Nang",
+        "Ho Chi Minh"
+      ]
+    },
+    {
+      "id": "4",
+      "idCompany": 4,
+      "name": "Mobile App Developer",
+      "tags": [
+        "React Native",
+        "TypeScript",
+        "Expo"
+      ],
+      "salary": "1100",
+      "description": "Create cross-platform mobile applications using React Native. Optimize performance and ensure smooth user experience on both iOS and Android.",
+      "status": true,
+      "createAt": "29-04-2023 21:22:17",
+      "updateAt": "2025-10-26 13:26:21",
+      "city": [
+        "Ha Noi",
+        "Da Nang"
+      ]
+    },
+    {
+      "id": "7363",
+      "name": "Nodejs",
+      "tags": [
+        "HTML"
+      ],
+      "status": true,
+      "idCompany": "9394",
+      "createAt": "2025-09-20 21:10:49",
+      "updateAt": "2025-10-26 13:11:09",
+      "salary": "2000",
+      "city": [
+        "3"
+      ],
+      "address": "2000"
+    }
+  ],
+  "cv": [
+    {
+      "id": "1",
+      "idCompany": 1,
+      "idJob": 2,
+      "name": "Nguyen Van A",
+      "phone": "0987654321",
+      "email": "nguyenvana@example.com",
+      "statusRead": true,
+      "description": "Frontend developer with 2 years of experience in ReactJS and TypeScript. Passionate about building responsive web applications.",
+      "linkProject": "https://github.com/nguyenvana/portfolio",
+      "createAt": "2025-08-20T10:15:00Z",
+      "city": "Ha Noi"
+    },
+    {
+      "id": "2",
+      "idCompany": 2,
+      "idJob": 3,
+      "name": "Tran Thi B",
+      "phone": "0912345678",
+      "email": "tranthib@example.com",
+      "statusRead": true,
+      "description": "Backend engineer specializing in Node.js and PostgreSQL. Experienced in building scalable APIs.",
+      "linkProject": "https://github.com/tranthib/backend-project",
+      "createAt": "2025-08-18T14:30:00Z",
+      "city": "Ho Chi Minh"
+    },
+    {
+      "id": "3",
+      "idCompany": 3,
+      "idJob": 1,
+      "name": "Le Van C",
+      "phone": "0909090909",
+      "email": "levanc@example.com",
+      "statusRead": true,
+      "description": "Fullstack developer with expertise in Angular, Express, and MongoDB. Strong problem-solving skills.",
+      "linkProject": "https://github.com/levanc/fullstack-app",
+      "createAt": "2025-08-15T08:45:00Z",
+      "city": "Da Nang"
+    },
+    {
+      "id": "4",
+      "idCompany": 4,
+      "idJob": 4,
+      "name": "Pham Thi D",
+      "phone": "0977888999",
+      "email": "phamthid@example.com",
+      "statusRead": true,
+      "description": "Mobile app developer with React Native. Experienced in delivering cross-platform apps.",
+      "linkProject": "https://github.com/phamthid/mobile-app",
+      "createAt": "2025-08-19T09:20:00Z",
+      "city": "Hai Phong"
+    },
+    {
+      "id": "5",
+      "idCompany": 4,
+      "idJob": 4,
+      "name": "Hoang Van E",
+      "phone": "0966667777",
+      "email": "hoangvane@example.com",
+      "statusRead": true,
+      "description": "UI/UX engineer skilled in Figma and TailwindCSS. Able to turn wireframes into responsive web interfaces.",
+      "linkProject": "https://dribbble.com/hoangvane",
+      "createAt": "2025-08-21T11:10:00Z",
+      "city": "Can Tho"
+    }
+  ],
+  "company": [
+    {
+      "id": "1",
+      "name": "TechSoft Vietnam",
+      "address": "123 Pham Van Dong, Ha Noi",
+      "phone": "024-1234567",
+      "email": "contact@techsoft.vn",
+      "website": "https://techsoft.vn",
+      "description": "A leading software outsourcing company specializing in web and mobile application development."
+    },
+    {
+      "id": "2",
+      "name": "NextGen Solutions",
+      "address": "45 Nguyen Hue, Ho Chi Minh",
+      "phone": "028-7654321",
+      "email": "info@nextgen.vn",
+      "website": "https://nextgen.vn",
+      "description": "Full-stack software development company delivering scalable enterprise solutions."
+    },
+    {
+      "id": "3",
+      "name": "GreenTech",
+      "address": "78 Bach Dang, Da Nang",
+      "phone": "0236-888999",
+      "email": "hr@greentech.com",
+      "website": "https://greentech.com",
+      "description": "Innovative IT company focusing on backend engineering and cloud-based services."
+    },
+    {
+      "id": "4",
+      "name": "MobilePlus",
+      "address": "22 Le Loi, Hai Phong",
+      "phone": "0225-456789",
+      "email": "hello@mobileplus.vn",
+      "website": "https://mobileplus.vn",
+      "description": "Mobile application development company specialized in cross-platform solutions."
+    },
+    {
+      "id": "5",
+      "name": "DesignHub",
+      "address": "90 Tran Hung Dao, Can Tho",
+      "phone": "0292-123987",
+      "email": "support@designhub.vn",
+      "website": "https://designhub.vn",
+      "description": "Creative UI/UX design agency combining aesthetics and modern frontend technologies."
+    },
+    {
+      "id": "9394",
+      "password": "1",
+      "name": "Tuyen Company",
+      "email": "tuyen@gmail.com",
+      "phone": "0292-123987",
+      "address": "90 Tran Hung Dao, Can Tho",
+      "quantityPeople": 102,
+      "workingTime": "Mon-Sat",
+      "website": "https://designhub.vn",
+      "description": "Creative UI/UX design agency combining aesthetics and modern frontend technologies.",
+      "detailDescription": "Creative UI/UX design agency combining aesthetics and modern frontend technologies.",
+      "token": "P2PapfES0ItMLjF2DUCjuZmPekIZhMHp"
+    }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "title": "Man must explore, and this is exploration at its greatest",
+      "subtitle": "Problems look mighty small from 150 miles up",
+      "createdBy": "Start Bootstrap",
+      "createdAt": "September 24, 2023",
+      "status": "active",
+      "content": "Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals.\n\nThe airman's earth, if free men make it, will be truly round: a globe in practice, not in theory.\n\nScience cuts two ways, of course; its products can be used for both good and evil. But there's no turning back from science. The early warnings about technological dangers also come from science.\n\nWhat was most significant about the lunar voyage was not that man set foot on the Moon but that they set eye on the earth.\n\nA Chinese tale tells of some men sent to harm a young girl who, upon seeing her beauty, become her protectors rather than her violators. That's how I felt seeing the Earth for the first time. I could not help but love and cherish her.\n\nFor those who have seen the Earth from space, and for the hundreds and perhaps thousands more who will, the experience most certainly changes your perspective. The things that we share in our world are far more valuable than those which divide us."
+    },
+    {
+      "id": 2,
+      "title": "Science has not yet mastered prophecy",
+      "subtitle": "We predict too much for the next year and yet far too little for the next ten",
+      "createdBy": "Start Bootstrap",
+      "createdAt": "September 18, 2023",
+      "status": "active",
+      "content": "Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth..."
+    },
+    {
+      "id": 3,
+      "title": "Failure is not an option",
+      "subtitle": "Many say exploration is part of our destiny, but it’s actually our duty",
+      "createdBy": "Start Bootstrap",
+      "createdAt": "August 24, 2023",
+      "status": "active",
+      "content": "Never in all their history have men been able truly to conceive of the world as one..."
+    },
+    {
+      "id": 4,
+      "title": "The dreams of yesterday are the hopes of today",
+      "subtitle": "And the reality of tomorrow",
+      "createdBy": "Start Bootstrap",
+      "createdAt": "August 10, 2023",
+      "status": "active",
+      "content": "Never in all their history have men been able truly to conceive of the world as one..."
+    },
+    {
+      "id": 5,
+      "title": "Exploration is really the essence of the human spirit",
+      "subtitle": "Never stop discovering the unknown",
+      "createdBy": "Start Bootstrap",
+      "createdAt": "July 30, 2023",
+      "status": "active",
+      "content": "Never in all their history have men been able truly to conceive of the world as one...",
+      "updatedAt": "2026-01-25 10:50:51"
+    }
+  ],
+  "user": [
+    {
+      "id": "sXVDw9N",
+      "name": "Admin 123",
+      "email": "admin@gmail.com",
+      "username": "admin",
+      "password": "1",
+      "terms": true,
+      "token": "IwpzG1iLVV3dCEmXmp1t",
+      "status": "active",
+      "createdAt": "2026-01-17T13:00:00.000Z",
+      "updatedAt": "2026-01-17T13:00:00.000Z"
+    },
+    {
+      "id": "yWpvNbv",
+      "name": "Le Quang Tuyen",
+      "email": "tuyen@gmail.com",
+      "username": "tuyen",
+      "password": "1",
+      "terms": true,
+      "token": "fJlQq4OXNqtIe4MzFFPe",
+      "status": "active",
+      "createdAt": "2026-01-17T13:00:00.000Z",
+      "updatedAt": "2026-01-17T13:00:00.000Z"
+    },
+    {
+      "name": "Start Bootstrap",
+      "email": "startbootstrap@gmail.com",
+      "username": "startbootstrap",
+      "password": "1",
+      "status": "active",
+      "createdAt": "2026-01-18 17:18:47",
+      "updatedAt": "2026-01-18 17:18:47",
+      "id": "hjnDnp_"
+    }
+  ]
+}

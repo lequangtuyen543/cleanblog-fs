@@ -1,0 +1,39 @@
+.post {
+  &-preview {
+    &>a {
+      color: #212529;
+    }
+
+    &>a:hover {
+      text-decoration: none;
+      color: #0085A1;
+    }
+  }
+
+  &-title {
+    font-size: 1.875rem;
+    margin-top: 1.875rem;
+    margin-bottom: 0.625rem;
+  }
+
+  &-subtitle {
+    font-weight: 300;
+    margin-bottom: 0.625rem;
+  }
+
+  &-meta {
+    font-size: 1.125rem;
+    font-style: italic;
+    margin-top: 0;
+    color: #6c757d;
+
+    a {
+      font-weight: 500;
+      color: #4b5563;
+
+      &:hover {
+        color: #0085A1;
+      }
+    }
+  }
+}

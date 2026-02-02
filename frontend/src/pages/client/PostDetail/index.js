@@ -10,6 +10,8 @@ export const PostDetail = () => {
   const [data, setData] = useState();
   const param = useParams();
 
+  console.log('hi');
+
   useEffect(() => {
     const fetchData = async () => {
       const res = await getDetailPost(param.id);
@@ -20,6 +22,7 @@ export const PostDetail = () => {
     fetchData();
   }, []);
 
+  console.log('hi');
   console.log('data', data);
 
   return (

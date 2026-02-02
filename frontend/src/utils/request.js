@@ -1,4 +1,4 @@
-const api_domain = "http://localhost:3002/";
+const api_domain = "http://localhost:3002/api/v1/";
 // const api_domain = "https://project-final-6.onrender.com/";
 
 export const GET = async (path) => {

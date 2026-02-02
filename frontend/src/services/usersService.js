@@ -6,7 +6,7 @@ export const checkExist = async (key, value) => {
 };
 
 export const createUser = async (data) => {
-  const result = await POST(`users`, data);
+  const result = await POST(`users/register`, data);
   return result;
 };
 

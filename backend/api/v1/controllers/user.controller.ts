@@ -8,16 +8,23 @@ export const register = async (req: Request, res: Response) => {
   req.body.password = md5(req.body.password);
 
   const existEmail = await User.findOne({ email: req.body.email, deleted: false });
+  const existUsername = await User.findOne({ username: req.body.username, deleted: false });
 
   if (existEmail) {
     res.json({
       code: 400,
       message: "Email đã tồn tại!",
     });
+  } else if (existUsername) {
+    res.json({
+      code: 400,
+      message: "Tên đăng nhập đã tồn tại!",
+    });
   } else {
     const user = new User({
       fullName: req.body.fullName,
       email: req.body.email,
+      username: req.body.username,
       password: req.body.password,
       token: generateHelper.generateRandomString(20)
     });

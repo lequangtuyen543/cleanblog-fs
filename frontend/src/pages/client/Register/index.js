@@ -17,28 +17,28 @@ export const Register = () => {
     try {
       values.token = generateToken();
 
-      const checkExistEmail = await checkExist("email", values.email);
-      const checkExistUserName = await checkExist("username", values.username);
+      // const checkExistEmail = await checkExist("email", values.email);
+      // const checkExistUserName = await checkExist("username", values.username);
 
-      if (checkExistEmail.length > 0) {
-        messageApi.error('Email already exists!');
-        return;
-      } else if (checkExistUserName.length > 0) {
-        messageApi.error('Username already exists!');
-        return
-      }
+      // if (checkExistEmail.length > 0) {
+      //   messageApi.error('Email already exists!');
+      //   return;
+      // } else if (checkExistUserName.length > 0) {
+      //   messageApi.error('Username already exists!');
+      //   return
+      // }
 
       const res = await createUser(values);
 
       console.log('res', res);
 
-      if (res) {
+      if (res.code === 200) {
         messageApi.success('Create user successfully!');
         setTimeout(() => {
           navigate('/login');
         }, 3000);
       } else {
-        messageApi.error('Create user failed!');
+        messageApi.error(res.message);
       }
     } catch (error) {
       messageApi.error('Something went wrong!');

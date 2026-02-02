@@ -4,5 +4,6 @@ const router: Router = Router();
 
 router.get("/", controller.index);
 router.get("/:id", controller.detail);
+router.post("/create", controller.create);
 
 export const postRoutes: Router = router;

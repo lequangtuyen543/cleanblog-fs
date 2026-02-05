@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Card } from "antd";
-import { getListUsers } from "../../../services/usersService";
+import { usersIndex } from "../../../services/usersService";
 import { Link } from "react-router-dom";
 
 export const UserStatistic = () => {
@@ -8,7 +8,7 @@ export const UserStatistic = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getListUsers();
+      const res = await usersIndex();
       if (res) {
         let obj = {
           total: 0,

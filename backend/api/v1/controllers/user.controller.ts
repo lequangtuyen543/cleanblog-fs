@@ -78,6 +78,28 @@ export const login = async (req: Request, res: Response) => {
   });
 };
 
+// [GET] /api/v1/users
+export const index = async (req: Request, res: Response) => {
+
+  const users = await User.find({
+    deleted: false
+  });
+
+  if (!users) {
+    res.json({
+      code: 400,
+      message: "Không có người dùng nào!",
+    });
+    return;
+  }
+
+  res.json({
+    code: 200,
+    message: "Lấy danh sách người dùng thành công!",
+    data: users
+  });
+};
+
 // [GET] /api/v1/users/detail
 export const detail = async (req: Request, res: Response) => {
   res.json({

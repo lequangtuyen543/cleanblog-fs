@@ -3,16 +3,18 @@ import { Button, Space, Table, Tag, Tooltip } from 'antd';
 import { Link } from "react-router-dom";
 import { EyeOutlined, PlusOutlined } from "@ant-design/icons";
 import { EditUser } from "./EditUser";
-import { getListUsers } from "../../../services/usersService";
+import { usersIndex } from "../../../services/usersService";
 import { DeleteUser } from "./DeleteUser";
 
 export const UserList = () => {
   const [data, setData] = useState([]);
 
   const fetchData = async () => {
-    const res = await getListUsers();
+    const res = await usersIndex();
+
+    console.log("res: ", res);
     if (res) {
-      setData(res.reverse());
+      setData(res.data);
     }
   };
 
@@ -31,9 +33,9 @@ export const UserList = () => {
       render: (_, __, index) => index + 1,
     },
     {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
+      title: 'Full Name',
+      dataIndex: 'fullName',
+      key: 'fullName',
     },
     // {
     //   title: 'Email',

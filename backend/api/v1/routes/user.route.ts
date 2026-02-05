@@ -4,9 +4,8 @@ import * as authMiddleware from "../middlewares/auth.middleware";
 const router: Router = Router();
 
 router.post("/register", controller.register);
-
 router.post("/login", controller.login);
-
+router.get("/", controller.index);
 router.post("/detail/:id", authMiddleware.requireAuth, controller.detail);
 
 export const userRoutes: Router = router;

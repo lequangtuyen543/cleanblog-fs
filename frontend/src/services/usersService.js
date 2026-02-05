@@ -30,7 +30,7 @@ export const editUser = async (id, data) => {
   return result;
 };
 
-export const getListUsers = async () => {
+export const usersIndex = async () => {
   const result = await GET(`users`);
   return result;
 };

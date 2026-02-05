@@ -1,6 +1,6 @@
 import { Button, Card, Checkbox, Form, Input, message, Typography } from 'antd';
 import { setCookie } from '../../../helpers/cookie';
-import { loginUser } from '../../../services/usersService';
+import { loginUser, usersLogin } from '../../../services/usersService';
 import { checkLogin } from '../../../actions/login';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -17,27 +17,27 @@ export const Login = () => {
   const onFinish = async values => {
     setLoading(true);
     try {
-      const { username, password } = values;
-      const res = await loginUser(username, password);
+      const res = await usersLogin(values);
 
-      console.log("res: ", res);
+      console.log("res: ", res.code);
 
-      if (res && res.length > 0) {
+      if (res.code == 200) {
+        
         // login success
-        setCookie("id", res[0].id, 1);
-        setCookie("name", res[0].name, 1);
-        setCookie("username", res[0].username, 1);
-        setCookie("token", res[0].token, 1);
+        // setCookie("id", res[0].id, 1);
+        // setCookie("name", res[0].name, 1);
+        // setCookie("username", res[0].username, 1);
+        setCookie("token", res.token, 1);
 
         dispatchEvent(checkLogin(true));
-
+        console.log("Login successfully!");
         setTimeout(() => {
-          messageApi.error('Login successfully!');
+          messageApi.success(res.message);
           navigate("/admin/dashboard");
         }, 1000);
       } else {
         // login fail
-        messageApi.error('Username or password is incorrect!');
+        messageApi.error(res.message);
       }
     } catch (error) {
       messageApi.error('Something went wrong!');

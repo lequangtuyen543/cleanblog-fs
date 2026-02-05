@@ -5,13 +5,18 @@ export const checkExist = async (key, value) => {
   return result;
 };
 
-export const createUser = async (data) => {
+export const usersRegister = async (data) => {
   const result = await POST(`users/register`, data);
   return result;
 };
 
 export const loginUser = async (username, password) => {
   const result = await GET(`users?username=${username}&password=${password}`);
+  return result;
+};
+
+export const usersLogin = async (data) => {
+  const result = await POST(`users/login`, data);
   return result;
 };
 

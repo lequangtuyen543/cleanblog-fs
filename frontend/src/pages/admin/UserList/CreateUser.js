@@ -1,5 +1,5 @@
 import { Button, Card, Col, Form, Input, message, Row, Switch } from "antd";
-import { checkExist, createUser } from "../../../services/usersService";
+import { checkExist, createUser, usersRegister } from "../../../services/usersService";
 import getTimeCurrent from "../../../helpers/time";
 
 export const CreateUser = () => {
@@ -28,15 +28,15 @@ export const CreateUser = () => {
       values.updatedAt = getTimeCurrent();
       values.status = values.status ? "active" : "inactive";
 
-      const res = await createUser(values);
+      const res = await usersRegister(values);
 
       console.log(res);
 
       if (res) {
-        messageApi.success("Create job successfully!");
+        messageApi.success("Create user successfully!");
         form.resetFields();
       } else {
-        messageApi.error("Create job failed!");
+        messageApi.error("Create user failed!");
       }
     } catch (error) {
       messageApi.error("Create job failed!");

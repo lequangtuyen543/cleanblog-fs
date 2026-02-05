@@ -10,7 +10,7 @@ dotenv.config();
 connect();
 
 const app: Express = express();
-const port: number | string = process.env.PORT || 3000;
+const port: number | string = process.env.PORT || 3002;
 
 app.use(cors());
 

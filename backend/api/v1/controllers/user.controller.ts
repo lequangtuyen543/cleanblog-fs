@@ -44,18 +44,18 @@ export const register = async (req: Request, res: Response) => {
 
 // [POST] /api/v1/users/login
 export const login = async (req: Request, res: Response) => {
-  const email = req.body.email;
+  const username = req.body.username;
   const password = req.body.password;
 
   const user = await User.findOne({
-    email: email,
+    username: username,
     deleted: false
   })
 
   if (!user) {
     res.json({
       code: 400,
-      message: "Email không tồn tại!",
+      message: "username không tồn tại!",
     });
     return;
   }

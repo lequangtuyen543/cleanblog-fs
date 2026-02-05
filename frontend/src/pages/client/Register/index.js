@@ -1,5 +1,5 @@
 import { Button, Card, Checkbox, Form, Input, message, Typography } from 'antd';
-import { checkExist, createUser } from '../../../services/usersService';
+import { usersRegister } from '../../../services/usersService';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import generateToken from '../../../helpers/generateToken';
@@ -28,7 +28,7 @@ export const Register = () => {
       //   return
       // }
 
-      const res = await createUser(values);
+      const res = await usersRegister(values);
 
       console.log('res', res);
 

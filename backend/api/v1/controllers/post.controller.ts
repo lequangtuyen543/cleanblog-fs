@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Post from "../models/post.model";
+import User from "../models/user.model";
 
 // [GET] /api/v1/posts
 export const index = async (req: Request, res: Response) => {
@@ -19,8 +20,8 @@ export const detail = async (req: Request, res: Response) => {
 // [POST] /api/v1/posts/create
 export const create = async (req: Request, res: Response) => {
   try {
-    const post = new Post(req.body);
-    const data = await post.save();
+    const record = new User(req.body);
+    const data = await record.save();
 
     res.json({
       code: 200,

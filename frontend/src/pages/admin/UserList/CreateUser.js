@@ -1,5 +1,5 @@
 import { Button, Card, Col, Form, Input, message, Row, Switch } from "antd";
-import { checkExist, createUser, usersRegister } from "../../../services/usersService";
+import { usersCreate } from "../../../services/usersService";
 import getTimeCurrent from "../../../helpers/time";
 
 export const CreateUser = () => {
@@ -9,37 +9,37 @@ export const CreateUser = () => {
   const handleSubmit = async (values) => {
     try {
       // Check Email exist
-      const checkEmail = await checkExist("email", values.email);
-      const checkUsername = await checkExist("username", values.username);
+      // const checkEmail = await checkExist("email", values.email);
+      // const checkUsername = await checkExist("username", values.username);
 
-      console.log("checkEmail:", checkEmail);
-      console.log("checkUsername:", checkUsername);
+      // console.log("checkEmail:", checkEmail);
+      // console.log("checkUsername:", checkUsername);
 
-      if (checkEmail && checkEmail.length > 0) {
-        messageApi.error("Email already exists!");
-        return;
-      } else if (checkUsername && checkUsername.length > 0) {
-        messageApi.error("Username already exists!");
-        return
-      }
+      // if (checkEmail && checkEmail.length > 0) {
+      //   messageApi.error("Email already exists!");
+      //   return;
+      // } else if (checkUsername && checkUsername.length > 0) {
+      //   messageApi.error("Username already exists!");
+      //   return
+      // }
 
       // Create user
       values.createdAt = getTimeCurrent();
       values.updatedAt = getTimeCurrent();
       values.status = values.status ? "active" : "inactive";
 
-      const res = await usersRegister(values);
+      const res = await usersCreate(values);
 
       console.log(res);
 
-      if (res) {
-        messageApi.success("Create user successfully!");
+      if (res && res.code === 200) {
+        messageApi.success(res.message);
         form.resetFields();
       } else {
-        messageApi.error("Create user failed!");
+        messageApi.error(res.message);
       }
     } catch (error) {
-      messageApi.error("Create job failed!");
+      messageApi.error("Create user failed!");
     }
   }
 

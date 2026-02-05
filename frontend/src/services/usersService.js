@@ -10,6 +10,11 @@ export const usersRegister = async (data) => {
   return result;
 };
 
+export const usersCreate = async (data) => {
+  const result = await POST(`users/create`, data);
+  return result;
+};
+
 export const loginUser = async (username, password) => {
   const result = await GET(`users?username=${username}&password=${password}`);
   return result;

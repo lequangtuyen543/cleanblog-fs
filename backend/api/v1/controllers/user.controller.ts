@@ -100,6 +100,45 @@ export const index = async (req: Request, res: Response) => {
   });
 };
 
+// [POST] /api/v1/users/create
+export const create = async (req: Request, res: Response) => {
+  req.body.password = md5(req.body.password);
+
+  const existEmail = await User.findOne({ email: req.body.email, deleted: false });
+  const existUsername = await User.findOne({ username: req.body.username, deleted: false });
+
+  if (existEmail) {
+    res.json({
+      code: 400,
+      message: "Email đã tồn tại!",
+    });
+  } else if (existUsername) {
+    res.json({
+      code: 400,
+      message: "Tên đăng nhập đã tồn tại!",
+    });
+  } else {
+    const user = new User({
+      fullName: req.body.fullName,
+      email: req.body.email,
+      username: req.body.username,
+      password: req.body.password,
+      token: generateHelper.generateRandomString(20)
+    });
+
+    user.save();
+
+    const token = user.token;
+    res.cookie("token", token);
+
+    res.json({
+      code: 200,
+      message: "Đăng ký thành công!",
+      token: token
+    });
+  }
+};
+
 // [GET] /api/v1/users/detail
 export const detail = async (req: Request, res: Response) => {
   res.json({

@@ -5,7 +5,7 @@ const router: Router = Router();
 
 router.post("/register", controller.register);
 router.post("/login", controller.login);
-router.get("/", controller.index);
-router.post("/detail/:id", authMiddleware.requireAuth, controller.detail);
+router.get("/", authMiddleware.requireAuth, controller.index);
+router.post("/create", authMiddleware.requireAuth, controller.create);
 
 export const userRoutes: Router = router;

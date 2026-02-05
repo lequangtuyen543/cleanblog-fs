@@ -1,18 +1,27 @@
+import { getCookie } from "../helpers/cookie";
+
 const api_domain = "http://localhost:3002/api/v1/";
 // const api_domain = "https://project-final-6.onrender.com/";
 
 export const GET = async (path) => {
-  const response = await fetch(api_domain + path)
+  const token = getCookie("token");
+  const response = await fetch(api_domain + path, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
   const result = await response.json();
   return result;
 }
 
 export const POST = async (path, data) => {
+  const token = getCookie("token");
   const response = await fetch(api_domain + path, {
     method: "POST",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
     },
     body: JSON.stringify(data)
   });

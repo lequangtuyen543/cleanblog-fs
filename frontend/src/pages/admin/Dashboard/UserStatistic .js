@@ -9,14 +9,15 @@ export const UserStatistic = () => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await usersIndex();
-      if (res) {
+      const resData = res.data;
+      if (resData) {
         let obj = {
           total: 0,
           statusTrue: 0,
           statusFalse: 0
         }
-        obj.total = res.length;
-        res.forEach((item) => {
+        obj.total = resData.length;
+        resData.forEach((item) => {
           item.status === 'active' ? obj.statusTrue++ : obj.statusFalse++
         })
         setData(obj);

@@ -1,6 +1,6 @@
 import { Button, Card, Col, Form, Input, message, Row, Select } from "antd";
 import { useEffect, useState } from "react";
-import { editUser, getDetailUser } from "../../../services/usersService";
+import { editUser, getDetailUser, usersInfo } from "../../../services/usersService";
 import { getCookie } from "../../../helpers/cookie";
 const { Option } = Select;
 
@@ -11,10 +11,9 @@ export const UserInfo = () => {
   const [isEdit, setIsEdit] = useState(false);
 
   const fetchData = async () => {
-    const id = getCookie("id");
-    const res = await getDetailUser(id);
+    const res = await usersInfo();
     if (res) {
-      setData(res);
+      setData(res.data);
     }
   };
 

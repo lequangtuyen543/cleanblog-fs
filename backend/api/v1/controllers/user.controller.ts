@@ -78,6 +78,15 @@ export const login = async (req: Request, res: Response) => {
   });
 };
 
+// [GET] /api/v1/users/info
+export const info = async (req: Request, res: Response) => {
+  res.json({
+    code: 200,
+    message: "Thành công",
+    data: res.locals.user
+  });
+};
+
 // [GET] /api/v1/users
 export const index = async (req: Request, res: Response) => {
 
@@ -139,11 +148,4 @@ export const create = async (req: Request, res: Response) => {
   }
 };
 
-// [GET] /api/v1/users/detail
-export const detail = async (req: Request, res: Response) => {
-  res.json({
-    code: 200,
-    message: "Thành công",
-    info: res.locals.user
-  });
-};
+

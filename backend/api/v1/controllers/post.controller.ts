@@ -20,7 +20,11 @@ export const detail = async (req: Request, res: Response) => {
 // [POST] /api/v1/posts/create
 export const create = async (req: Request, res: Response) => {
   try {
-    const record = new User(req.body);
+    req.body.createdAt = new Date();
+    req.body.updatedAt = new Date();
+    req.body.createdBy = res.locals.user.fullName;
+
+    const record = new Post(req.body);
     const data = await record.save();
 
     res.json({
@@ -36,3 +40,5 @@ export const create = async (req: Request, res: Response) => {
     });
   }
 };
+
+

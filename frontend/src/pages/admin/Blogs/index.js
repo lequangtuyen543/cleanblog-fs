@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import { Button, Space, Table, Tag, Tooltip } from 'antd';
 import { Link } from "react-router-dom";
 import { EyeOutlined, PlusOutlined } from "@ant-design/icons";
-import { DeleteBlog } from "./DeleteBlog";
-import { getListPosts } from "../../../services/postsServices";
-import { EditBlog } from "./EditBlog";
+import { DeleteBlog } from "./delete";
+import { posts } from "../../../services/postsServices";
+import { EditBlog } from "./edit";
 
 export const BlogList = () => {
   const [data, setData] = useState([]);
 
   const fetchData = async () => {
-    const res = await getListPosts();
+    const res = await posts();
     if (res) {
       setData(res.reverse());
     }
@@ -52,7 +52,7 @@ export const BlogList = () => {
       render: (_, record) => (
         <Space size="small">
           <Tooltip title="Detail">
-            <Link to={`/admin/detail-blog/${record.id}`}>
+            <Link to={`/admin/detail-blog/${record._id}`}>
               <Button icon={<EyeOutlined />} type="default" />
             </Link>
           </Tooltip>

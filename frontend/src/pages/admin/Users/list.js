@@ -44,7 +44,7 @@ export const UserList = () => {
       title: 'Status',
       key: 'status',
       render: (_, record) => {
-        return record.status === "active" ? (
+        return record.status ? (
           <Tag color="green">Active</Tag>
         ) : (
           <Tag color="red">Inactive</Tag>
@@ -76,7 +76,7 @@ export const UserList = () => {
         </Button>
       </Link>
 
-      <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={data} rowKey="_id"/>
     </>
   );
 }

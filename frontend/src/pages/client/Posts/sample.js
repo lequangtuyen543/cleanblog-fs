@@ -1,18 +1,16 @@
 import { useEffect, useState } from 'react';
-import { getDetailPost } from '../../../services/postsServices';
+import { posts } from '../../../services/postsServices';
 import './index.scss';
 import { GoBack } from '../../../components/GoBack';
-import { useParams } from 'react-router-dom';
 import postBg from '../../../assets/img/post-bg.jpg';
 import { HeroItem } from '../../../components/HeroItem';
 
 export const SamplePost = () => {
   const [data, setData] = useState();
-  const param = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getDetailPost(1);
+      const res = await posts(1);
       if (res) {
         setData(res);
       }

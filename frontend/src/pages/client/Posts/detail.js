@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getDetailPost } from '../../../services/postsServices';
+import { postsDetail } from '../../../services/postsServices';
 import './index.scss';
 import { GoBack } from '../../../components/GoBack';
 import { useParams } from 'react-router-dom';
@@ -12,7 +12,7 @@ export const PostDetail = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getDetailPost(param.id);
+      const res = await postsDetail(param.id);
       if (res) {
         setData(res);
       }

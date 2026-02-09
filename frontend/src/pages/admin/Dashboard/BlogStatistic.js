@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Card } from "antd";
-import { getListPosts } from "../../../services/postsServices";
+import { posts } from "../../../services/postsServices";
 import { Link } from "react-router-dom";
 
 export const BlogStatistic = () => {
@@ -8,7 +8,7 @@ export const BlogStatistic = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getListPosts();
+      const res = await posts();
       console.log(res);
       if (res) {
         console.log(res);

@@ -1,9 +1,9 @@
 import { Button, Card, Col, Form, Input, message, Row, Select, Switch } from "antd";
-import { usersDetail } from "../../../services/usersService";
+import { usersDetail, usersInfo } from "../../../services/usersService";
 import getTimeCurrent from "../../../helpers/time";
 import TextArea from "antd/es/input/TextArea";
 import { getCookie } from "../../../helpers/cookie";
-import { createPost } from "../../../services/postsServices";
+import { postsCreate } from "../../../services/postsServices";
 
 export const CreateBlog = () => {
   const [form] = Form.useForm();
@@ -11,27 +11,25 @@ export const CreateBlog = () => {
 
   const handleSubmit = async (values) => {
     try {
-      // Create user
-      const id = getCookie("id");
-      const userInfo = await usersDetail(id);
+      const userInfo = await usersInfo();
 
       values.createdAt = getTimeCurrent();
       values.updatedAt = getTimeCurrent();
-      values.createdBy = userInfo.name;
+      values.createdBy = userInfo.fullName;
       values.status = values.status ? "active" : "inactive";
 
-      const res = await createPost(values);
+      const res = await postsCreate(values);
 
       console.log(res);
 
-      if (res) {
-        messageApi.success("Create post successfully!");
+      if (res.code ==200) {
+        messageApi.success(res.message);
         form.resetFields();
       } else {
-        messageApi.error("Create post failed!");
+        messageApi.error(res.message);
       }
     } catch (error) {
-      messageApi.error("Create post failed!");
+      messageApi.error("Create blog failed!");
     }
   }
 

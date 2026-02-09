@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getListPosts } from '../../../services/postsServices';
+import { posts } from '../../../services/postsServices';
 import './index.scss';
 import { GoBack } from '../../../components/GoBack';
 import homeBg from '../../../assets/img/home-bg.jpg';
@@ -10,7 +10,7 @@ export const Posts = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getListPosts();
+      const res = await posts();
       if (res) {
         setData(res);
       }

@@ -6,7 +6,10 @@ const postSchema = new mongoose.Schema(
     subtitle: String,
     createdBy: String,
     createdAt: Date,
-    status: String,
+    status: {
+      default: "active",
+      type: String,
+    },
     content: String,
     deleted: {
       type: Boolean,

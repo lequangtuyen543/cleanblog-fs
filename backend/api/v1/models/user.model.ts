@@ -6,7 +6,10 @@ const userSchema = new mongoose.Schema({
   email: String,
   password: String,
   token: String,
-  status: String,
+  status: {
+    default: "active",
+    type: String
+  },
   deleted: {
     type: Boolean,
     default: false

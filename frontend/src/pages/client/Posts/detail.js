@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getDetailPost } from '../../../services/postsServices';
-import './PostDetail.scss';
+import './index.scss';
 import { GoBack } from '../../../components/GoBack';
 import { useParams } from 'react-router-dom';
 import postBg from '../../../assets/img/post-bg.jpg';

@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { Button, Space, Table, Tag, Tooltip } from 'antd';
 import { Link } from "react-router-dom";
 import { EyeOutlined, PlusOutlined } from "@ant-design/icons";
-import { EditUser } from "./EditUser";
+import { EditUser } from "./edit";
 import { usersList } from "../../../services/usersService";
-import { DeleteUser } from "./DeleteUser";
+import { DeleteUser } from "./delete";
 
 export const UserList = () => {
   const [data, setData] = useState([]);

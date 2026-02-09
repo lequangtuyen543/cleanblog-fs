@@ -1,8 +1,8 @@
 import { SiderApp } from "./SiderApp";
 import { Header } from "./Header";
 import { Main } from "./Main";
-import './LayoutAdmin.scss'
-import { Flex, Layout } from 'antd';
+import './index.scss'
+import { Layout } from 'antd';
 import { useState } from "react";
 
 const { Sider, Content } = Layout;

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getListPosts } from '../../../services/postsServices';
-import './Posts.scss';
+import './index.scss';
 import { GoBack } from '../../../components/GoBack';
 import homeBg from '../../../assets/img/home-bg.jpg';
 import { HeroItem } from '../../../components/HeroItem';

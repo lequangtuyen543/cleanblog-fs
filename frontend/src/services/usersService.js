@@ -20,11 +20,6 @@ export const usersInfo = async () => {
   return result;
 };
 
-export const editUser = async (id, data) => {
-  const result = await PATCH(`users/${id}`, data);
-  return result;
-};
-
 export const usersList = async () => {
   const result = await GET(`users/list`);
   return result;
@@ -37,6 +32,11 @@ export const usersCreate = async (data) => {
 
 export const usersDetail = async (id) => {
   const result = await GET(`users/detail/${id}`);
+  return result;
+};
+
+export const usersEdit = async (id, data) => {
+  const result = await PATCH(`users/edit/${id}`, data);
   return result;
 };
 

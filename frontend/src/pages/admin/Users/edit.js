@@ -2,7 +2,7 @@ import { Button, Col, Form, Input, message, Modal, Row, Select, Switch, Tooltip 
 import { EditOutlined } from "@ant-design/icons";
 import { useState } from 'react';
 import getTimeCurrent from '../../../helpers/time';
-import { editUser } from '../../../services/usersService';
+import { usersEdit } from '../../../services/usersService';
 
 export const EditUser = (props) => {
   const { record, onReload } = props;
@@ -26,7 +26,8 @@ export const EditUser = (props) => {
     console.log(values);
     try {
       values.updateAt = getTimeCurrent();
-      const res = await editUser(record.id, values);
+      const res = await usersEdit(record._id, values);
+      console.log(res);
       if (res) {
         messageApi.success("Update user successfully!");
         setIsModalOpen(false);
@@ -60,7 +61,7 @@ export const EditUser = (props) => {
         <Form form={form} layout="vertical" onFinish={handleSubmit} initialValues={record}>
           <Row gutter={[20, 20]}>
             <Col span={24}>
-              <Form.Item label="Name:" name='name' rules={[{ required: true, message: 'Please input your name!' }]}>
+              <Form.Item label="Name:" name='fullName' rules={[{ required: true, message: 'Please input your name!' }]}>
                 <Input />
               </Form.Item>
             </Col>

@@ -2,16 +2,15 @@ import PrivateRoutes from "../components/PrivateRoutes/index.js";
 import { LayoutAdmin } from "../layout/admin/index.js";
 import { LayoutClient } from "../layout/client";
 import { Home } from "../pages/client/Home";
-import { Login } from "../pages/client/User/login.js";
-import { Logout } from "../pages/client/User/logout.js";
-import { Register } from "../pages/client/User/register.js";
+import { Login } from "../pages/client/Users/login.js";
+import { Logout } from "../pages/client/Users/logout.js";
+import { Register } from "../pages/client/Users/register.js";
 import { Dashboard } from "../pages/admin/Dashboard";
 import { Posts } from "../pages/client/Posts/index.js";
 import { PostDetail } from "../pages/client/Posts/detail.js";
 import { About } from "../pages/client/About/index.js";
 import { Contact } from "../pages/client/Contact/index.js";
 import { SamplePost } from "../pages/client/Posts/sample.js";
-import { UserInfo } from "../pages/admin/UserInfo/index.js";
 import { CreateUser } from "../pages/admin/Users/create.js";
 import { DetailUser } from "../pages/admin/Users/detail.js";
 import { BlogList } from "../pages/admin/Blog List/index.js";
@@ -19,6 +18,7 @@ import { CreateBlog } from "../pages/admin/Blog List/CreateBlog.js";
 import { DetailBlog } from "../pages/admin/Blog List/DetailBlog.js";
 import NotFound from "../pages/client/NotFound/index.js";
 import { UserList } from "../pages/admin/Users/index.js";
+import { UserInfo } from "../pages/admin/Users/info.js";
 
 export const routes = [
   // Public layout

@@ -1,8 +1,6 @@
 import { Button, Card, Col, Form, Input, message, Row, Select } from "antd";
 import { useEffect, useState } from "react";
-import { editUser, getDetailUser, usersInfo } from "../../../services/usersService";
-import { getCookie } from "../../../helpers/cookie";
-const { Option } = Select;
+import { usersEdit, usersInfo } from "../../../services/usersService";
 
 export const UserInfo = () => {
   const [form] = Form.useForm();
@@ -29,7 +27,7 @@ export const UserInfo = () => {
 
   const handleSubmit = async (values) => {
     try {
-      const res = await editUser(data.id, values);
+      const res = await usersEdit(data.id, values);
       if (res) {
         messageApi.success("Edit company successfully!");
         fetchData();

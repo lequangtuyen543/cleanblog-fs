@@ -29,23 +29,25 @@ export const POST = async (path, data) => {
   return result;
 }
 
-export const DELETE = async (path) => {
-  const response = await fetch(api_domain + path, {
-    method: "DELETE"
-  })
-  const result = await response.json();
-  return result;
-}
-
 export const PATCH = async (path, data) => {
+  const token = getCookie("token");
   const response = await fetch(api_domain + path, {
     method: "PATCH",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
     },
     body: JSON.stringify(data)
   });
+  const result = await response.json();
+  return result;
+}
+
+export const DELETE = async (path) => {
+  const response = await fetch(api_domain + path, {
+    method: "DELETE"
+  })
   const result = await response.json();
   return result;
 }

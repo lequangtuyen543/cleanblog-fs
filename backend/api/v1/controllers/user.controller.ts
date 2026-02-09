@@ -179,5 +179,27 @@ export const edit = async (req: Request, res: Response) => {
     });
   }
 }
+// [DELETE] /api/v1/users/delete/id
+export const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+
+    await User.updateOne({ _id: id }, {
+      deleted: true,
+      deletedAt: new Date()
+    });
+
+    res.json({
+      code: 200,
+      message: "Xóa thành công!",
+    });
+
+  } catch (error) {
+    res.json({
+      code: 400,
+      message: "Lỗi!",
+    });
+  }
+}
 
 

@@ -45,8 +45,12 @@ export const PATCH = async (path, data) => {
 }
 
 export const DELETE = async (path) => {
+  const token = getCookie("token");
   const response = await fetch(api_domain + path, {
-    method: "DELETE"
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
   })
   const result = await response.json();
   return result;

@@ -40,8 +40,6 @@ export const EditUser = (props) => {
     }
   }
 
-  console.log(record);
-
   return (
     <>
       {contextHolder}

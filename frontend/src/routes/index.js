@@ -17,7 +17,7 @@ import { BlogList } from "../pages/admin/Blog List/index.js";
 import { CreateBlog } from "../pages/admin/Blog List/CreateBlog.js";
 import { DetailBlog } from "../pages/admin/Blog List/DetailBlog.js";
 import NotFound from "../pages/client/NotFound/index.js";
-import { UserList } from "../pages/admin/Users/index.js";
+import { UserList } from "../pages/admin/Users/list.js";
 import { UserInfo } from "../pages/admin/Users/info.js";
 
 export const routes = [

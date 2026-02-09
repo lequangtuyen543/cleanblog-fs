@@ -11,8 +11,6 @@ export const UserList = () => {
 
   const fetchData = async () => {
     const res = await usersList();
-
-    console.log("res: ", res);
     if (res) {
       setData(res.data);
     }
@@ -69,8 +67,6 @@ export const UserList = () => {
       ),
     },
   ];
-
-  console.log(data);
 
   return (
     <>

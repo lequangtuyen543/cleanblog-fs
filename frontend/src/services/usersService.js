@@ -40,7 +40,7 @@ export const usersEdit = async (id, data) => {
   return result;
 };
 
-export const deleteUser = async (id) => {
-  const result = await DELETE(`users/${id}`);
+export const usersDelete = async (id) => {
+  const result = await DELETE(`users/delete/${id}`);
   return result;
 };

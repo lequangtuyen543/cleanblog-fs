@@ -87,8 +87,8 @@ export const info = async (req: Request, res: Response) => {
   });
 };
 
-// [GET] /api/v1/users
-export const index = async (req: Request, res: Response) => {
+// [GET] /api/v1/users/list
+export const list = async (req: Request, res: Response) => {
 
   const users = await User.find({
     deleted: false
@@ -146,6 +146,18 @@ export const create = async (req: Request, res: Response) => {
       token: token
     });
   }
+};
+
+// [GET] /api/v1/users/detail/:id
+export const detail = async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  const user = await User.findOne({
+    _id: id,
+    deleted: false,
+  });
+
+  res.json(user);
 };
 
 

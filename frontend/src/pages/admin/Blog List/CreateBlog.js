@@ -1,5 +1,5 @@
 import { Button, Card, Col, Form, Input, message, Row, Select, Switch } from "antd";
-import { getDetailUser } from "../../../services/usersService";
+import { usersDetail } from "../../../services/usersService";
 import getTimeCurrent from "../../../helpers/time";
 import TextArea from "antd/es/input/TextArea";
 import { getCookie } from "../../../helpers/cookie";
@@ -13,7 +13,7 @@ export const CreateBlog = () => {
     try {
       // Create user
       const id = getCookie("id");
-      const userInfo = await getDetailUser(id);
+      const userInfo = await usersDetail(id);
 
       values.createdAt = getTimeCurrent();
       values.updatedAt = getTimeCurrent();

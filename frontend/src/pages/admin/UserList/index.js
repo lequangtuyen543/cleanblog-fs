@@ -3,14 +3,14 @@ import { Button, Space, Table, Tag, Tooltip } from 'antd';
 import { Link } from "react-router-dom";
 import { EyeOutlined, PlusOutlined } from "@ant-design/icons";
 import { EditUser } from "./EditUser";
-import { usersIndex } from "../../../services/usersService";
+import { usersList } from "../../../services/usersService";
 import { DeleteUser } from "./DeleteUser";
 
 export const UserList = () => {
   const [data, setData] = useState([]);
 
   const fetchData = async () => {
-    const res = await usersIndex();
+    const res = await usersList();
 
     console.log("res: ", res);
     if (res) {
@@ -37,11 +37,6 @@ export const UserList = () => {
       dataIndex: 'fullName',
       key: 'fullName',
     },
-    // {
-    //   title: 'Email',
-    //   dataIndex: 'email',
-    //   key: 'email',
-    // },
     {
       title: 'Username',
       dataIndex: 'username',
@@ -64,7 +59,7 @@ export const UserList = () => {
       render: (_, record) => (
         <Space size="small">
           <Tooltip title="Detail">
-            <Link to={`/admin/detail-user/${record.id}`}>
+            <Link to={`/admin/detail-user/${record._id}`}>
               <Button icon={<EyeOutlined />} type="default" />
             </Link>
           </Tooltip>

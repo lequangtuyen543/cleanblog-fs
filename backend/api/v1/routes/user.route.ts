@@ -5,10 +5,11 @@ const router: Router = Router();
 
 router.post("/register", controller.register);
 router.post("/login", controller.login);
-router.get("/info", authMiddleware.requireAuth, controller.info);
 
-router.get("/", authMiddleware.requireAuth, controller.index);
+router.get("/info", authMiddleware.requireAuth, controller.info);
+router.get("/list", authMiddleware.requireAuth, controller.list);
 router.post("/create", authMiddleware.requireAuth, controller.create);
+router.get("/detail/:id", authMiddleware.requireAuth, controller.detail);
 
 
 export const userRoutes: Router = router;

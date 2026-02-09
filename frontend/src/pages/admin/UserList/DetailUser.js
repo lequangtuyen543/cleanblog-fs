@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { GoBack } from "../../../components/GoBack"
 import { useEffect, useState } from "react";
-import { getDetailUser } from "../../../services/usersService";
+import { usersDetail } from "../../../services/usersService";
 import { Tag } from "antd";
 
 export const DetailUser = () => {
@@ -10,7 +10,7 @@ export const DetailUser = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getDetailUser(params.id);
+      const res = await usersDetail(params.id);
       if (res) {
         setData(res);
       }

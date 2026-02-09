@@ -20,23 +20,23 @@ export const usersInfo = async () => {
   return result;
 };
 
-export const usersCreate = async (data) => {
-  const result = await POST(`users/create`, data);
-  return result;
-};
-
-export const getDetailUser = async (id) => {
-  const result = await GET(`users/${id}`);
-  return result;
-};
-
 export const editUser = async (id, data) => {
   const result = await PATCH(`users/${id}`, data);
   return result;
 };
 
-export const usersIndex = async () => {
-  const result = await GET(`users`);
+export const usersList = async () => {
+  const result = await GET(`users/list`);
+  return result;
+};
+
+export const usersCreate = async (data) => {
+  const result = await POST(`users/create`, data);
+  return result;
+};
+
+export const usersDetail = async (id) => {
+  const result = await GET(`users/detail/${id}`);
   return result;
 };
 

@@ -1,9 +1,10 @@
 import { SiderApp } from "./SiderApp";
 import { Header } from "./Header";
 import { Main } from "./Main";
-import './index.scss'
+import './LayoutAdmin.scss'
 import { Layout } from 'antd';
 import { useState } from "react";
+import Footer from "./Footer";
 
 const { Sider, Content } = Layout;
 
@@ -14,14 +15,18 @@ export const LayoutAdmin = () => {
     <>
       <div className="layout-admin">
         <Header collapsed={collapsed} setCollapsed={setCollapsed} />
+
         <Layout>
           <Sider theme="light" className="sider"
-          collapsed={collapsed}>
+            collapsed={collapsed}>
             <SiderApp />
           </Sider>
-          <Content>
-            <Main />
-          </Content>
+            <Content>
+
+              <Main />
+              <Footer />
+
+            </Content>
         </Layout>
       </div>
     </>

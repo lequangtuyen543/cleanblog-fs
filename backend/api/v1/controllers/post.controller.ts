@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import Post from "../models/post.model";
-import User from "../models/user.model";
 
 // [GET] /api/v1/posts
 export const index = async (req: Request, res: Response) => {
@@ -40,5 +39,27 @@ export const create = async (req: Request, res: Response) => {
     });
   }
 };
+
+// [PATCH] /api/v1/posts/edit/:id
+export const edit = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+
+    console.log(req.body);
+
+    await Post.updateOne({ _id: id }, req.body);
+
+    res.json({
+      code: 200,
+      message: "Cập nhật thành công!",
+    });
+
+  } catch (error) {
+    res.json({
+      code: 400,
+      message: "Lỗi!",
+    });
+  }
+}
 
 

@@ -16,7 +16,7 @@ export const postsCreate = async (data) => {
 };
 
 export const editPost = async (id, data) => {
-  const result = await PATCH(`posts/${id}`, data);
+  const result = await PATCH(`posts/edit/${id}`, data);
   return result;
 };
 

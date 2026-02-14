@@ -44,7 +44,7 @@ export const UserList = () => {
       title: 'Status',
       key: 'status',
       render: (_, record) => {
-        return record.status ? (
+        return record.status === "active" ? (
           <Tag color="green">Active</Tag>
         ) : (
           <Tag color="red">Inactive</Tag>

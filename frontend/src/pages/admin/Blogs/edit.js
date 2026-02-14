@@ -24,11 +24,10 @@ export const EditBlog = (props) => {
   };
 
   const handleSubmit = async (values) => {
-    console.log(values);
     try {
       values.updatedAt = getTimeCurrent();
-      const res = await editPost(record.id, values);
-      if (res) {
+      const res = await editPost(record._id, values);
+      if (res.code === 200) {
         messageApi.success("Edit blog successfully!");
         setIsModalOpen(false);
         onReload();

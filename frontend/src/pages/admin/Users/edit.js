@@ -26,6 +26,7 @@ export const EditUser = (props) => {
     console.log(values);
     try {
       values.updateAt = getTimeCurrent();
+      values.status = values.status ? "active" : "inactive";
       const res = await usersEdit(record._id, values);
       console.log(res);
       if (res) {

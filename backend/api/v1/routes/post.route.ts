@@ -7,5 +7,6 @@ router.get("/", controller.index);
 router.get("/detail/:id", controller.detail);
 router.post("/create", authMiddleware.requireAuth, controller.create);
 router.patch("/edit/:id", authMiddleware.requireAuth, controller.edit);
+router.delete("/delete/:id", authMiddleware.requireAuth, controller.deletePost);
 
 export const postRoutes: Router = router;

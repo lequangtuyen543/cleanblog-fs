@@ -3,8 +3,8 @@ import Post from "../models/post.model";
 
 // [GET] /api/v1/posts
 export const index = async (req: Request, res: Response) => {
-  const posts = await Post.find();
-  
+  const posts = await Post.find({ deleted: { $ne: true } });
+
   res.json(posts);
 };
 
@@ -12,7 +12,7 @@ export const index = async (req: Request, res: Response) => {
 export const detail = async (req: Request, res: Response) => {
   const id = req.params.id;
   const post = await Post.findOne({ _id: id });
-  
+
   res.json(post);
 };
 
@@ -29,9 +29,8 @@ export const create = async (req: Request, res: Response) => {
     res.json({
       code: 200,
       message: "Tạo thành công!",
-      data: data
+      data: data,
     });
-
   } catch (error) {
     res.json({
       code: 400,
@@ -53,13 +52,34 @@ export const edit = async (req: Request, res: Response) => {
       code: 200,
       message: "Cập nhật thành công!",
     });
-
   } catch (error) {
     res.json({
       code: 400,
       message: "Lỗi!",
     });
   }
-}
+};
+// [DELETE] /api/v1/posts/delete/:id
+export const deletePost = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
 
+    await Post.updateOne(
+      { _id: id },
+      {
+        deleted: true,
+        deletedAt: new Date(),
+      },
+    );
 
+    res.json({
+      code: 200,
+      message: "Xóa thành công!",
+    });
+  } catch (error) {
+    res.json({
+      code: 400,
+      message: "Lỗi!",
+    });
+  }
+};

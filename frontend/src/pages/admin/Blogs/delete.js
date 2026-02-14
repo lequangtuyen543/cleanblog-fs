@@ -8,15 +8,17 @@ export const DeleteBlog = (props) => {
   const confirm = async e => {
     console.log(e);
     message.success('Click on Yes');
-    const res = await deletePost(record.id);
-    if (res) {
+    const res = await deletePost(record._id);
+    if (res.code === 200) {
       onReload();
     }
   };
+
   const cancel = e => {
     console.log(e);
     message.error('Click on No');
   };
+
   return (
     <Tooltip title="Delete">
       <Popconfirm

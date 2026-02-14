@@ -21,6 +21,6 @@ export const editPost = async (id, data) => {
 };
 
 export const deletePost = async (id) => {
-  const result = await DELETE(`posts/${id}`);
+  const result = await DELETE(`posts/delete/${id}`);
   return result;
 };

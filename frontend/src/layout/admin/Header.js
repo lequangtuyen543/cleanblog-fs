@@ -15,7 +15,7 @@ export const Header = (props) => {
         <div className="header-container">
           <div className="logo">
             <NavLink to="/admin/dashboard">
-              {collapsed ? "ITA" : "IT Admin"}
+              {collapsed ? "NS" : "Nakaisoft"}
             </NavLink>
           </div>
           <div className="nav-wrap">

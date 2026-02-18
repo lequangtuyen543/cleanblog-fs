@@ -19,6 +19,7 @@ import { DetailBlog } from "../pages/admin/Blogs/detail.js";
 import NotFound from "../pages/client/NotFound/index.js";
 import { UserList } from "../pages/admin/Users/list.js";
 import { UserInfo } from "../pages/admin/Users/info.js";
+import { LayoutAuth } from "../layout/auth/index.js";
 
 export const routes = [
   // Public layout
@@ -27,9 +28,6 @@ export const routes = [
     element: <LayoutClient />,
     children: [
       { index: true, element: <Home /> },
-      { path: "register", element: <Register /> },
-      { path: "login", element: <Login /> },
-      { path: "logout", element: <Logout /> },
       { path: "posts", element: <Posts /> },
       { path: "post/:id", element: <PostDetail /> },
       { path: "about", element: <About /> },
@@ -37,6 +35,17 @@ export const routes = [
       { path: "sample-post", element: <SamplePost /> },
       // 👇 404 public
       { path: "*", element: <NotFound /> },
+    ],
+  },
+
+  // Auth layout riêng
+  {
+    path: "/",
+    element: <LayoutAuth />,
+    children: [
+      { path: "register", element: <Register /> },
+      { path: "login", element: <Login /> },
+      { path: "logout", element: <Logout /> },
     ],
   },
 

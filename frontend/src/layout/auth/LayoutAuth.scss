@@ -1,0 +1,19 @@
+.layout-auth {
+  .header {
+    .logo {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-color);
+    }
+
+    border-bottom: 1px solid #ddd;
+  }
+
+  .footer {
+    border-top: 1px solid #ddd;
+
+    hr {
+      border-top-width: 0;
+    }
+  }
+}

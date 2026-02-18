@@ -1,12 +1,12 @@
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { Main } from "./Main";
-import './LayoutClient.scss'
+import './LayoutAuth.scss'
 
-export const LayoutClient = () => {
+export const LayoutAuth = () => {
   return (
     <>
-      <div className="layout-client">
+      <div className="layout-auth">
         <Header />
         <Main />
         <Footer />

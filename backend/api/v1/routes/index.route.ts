@@ -1,7 +1,7 @@
 import { Express } from 'express';
 import { userRoutes } from './user.route';
 import { postRoutes } from './post.route';
-import { roleRoutes } from './roles.route';
+import { roleRoutes } from './role.route';
 import * as authMiddleware from "../middlewares/auth.middleware";
 
 const mainV1Routes = (app: Express): void => {

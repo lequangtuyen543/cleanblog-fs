@@ -1,8 +1,8 @@
-import Role from "../models/roles.model";
+import Role from "../models/role.model";
 import { Request, Response } from "express";
 import systemConfig from "../../../config/system";
 
-//[GET] /admin/roles
+//[GET] /api/v1/admin/roles
 export const index = async (req: Request, res: Response) => {
   let find = {
     deleted: false,
@@ -17,19 +17,21 @@ export const index = async (req: Request, res: Response) => {
   });
 };
 
-// //[GET] /admin/roles/create
-// export const create = async (req: Request, res: Response) => {
-//   res.render('admin/pages/roles/create', {
-//     pageTitle: 'Create Roles'
-//   });
-// };
+//[POST] /api/v1/admin/roles/create
+export const createRecord = async (req: Request, res: Response) => {
+  try {
+    const record = new Role(req.body);
+    const data = await record.save();
 
-// //[POST] /admin/roles/create
-// export const createPost = async (req: Request, res: Response) => {
-//   console.log(req.body);
-
-//   const record = new Role(req.body);
-//   await record.save();
-
-//   res.redirect(`${systemConfig.prefixAdmin}/roles`);
-// };
+    res.json({
+      code: 200,
+      message: "Tạo thành công!",
+      data: data,
+    });
+  } catch (error) {
+    res.json({
+      code: 400,
+      message: "Lỗi!",
+    });
+  }
+};

@@ -3,8 +3,6 @@ import * as controller from "../controllers/role.controller";
 const router: Router = Router();  
 
 router.get('/', controller.index);
-// router.get('/create', controller.create);
-
-// router.post('/create', controller.createPost);
+router.post('/create', controller.createRecord);
 
 export const roleRoutes: Router = router;

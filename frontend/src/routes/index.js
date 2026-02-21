@@ -17,9 +17,10 @@ import { BlogList } from "../pages/admin/Blogs/index.js";
 import { CreateBlog } from "../pages/admin/Blogs/create.js";
 import { DetailBlog } from "../pages/admin/Blogs/detail.js";
 import NotFound from "../pages/client/NotFound/index.js";
-import { UserList } from "../pages/admin/Users/list.js";
+import { UserList } from "../pages/admin/Users/index.js";
 import { UserInfo } from "../pages/admin/Users/info.js";
 import { LayoutAuth } from "../layout/auth/index.js";
+import { RoleIndex } from "../pages/admin/Roles/index.js";
 
 export const routes = [
   // Public layout
@@ -67,6 +68,7 @@ export const routes = [
           { path: "blog-list", element: <BlogList /> },
           { path: "create-blog", element: <CreateBlog /> },
           { path: "detail-blog/:id", element: <DetailBlog /> },
+          { path: "roles", element: <RoleIndex /> },
           // thêm route admin khác ở đây
         ],
       },

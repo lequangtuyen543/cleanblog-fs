@@ -5,8 +5,8 @@ export const rolesIndex = async () => {
   return result;
 };
 
-export const usersCreate = async (data) => {
-  const result = await POST(`users/create`, data);
+export const rolesCreate = async (data) => {
+  const result = await POST(`roles/create`, data);
   return result;
 };
 

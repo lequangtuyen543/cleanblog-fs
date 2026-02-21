@@ -42,9 +42,9 @@ export const RoleIndex = () => {
 
   return (
     <>
-      <h3>User List</h3>
-      <Link to="/admin/create-user">
-        <Button icon={<PlusOutlined />} type="primary" style={{ marginBottom: 20 }}>Create User
+      <h3>Role List</h3>
+      <Link to="/admin/roles/create">
+        <Button icon={<PlusOutlined />} type="primary" style={{ marginBottom: 20 }}>Create Role
         </Button>
       </Link>
 

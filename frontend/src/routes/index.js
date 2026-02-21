@@ -21,6 +21,7 @@ import { UserList } from "../pages/admin/Users/index.js";
 import { UserInfo } from "../pages/admin/Users/info.js";
 import { LayoutAuth } from "../layout/auth/index.js";
 import { RoleIndex } from "../pages/admin/Roles/index.js";
+import { RolesCreate } from "../pages/admin/Roles/create.js";
 
 export const routes = [
   // Public layout
@@ -69,6 +70,7 @@ export const routes = [
           { path: "create-blog", element: <CreateBlog /> },
           { path: "detail-blog/:id", element: <DetailBlog /> },
           { path: "roles", element: <RoleIndex /> },
+          { path: "roles/create", element: <RolesCreate /> },
           // thêm route admin khác ở đây
         ],
       },

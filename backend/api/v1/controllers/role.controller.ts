@@ -59,20 +59,36 @@ export const deleteRecord = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
 
-    await Role.updateOne({ _id: id }, {
-      deleted: true,
-      deletedAt: new Date()
-    });
+    await Role.updateOne(
+      { _id: id },
+      {
+        deleted: true,
+        deletedAt: new Date(),
+      },
+    );
 
     res.json({
       code: 200,
       message: "Xóa thành công!",
     });
-
   } catch (error) {
     res.json({
       code: 400,
       message: "Lỗi!",
     });
   }
-}
+};
+
+// [PATCH] /admin/roles/permissions-multi
+export const permissionsMulti = async (req: Request, res: Response) => {
+  const { permissions } = req.body;
+
+  for (const item of permissions) {
+    await Role.updateOne({ _id: item.id }, { permissions: item.permissions });
+  }
+
+  res.json({
+    code: 200,
+    message: "Cập nhật phân quyền thành công!",
+  });
+};

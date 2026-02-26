@@ -6,5 +6,6 @@ router.get('/', controller.index);
 router.post('/create', controller.createRecord);
 router.patch('/edit/:id', controller.editRecord);
 router.delete('/delete/:id', controller.deleteRecord);
+router.patch('/permissions-multi', controller.permissionsMulti);
 
 export const roleRoutes: Router = router;

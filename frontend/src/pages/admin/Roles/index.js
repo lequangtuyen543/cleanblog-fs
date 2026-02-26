@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
 import { rolesIndex } from "../../../services/rolesServices";
 import { RolesEdit } from "./edit";
+import { RolesDelete } from "./delete";
 
 export const RolesIndex = () => {
   const [data, setData] = useState([]);
@@ -45,7 +46,7 @@ export const RolesIndex = () => {
       render: (_, record) => (
         <Space size="small">
           <RolesEdit record={record} onReload={handleReload} />
-          {/* <DeleteUser record={record} onReload={handleReload} /> */}
+          <RolesDelete record={record} onReload={handleReload} />
         </Space>
       ),
     },

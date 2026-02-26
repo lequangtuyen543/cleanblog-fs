@@ -36,7 +36,7 @@ export const createRecord = async (req: Request, res: Response) => {
 };
 
 //[PATCH] /api/v1/admin/roles/edit/:id
-export const editPatch = async (req: Request, res: Response) => {
+export const editRecord = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
 
@@ -53,3 +53,26 @@ export const editPatch = async (req: Request, res: Response) => {
     });
   }
 };
+
+// [DELETE] /api/v1/roles/delete/:id
+export const deleteRecord = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+
+    await Role.updateOne({ _id: id }, {
+      deleted: true,
+      deletedAt: new Date()
+    });
+
+    res.json({
+      code: 200,
+      message: "Xóa thành công!",
+    });
+
+  } catch (error) {
+    res.json({
+      code: 400,
+      message: "Lỗi!",
+    });
+  }
+}

@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, message, Modal, Row, Switch, Tooltip } from 'antd';
+import { Button, Col, Form, Input, message, Modal, Row, Tooltip } from 'antd';
 import { EditOutlined } from "@ant-design/icons";
 import { useState } from 'react';
 import { rolesEdit } from '../../../services/rolesServices';

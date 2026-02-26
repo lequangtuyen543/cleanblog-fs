@@ -1,6 +1,6 @@
 import { Button, Card, Checkbox, Form, Input, message, Typography } from 'antd';
 import { setCookie } from '../../../helpers/cookie';
-import { loginUser, usersLogin } from '../../../services/usersService';
+import { usersLogin } from '../../../services/usersService';
 import { checkLogin } from '../../../actions/login';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -21,7 +21,7 @@ export const Login = () => {
 
       console.log("res: ", res.code);
 
-      if (res.code == 200) {
+      if (res.code === 200) {
         
         // login success
         // setCookie("id", res[0].id, 1);

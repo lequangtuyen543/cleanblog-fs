@@ -1,6 +1,5 @@
 import Role from "../models/role.model";
 import { Request, Response } from "express";
-import systemConfig from "../../../config/system";
 
 //[GET] /api/v1/admin/roles
 export const index = async (req: Request, res: Response) => {
@@ -32,6 +31,25 @@ export const createRecord = async (req: Request, res: Response) => {
     res.json({
       code: 400,
       message: "Lỗi!",
+    });
+  }
+};
+
+//[PATCH] /api/v1/admin/roles/edit/:id
+export const editPatch = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+
+    await Role.updateOne({ _id: id }, req.body);
+
+    res.json({
+      code: 200,
+      message: "Cập nhật thành công!",
+    });
+  } catch (error) {
+    res.json({
+      code: 400,
+      message: "Lỗi cập nhật!",
     });
   }
 };

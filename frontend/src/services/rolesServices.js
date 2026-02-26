@@ -10,17 +10,12 @@ export const rolesCreate = async (data) => {
   return result;
 };
 
-export const usersDetail = async (id) => {
-  const result = await GET(`users/detail/${id}`);
+export const rolesEdit = async (id, data) => {
+  const result = await PATCH(`roles/edit/${id}`, data);
   return result;
 };
 
-export const usersEdit = async (id, data) => {
-  const result = await PATCH(`users/edit/${id}`, data);
-  return result;
-};
-
-export const usersDelete = async (id) => {
-  const result = await DELETE(`users/delete/${id}`);
+export const rolesDelete = async (id) => {
+  const result = await DELETE(`roles/delete/${id}`);
   return result;
 };

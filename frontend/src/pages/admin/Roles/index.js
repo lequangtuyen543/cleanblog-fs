@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Button, Space, Table, Tag, Tooltip } from 'antd';
+import { Button, Space, Table } from 'antd';
 import { Link } from "react-router-dom";
-import { EyeOutlined, PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import { rolesIndex } from "../../../services/rolesServices";
+import { RolesEdit } from "./edit";
 
-export const RoleIndex = () => {
+export const RolesIndex = () => {
   const [data, setData] = useState([]);
 
   const fetchData = async () => {
@@ -37,7 +38,17 @@ export const RoleIndex = () => {
       title: 'Description',
       dataIndex: 'description',
       key: 'description',
-    }
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_, record) => (
+        <Space size="small">
+          <RolesEdit record={record} onReload={handleReload} />
+          {/* <DeleteUser record={record} onReload={handleReload} /> */}
+        </Space>
+      ),
+    },
   ];
 
   return (
@@ -48,7 +59,7 @@ export const RoleIndex = () => {
         </Button>
       </Link>
 
-      <Table columns={columns} dataSource={data} rowKey="_id"/>
+      <Table columns={columns} dataSource={data} rowKey="_id" />
     </>
   );
 }

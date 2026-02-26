@@ -1,4 +1,4 @@
-import { UserOutlined, BookOutlined, DashboardOutlined, UsergroupAddOutlined } from '@ant-design/icons';
+import { BookOutlined, DashboardOutlined, UsergroupAddOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import { Link } from 'react-router-dom';
 
@@ -11,12 +11,12 @@ export const SiderApp = () => {
     },
     {
       key: 'user-list',
-      label: <Link to="/admin/user-list">User List</Link>,
+      label: <Link to="/admin/users">Users</Link>,
       icon: <UsergroupAddOutlined />,
     },
     {
       key: 'blogs',
-      label: <Link to="/admin/blog-list">Blogs</Link>,
+      label: <Link to="/admin/blogs">Blogs</Link>,
       icon: <BookOutlined />,
     },
     {

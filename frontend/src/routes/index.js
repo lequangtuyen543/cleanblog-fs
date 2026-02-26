@@ -20,7 +20,7 @@ import NotFound from "../pages/client/NotFound/index.js";
 import { UserList } from "../pages/admin/Users/index.js";
 import { UserInfo } from "../pages/admin/Users/info.js";
 import { LayoutAuth } from "../layout/auth/index.js";
-import { RoleIndex } from "../pages/admin/Roles/index.js";
+import { RolesIndex } from "../pages/admin/Roles/index.js";
 import { RolesCreate } from "../pages/admin/Roles/create.js";
 
 export const routes = [
@@ -62,14 +62,16 @@ export const routes = [
           { path: "dashboard", element: <Dashboard /> },
           // User routes
           { path: "user-info", element: <UserInfo /> },
-          // Users routes
-          { path: "user-list", element: <UserList /> },
+          
+          { path: "users", element: <UserList /> },
           { path: "create-user", element: <CreateUser /> },
           { path: "detail-user/:id", element: <DetailUser /> },
-          { path: "blog-list", element: <BlogList /> },
+          // Blogs routes
+          { path: "blogs", element: <BlogList /> },
           { path: "create-blog", element: <CreateBlog /> },
           { path: "detail-blog/:id", element: <DetailBlog /> },
-          { path: "roles", element: <RoleIndex /> },
+          // Roles routes
+          { path: "roles", element: <RolesIndex /> },
           { path: "roles/create", element: <RolesCreate /> },
           // thêm route admin khác ở đây
         ],

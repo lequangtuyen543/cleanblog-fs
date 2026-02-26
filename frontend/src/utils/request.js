@@ -1,7 +1,7 @@
 import { getCookie } from "../helpers/cookie";
 
-// const api_domain = "http://localhost:3002/api/v1/";
-const api_domain = "https://cleanblog-be2.vercel.app/api/v1/";
+const api_domain = "http://localhost:3002/api/v1/";
+// const api_domain = "https://cleanblog-be2.vercel.app/api/v1/";
 
 export const GET = async (path) => {
   const token = getCookie("token");

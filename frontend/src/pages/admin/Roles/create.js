@@ -1,5 +1,4 @@
-import { Button, Card, Col, Form, Input, message, Row, Switch } from "antd";
-import getTimeCurrent from "../../../helpers/time";
+import { Button, Card, Col, Form, Input, message, Row } from "antd";
 import { rolesCreate } from "../../../services/rolesServices";
 
 export const RolesCreate = () => {
@@ -8,14 +7,9 @@ export const RolesCreate = () => {
 
   const handleSubmit = async (values) => {
     try {
-
-      // Create user
-      // values.createdAt = getTimeCurrent();
-      // values.updatedAt = getTimeCurrent();
-
       const res = await rolesCreate(values);
 
-      console.log(res);
+      // console.log(res);
 
       if (res && res.code === 200) {
         messageApi.success(res.message);

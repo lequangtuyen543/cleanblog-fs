@@ -55,10 +55,17 @@ export const RolesIndex = () => {
   return (
     <>
       <h3>Role List</h3>
-      <Link to="/admin/roles/create">
-        <Button icon={<PlusOutlined />} type="primary" style={{ marginBottom: 20 }}>Create Role
-        </Button>
-      </Link>
+
+      <Space>
+        <Link to="/admin/roles/create">
+          <Button icon={<PlusOutlined />} type="primary" style={{ marginBottom: 20 }}>Create Role
+          </Button>
+        </Link>
+        <Link to="/admin/roles/permissions-multi">
+          <Button icon={<PlusOutlined />} type="dashed" style={{ marginBottom: 20 }}>Permissions
+          </Button>
+        </Link>
+      </Space>
 
       <Table columns={columns} dataSource={data} rowKey="_id" />
     </>

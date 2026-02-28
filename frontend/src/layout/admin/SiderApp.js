@@ -10,18 +10,23 @@ export const SiderApp = () => {
       icon: <DashboardOutlined />,
     },
     {
-      key: 'user-list',
-      label: <Link to="/admin/users">Users</Link>,
+      key: 'users',
+      label: <Link to="/admin/users">Users List</Link>,
       icon: <UsergroupAddOutlined />,
     },
     {
       key: 'blogs',
-      label: <Link to="/admin/blogs">Blogs</Link>,
+      label: <Link to="/admin/blogs">Blogs List</Link>,
       icon: <BookOutlined />,
     },
     {
       key: 'roles',
-      label: <Link to="/admin/roles">Roles</Link>,
+      label: <Link to="/admin/roles">Roles List</Link>,
+      icon: <BookOutlined />,
+    },
+    {
+      key: 'roles-permissions',
+      label: <Link to="/admin/roles/permissions-multi">Roles Permissions</Link>,
       icon: <BookOutlined />,
     },
   ];

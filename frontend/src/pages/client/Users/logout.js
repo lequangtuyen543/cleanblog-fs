@@ -8,12 +8,11 @@ export const Logout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  clearAllCookies();
-
   useEffect(() => {
+    clearAllCookies();
     dispatch(checkLogin(false));
     navigate("/login");
-  }, []);
+  }, [dispatch, navigate]);
 
-  return (<></>);
+  return null;
 }

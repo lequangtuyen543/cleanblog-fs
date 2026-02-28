@@ -1,11 +1,13 @@
 import { Col, Row } from "antd";
 import { UserStatistic } from "./UserStatistic ";
 import { BlogStatistic } from "./BlogStatistic";
+import Title from "antd/es/typography/Title";
 
 export const Dashboard = () => {
   return (
     <>
-      <h1>Page Dashboard</h1>
+      <Title level={3}>Page Dashboard</Title>
+      
       <Row gutter={[20, 20]}>
         <Col span={12}>
           <UserStatistic />

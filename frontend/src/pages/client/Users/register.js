@@ -17,17 +17,6 @@ export const Register = () => {
     try {
       values.token = generateToken();
 
-      // const checkExistEmail = await checkExist("email", values.email);
-      // const checkExistUserName = await checkExist("username", values.username);
-
-      // if (checkExistEmail.length > 0) {
-      //   messageApi.error('Email already exists!');
-      //   return;
-      // } else if (checkExistUserName.length > 0) {
-      //   messageApi.error('Username already exists!');
-      //   return
-      // }
-
       const res = await usersRegister(values);
 
       console.log('res', res);
@@ -114,7 +103,7 @@ export const Register = () => {
                 ]}
               >
                 <Checkbox>
-                  I agree and accept the <a href="#">terms and conditions</a>
+                  I agree and accept the <a href="/">terms and conditions</a>
                 </Checkbox>
               </Form.Item>
 

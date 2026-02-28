@@ -19,3 +19,8 @@ export const rolesDelete = async (id) => {
   const result = await DELETE(`roles/delete/${id}`);
   return result;
 };
+
+export const rolesPermissionsMulti = async (data) => {
+  const result = await PATCH(`roles/permissions-multi`, data);
+  return result;
+};

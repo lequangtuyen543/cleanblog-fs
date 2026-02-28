@@ -22,6 +22,7 @@ import { UserInfo } from "../pages/admin/Users/info.js";
 import { LayoutAuth } from "../layout/auth/index.js";
 import { RolesIndex } from "../pages/admin/Roles/index.js";
 import { RolesCreate } from "../pages/admin/Roles/create.js";
+import RolesPermissions from "../pages/admin/Roles/Permissions.jsx";
 
 export const routes = [
   // Public layout
@@ -73,6 +74,7 @@ export const routes = [
           // Roles routes
           { path: "roles", element: <RolesIndex /> },
           { path: "roles/create", element: <RolesCreate /> },
+          { path: "roles/permissions-multi", element: <RolesPermissions /> },        
           // thêm route admin khác ở đây
         ],
       },

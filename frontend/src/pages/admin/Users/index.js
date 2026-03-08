@@ -31,11 +31,6 @@ export const UserList = () => {
       render: (_, __, index) => index + 1,
     },
     {
-      title: 'Full Name',
-      dataIndex: 'fullName',
-      key: 'fullName',
-    },
-    {
       title: 'Username',
       dataIndex: 'username',
       key: 'username',
@@ -67,13 +62,8 @@ export const UserList = () => {
       key: 'action',
       render: (_, record) => (
         <Space size="small">
-          <Tooltip title="Detail">
-            <Link to={`/admin/detail-user/${record._id}`}>
-              <Button icon={<EyeOutlined />} type="default" />
-            </Link>
-          </Tooltip>
           <EditUser record={record} onReload={handleReload} />
-          <DeleteUser record={record} onReload={handleReload} />
+          <DeleteUser record={record} onReload={handleReload} />       
         </Space>
       ),
     },

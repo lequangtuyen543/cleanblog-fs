@@ -1,14 +1,16 @@
-import { Button, Col, Form, Input, message, Modal, Row, Switch, Tooltip } from 'antd';
+import { Button, Col, Form, Input, message, Modal, Row, Select, Switch, Tooltip } from 'antd';
 import { EditOutlined } from "@ant-design/icons";
-import { useState } from 'react';
+import { use, useState } from 'react';
 import getTimeCurrent from '../../../helpers/time';
 import { usersEdit } from '../../../services/usersService';
+import { rolesIndex } from '../../../services/rolesServices';
 
 export const EditUser = (props) => {
   const { record, onReload } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
+  const [roles, setRoles] = useState([]);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -40,6 +42,24 @@ export const EditUser = (props) => {
       messageApi.error("Update user failed!");
     }
   }
+
+  useState(() => {
+    const fetchData = async () => {
+      const result = await rolesIndex();
+      if (result) {
+        setRoles(result.data);
+      }
+    }
+    fetchData();
+  }, []);
+
+  console.log("roles:", roles);
+
+  const rolesOptions = roles.map((role) => {
+    return { value: role.title, label: role.title };
+  });
+
+  console.log("record.role:", record.role);
 
   return (
     <>
@@ -74,6 +94,15 @@ export const EditUser = (props) => {
             <Col span={24}>
               <Form.Item label="Email:" name='email' rules={[{ required: true, message: 'Please input your email!' }]}>
                 <Input />
+              </Form.Item>
+            </Col>
+
+            <Col span={24}>
+              <Form.Item label="Change Role:" name='role' rules={[{ required: true, message: 'Please input your role!' }]}>
+                <Select
+                  defaultValue={record.role}
+                  options={rolesOptions}
+                />
               </Form.Item>
             </Col>
 

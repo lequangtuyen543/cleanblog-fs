@@ -56,10 +56,10 @@ export const EditUser = (props) => {
   console.log("roles:", roles);
 
   const rolesOptions = roles.map((role) => {
-    return { value: role.title, label: role.title };
+    return { value: role._id, label: role.title };
   });
 
-  console.log("record.role:", record.role);
+  console.log("record.roleId:", record.roleId);
 
   return (
     <>
@@ -98,9 +98,9 @@ export const EditUser = (props) => {
             </Col>
 
             <Col span={24}>
-              <Form.Item label="Change Role:" name='role' rules={[{ required: true, message: 'Please input your role!' }]}>
+              <Form.Item label="Change Role:" name='roleId' rules={[{ required: true, message: 'Please input your role!' }]}>
                 <Select
-                  defaultValue={record.role}
+                  defaultValue={record.roleId}
                   options={rolesOptions}
                 />
               </Form.Item>

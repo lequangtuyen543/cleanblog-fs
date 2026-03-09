@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
   email: String,
   password: String,
   token: String,
+  roleId: String,
   status: {
     default: "active",
     type: String

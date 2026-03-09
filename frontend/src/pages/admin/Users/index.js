@@ -37,13 +37,9 @@ export const UserList = () => {
     },
     {
       title: 'Role',
-      key: 'role',
+      key: 'roleId',
       render: (_, record) => {
-        return record.role === "admin" ? (
-          <Tag color="blue">Admin</Tag>
-        ) : (
-          <Tag color="red">User</Tag>
-        );
+        return <Tag color="blue">{record.role.title}</Tag>;
       },
     },
     {

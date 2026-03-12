@@ -221,3 +221,51 @@ export const deleteUser = async (req: Request, res: Response) => {
     });
   }
 };
+
+// [PATCH] /api/v1/users/change-password/:id
+export const changePassword = async (req, res) => {
+  try {
+    const id = res.locals.user._id;
+    const { oldPassword, newPassword, confirmPassword } = req.body;
+
+    const user = await User.findOne({ _id: id });
+
+    if (!user) {
+      return res.json({
+        code: 404,
+        message: "User không tồn tại!",
+      });
+    }
+
+    // kiểm tra mật khẩu cũ
+    if (md5(oldPassword) !== user.password) {
+      return res.json({
+        code: 400,
+        message: "Mật khẩu cũ không đúng!",
+      });
+    }
+
+    // kiểm tra mật khẩu mới và xác nhận mật khẩu có khớp nhau không
+    if (newPassword !== confirmPassword) {
+      return res.json({
+        code: 400,
+        message: "Mật khẩu mới và xác nhận mật khẩu không khớp!",
+      });
+    }
+
+    await User.updateOne(
+      { _id: id },
+      { password: md5(newPassword) }
+    );
+
+    res.json({
+      code: 200,
+      message: "Đổi mật khẩu thành công!",
+    });
+  } catch (error) {
+    res.json({
+      code: 400,
+      message: "Lỗi!",
+    });
+  }
+};

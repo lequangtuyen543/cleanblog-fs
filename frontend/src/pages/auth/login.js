@@ -1,7 +1,7 @@
 import { Button, Card, Checkbox, Form, Input, message, Typography } from 'antd';
-import { setCookie } from '../../../helpers/cookie';
-import { usersLogin } from '../../../services/usersService';
-import { checkLogin } from '../../../actions/login';
+import { setCookie } from '../../helpers/cookie';
+import { usersLogin } from '../../services/usersService';
+import { checkLogin } from '../../actions/login';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';

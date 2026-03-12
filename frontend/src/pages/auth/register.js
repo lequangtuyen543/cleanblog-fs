@@ -1,8 +1,8 @@
 import { Button, Card, Checkbox, Form, Input, message, Typography } from 'antd';
-import { usersRegister } from '../../../services/usersService';
+import { usersRegister } from '../../services/usersService';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import generateToken from '../../../helpers/generateToken';
+import generateToken from '../../helpers/generateToken';
 import './Register.scss';
 
 const { Text } = Typography;

@@ -1,13 +1,72 @@
 import { NavLink } from "react-router-dom";
-import { Button, Space } from "antd";
-import { getCookie } from "../../helpers/cookie";
-import { useSelector } from "react-redux";
-import { UserOutlined, LoginOutlined, LogoutOutlined, UserAddOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
+import { Button, Space, Dropdown, Avatar } from "antd";
+import {
+  UserOutlined, LogoutOutlined, MenuUnfoldOutlined, MenuFoldOutlined, SettingOutlined, CreditCardOutlined,
+} from '@ant-design/icons';
+import { useEffect, useState } from "react";
+import { usersInfo } from "../../services/usersService";
 
 export const Header = (props) => {
   const { collapsed, setCollapsed } = props;
-  const token = getCookie("token");
-  const isLogin = useSelector(state => state.loginReducer);
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await usersInfo();
+      if (res) {
+        setData(res.data);
+      }
+    };
+    fetchData();
+  }, []);
+
+  // console.log("data", data);
+
+  const items = [
+    {
+      key: "info",
+      disabled: true,
+      label: <Space style={{ cursor: "pointer" }}>
+        <Avatar src="/assets/img/profile-img.webp" />
+        <div>
+          <div style={{ fontWeight: 500 }}>{data?.fullName}</div>
+          <div style={{ fontSize: 12, color: "#888" }}>{data?.role?.title}</div>
+        </div>
+      </Space>,
+    },
+    {
+      type: "divider",
+    },
+    {
+      key: "profile",
+      icon: <UserOutlined />,
+      label: <NavLink to="/admin/user/profile">My Profile</NavLink>,
+    },
+    {
+      key: "preferences",
+      icon: <SettingOutlined />,
+      label: <NavLink to="/admin/user/preferences">Preferences</NavLink>,
+    },
+    {
+      key: "activity",
+      icon: <UserOutlined />,
+      label: "Activity Log",
+    },
+    {
+      key: "billing",
+      icon: <CreditCardOutlined />,
+      label: "Billing",
+    },
+    {
+      type: "divider",
+    },
+    {
+      key: "logout",
+      icon: <LogoutOutlined />,
+      label: <NavLink to="/logout">Sign Out</NavLink>,
+      danger: true,
+    },
+  ];
 
   return (
     <>
@@ -27,25 +86,15 @@ export const Header = (props) => {
                 fontSize: '16px',
               }}
             />
-            <div className="account">
-              {token ? (
-                <Space>
-                  <NavLink to="/admin/user-info">
-                    <Button icon={<UserOutlined />}>User Info</Button>
-                  </NavLink>
-                  <NavLink to="/logout">
-                    <Button icon={<LogoutOutlined />}>Logout</Button>
-                  </NavLink>
-                </Space>
-              ) : (<Space>
-                <NavLink to="/login">
-                  <Button icon={<LoginOutlined />}>Login</Button>
-                </NavLink>
-                <NavLink to="/register">
-                  <Button type="primary" icon={<UserAddOutlined />}>Register</Button>
-                </NavLink>
-              </Space>)}
-            </div >
+            <Dropdown
+              menu={{ items, style: { minWidth: 200 } }}
+              placement="bottomRight"
+              trigger={["click"]}
+            >
+              <span style={{ cursor: "pointer" }}>
+                <Avatar src="/assets/img/profile-img.webp" />
+              </span>
+            </Dropdown>
           </div>
         </div >
       </header >

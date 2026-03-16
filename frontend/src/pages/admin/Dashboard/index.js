@@ -6,7 +6,7 @@ import Title from "antd/es/typography/Title";
 export const Dashboard = () => {
   return (
     <>
-      <Title level={3}>Page Dashboard</Title>
+      <Title level={3}>Dashboard</Title>
       
       <Row gutter={[20, 20]}>
         <Col span={12}>

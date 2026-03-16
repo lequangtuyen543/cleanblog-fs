@@ -179,10 +179,28 @@ export const detail = async (req: Request, res: Response) => {
   res.json(user);
 };
 
-// [PATCH] /api/v1/tasks/edit/id
+// [PATCH] /api/v1/users/edit/id
 export const edit = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
+
+    await User.updateOne({ _id: id }, req.body);
+
+    res.json({
+      code: 200,
+      message: "Cập nhật thành công!",
+    });
+  } catch (error) {
+    res.json({
+      code: 400,
+      message: "Lỗi!",
+    });
+  }
+};
+// [PATCH] /api/v1/users/edit-profile
+export const editProfile = async (req: Request, res: Response) => {
+  try {
+    const id = res.locals.user._id;
 
     await User.updateOne({ _id: id }, req.body);
 

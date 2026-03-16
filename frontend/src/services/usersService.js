@@ -20,6 +20,16 @@ export const usersInfo = async () => {
   return result;
 };
 
+export const usersChangePassword = async (data) => {
+  const result = await PATCH(`users/change-password`, data);
+  return result;
+};
+
+export const usersEditProfile = async (data) => {
+  const result = await PATCH(`users/edit-profile`, data);
+  return result;
+};
+
 export const usersList = async () => {
   const result = await GET(`users/list`);
   return result;

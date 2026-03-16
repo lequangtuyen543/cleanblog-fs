@@ -1,6 +1,6 @@
 import { Button, Card, Col, Form, Input, message, Row, Select } from "antd";
 import { useEffect, useState } from "react";
-import { usersEdit, usersInfo } from "../../../services/usersService";
+import { usersEdit, usersEditProfile, usersInfo } from "../../../services/usersService";
 
 export const UserProfile = () => {
   const [form] = Form.useForm();
@@ -27,16 +27,16 @@ export const UserProfile = () => {
 
   const handleSubmit = async (values) => {
     try {
-      const res = await usersEdit(data.id, values);
-      if (res) {
-        messageApi.success("Edit company successfully!");
+      const res = await usersEditProfile(values);
+      if (res.code === 200) {
+        messageApi.success(res.message);
         fetchData();
         setIsEdit(false);
       } else {
-        messageApi.error("Edit company failed!");
+        messageApi.error(res.message);
       }
     } catch (error) {
-      messageApi.error("Edit company failed!");
+      messageApi.error("Edit profile failed!");
     }
   }
 
@@ -54,7 +54,7 @@ export const UserProfile = () => {
   return (
     <>
       {contextHolder}
-      <Card title="Info User" extra={!isEdit ? <Button type="primary" onClick={handleEdit}>Edit</Button> : <Button type="default" onClick={handleCancel}>Cancel</Button>}>
+      <Card title="My Profile" extra={!isEdit ? <Button type="primary" onClick={handleEdit}>Edit</Button> : <Button type="default" onClick={handleCancel}>Cancel</Button>}>
         <Form form={form} layout="vertical" disabled={!isEdit} onFinish={handleSubmit}>
           <Row gutter={[20, 20]}>
             <Col span={24}>
@@ -72,12 +72,6 @@ export const UserProfile = () => {
             <Col span={24}>
               <Form.Item name="username" label="Username" rules={[{ required: true, message: 'Please input your username!' }]}>
                 <Input />
-              </Form.Item>
-            </Col>
-
-            <Col span={24}>
-              <Form.Item label="Password:" name='password' rules={[{ required: true, message: 'Please input your password!' }]}>
-                <Input.Password />
               </Form.Item>
             </Col>
 

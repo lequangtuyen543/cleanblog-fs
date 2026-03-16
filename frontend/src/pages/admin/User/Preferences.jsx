@@ -1,6 +1,6 @@
 import { Button, Card, Col, Form, Input, message, Row, Select } from "antd";
 import { useEffect, useState } from "react";
-import { usersEdit, usersInfo } from "../../../services/usersService";
+import { usersChangePassword, usersInfo } from "../../../services/usersService";
 
 export const UserPreferences = () => {
   const [form] = Form.useForm();
@@ -25,18 +25,20 @@ export const UserPreferences = () => {
     }
   }, [data, form]);
 
+  console.log(data);
+
   const handleSubmit = async (values) => {
     try {
-      const res = await usersEdit(data.id, values);
-      if (res) {
-        messageApi.success("Edit company successfully!");
+      const res = await usersChangePassword(values);
+      if (res.code === 200) {
+        messageApi.success(res.message);
         fetchData();
         setIsEdit(false);
       } else {
-        messageApi.error("Edit company failed!");
+        messageApi.error(res.message);
       }
     } catch (error) {
-      messageApi.error("Edit company failed!");
+      messageApi.error("Change password failed!");
     }
   }
 
@@ -54,11 +56,24 @@ export const UserPreferences = () => {
   return (
     <>
       {contextHolder}
+
+      <h3>Preferences</h3>
+
       <Card title="Password" extra={!isEdit ? <Button type="primary" onClick={handleEdit}>Change</Button> : <Button type="default" onClick={handleCancel}>Cancel</Button>}>
         <Form form={form} layout="vertical" disabled={!isEdit} onFinish={handleSubmit}>
           <Row gutter={[20, 20]}>
             <Col span={24}>
-              <Form.Item label="Password:" name='password' rules={[{ required: true, message: 'Please input your password!' }]}>
+              <Form.Item label="Old Password:" name='oldPassword' rules={[{ required: true, message: 'Please input your old password!' }]}>
+                <Input.Password />
+              </Form.Item>
+            </Col>
+            <Col span={24}>
+              <Form.Item label="New Password:" name='newPassword' rules={[{ required: true, message: 'Please input your new password!' }]}>
+                <Input.Password />
+              </Form.Item>
+            </Col>
+            <Col span={24}>
+              <Form.Item label="Confirm Password:" name='confirmPassword' rules={[{ required: true, message: 'Please confirm your password!' }]}>
                 <Input.Password />
               </Form.Item>
             </Col>

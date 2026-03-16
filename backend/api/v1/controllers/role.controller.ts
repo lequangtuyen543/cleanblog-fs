@@ -80,7 +80,7 @@ export const deleteRecord = async (req: Request, res: Response) => {
 };
 
 // [PATCH] /admin/roles/permissions-multi
-export const permissionsMulti = async (req: Request, res: Response) => {
+export const permissions = async (req: Request, res: Response) => {
   const { permissions } = req.body;
 
   for (const item of permissions) {

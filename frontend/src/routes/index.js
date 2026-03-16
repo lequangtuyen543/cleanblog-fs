@@ -67,8 +67,8 @@ export const routes = [
           { path: "user/preferences", element: <UserPreferences /> },
           // User routes
           { path: "users", element: <UserList /> },
-          { path: "create-user", element: <CreateUser /> },
-          { path: "detail-user/:id", element: <DetailUser /> },
+          { path: "users/create", element: <CreateUser /> },
+          { path: "users/detail/:id", element: <DetailUser /> },
           // Blogs routes
           { path: "blogs", element: <BlogList /> },
           { path: "create-blog", element: <CreateBlog /> },
@@ -76,7 +76,7 @@ export const routes = [
           // Roles routes
           { path: "roles", element: <RolesIndex /> },
           { path: "roles/create", element: <RolesCreate /> },
-          { path: "roles/permissions-multi", element: <RolesPermissions /> },        
+          { path: "roles/permissions", element: <RolesPermissions /> },        
           // thêm route admin khác ở đây
         ],
       },

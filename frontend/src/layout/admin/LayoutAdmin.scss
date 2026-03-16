@@ -36,7 +36,8 @@
 
   .main {
     padding: 20px;
-    background-color: #F9FBFD;
+    background-color: var(--background-color-1);
+    min-height: calc(100vh - 240px);
   }
 
   .sider {
@@ -44,7 +45,6 @@
     min-height: calc(100vh - 56px);
   }
 }
-
 
 .ant-card {
   background-color: white !important;

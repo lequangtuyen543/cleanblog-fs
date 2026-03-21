@@ -39,7 +39,7 @@ export const EditBlog = (props) => {
     }
   }
 
-  console.log(record);
+  // console.log(record);
 
   return (
     <>

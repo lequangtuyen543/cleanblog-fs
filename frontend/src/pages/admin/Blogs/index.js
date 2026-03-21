@@ -5,9 +5,13 @@ import { EyeOutlined, PlusOutlined } from "@ant-design/icons";
 import { DeleteBlog } from "./delete";
 import { posts } from "../../../services/postsServices";
 import { EditBlog } from "./edit";
+import { usersInfo } from "../../../services/usersService";
+import { useSelector } from "react-redux";
 
 export const BlogList = () => {
   const [data, setData] = useState([]);
+  const [user, setUser] = useState();
+  const user2 = useSelector(state => state.user);
 
   const fetchData = async () => {
     const res = await posts();
@@ -18,7 +22,22 @@ export const BlogList = () => {
 
   useEffect(() => {
     fetchData();
-  }, [])
+  }, []);
+
+  const fetchUser = async () => {
+    const res = await usersInfo();
+    if (res) {
+      setUser(res.data);
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleReload = () => {
     fetchData();
@@ -57,16 +76,18 @@ export const BlogList = () => {
             </Link>
           </Tooltip>
           <EditBlog record={record} onReload={handleReload} />
-          <DeleteBlog record={record} onReload={handleReload} />          
+          <DeleteBlog record={record} onReload={handleReload} />
         </Space>
       ),
     },
   ];
 
-  console.log(data);
+  console.log("user2: ", user2);
 
   return (
     <>
+      {user?.role.permissions.includes("posts_view") && (<>ok</>)}
+
       <h3>Blog List</h3>
 
       <Link to="/admin/create-blog">

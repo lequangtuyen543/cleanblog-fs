@@ -5,8 +5,11 @@
 - [x] Tính năng thay đổi mật khẩu
 - [x] Giao diện thay đổi mật khẩu
 - [x] Cập nhật giao diện admin/sidebar
-- [ ] Cập nhật giao diện admin/main
-- [ ] Cập nhật logo admin/header
+- [x] Cập nhật giao diện admin/main
+- [x] Chức năng tìm kiếm, sắp xếp và phân trang cho Post
+- [ ] Giao diện tìm kiếm, sắp xếp và phân trang cho Post
+
+## April 2026
 - [ ] Phân quyền trang
 - [ ] Phân quyền sidebar
 - [ ] Phân quyền routes

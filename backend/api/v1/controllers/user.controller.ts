@@ -82,6 +82,7 @@ export const login = async (req: Request, res: Response) => {
     code: 200,
     message: "Đăng nhập thành công!",
     token: token,
+    user: user,
   });
 };
 

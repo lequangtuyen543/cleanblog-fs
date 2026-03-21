@@ -1,13 +1,82 @@
 import { Request, Response } from "express";
 import Post from "../models/post.model";
+import searchHelper from "../../../helpers/search";
+import paginationHelper from "../../../helpers/pagination";
 
 // [GET] /api/v1/posts
 export const index = async (req: Request, res: Response) => {
-  const posts = await Post.find({ deleted: { $ne: true } });
+  try {
+    // Find
+    interface Find {
+      deleted: boolean;
+      status?: string;
+      title?: RegExp;
+    }
 
-  res.json(posts);
+    const find: Find = {
+      deleted: false,
+    };
+
+    if (req.query.status) {
+      find.status = req.query.status.toString();
+    }
+    // End Find
+
+    // Search
+    const objectSearch = searchHelper(req.query);
+
+    if (req.query.keyword) {
+      find.title = objectSearch.regex;
+    }
+    // End Search
+
+    // Pagination
+    let initPagination = {
+      currentPage: 1,
+      limitItems: 5, // posts thường nhiều hơn nên để 5 hoặc 10
+    };
+
+    const countPosts = await Post.countDocuments(find);
+
+    let objectPagination = paginationHelper(
+      initPagination,
+      req.query,
+      countPosts,
+    );
+    // End Pagination
+
+    // Sort
+    const sort: any = {};
+
+    if (req.query.sortKey && req.query.sortValue) {
+      const sortKey = req.query.sortKey.toString();
+      sort[sortKey] = req.query.sortValue;
+    } else {
+      sort.createdAt = "desc"; // mặc định sort mới nhất
+    }
+    // End Sort
+
+    // Query
+    const posts = await Post.find(find)
+      .sort(sort)
+      .limit(objectPagination.limitItems)
+      .skip(objectPagination.skip);
+
+    // Response
+    res.json({
+      code: 200,
+      message: "Success",
+      data: posts,
+      pagination: objectPagination,
+    });
+  } catch (error) {
+    res.status(500).json({
+      code: 500,
+      message: "Error",
+      error: error.message,
+    });
+  }
 };
-
 // [GET] /api/v1/posts/:id
 export const detail = async (req: Request, res: Response) => {
   const id = req.params.id;

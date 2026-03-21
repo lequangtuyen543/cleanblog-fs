@@ -61,7 +61,7 @@ export const RolesIndex = () => {
           <Button icon={<PlusOutlined />} type="primary" style={{ marginBottom: 20 }}>Create Role
           </Button>
         </Link>
-        <Link to="/admin/roles/permissions-multi">
+        <Link to="/admin/roles/permissions">
           <Button icon={<PlusOutlined />} type="dashed" style={{ marginBottom: 20 }}>Permissions
           </Button>
         </Link>

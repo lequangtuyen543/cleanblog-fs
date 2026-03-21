@@ -5,6 +5,7 @@ import {
 } from '@ant-design/icons';
 import { useEffect, useState } from "react";
 import { usersInfo } from "../../services/usersService";
+import logo from "../../assets/img/logo.png";
 
 export const Header = (props) => {
   const { collapsed, setCollapsed } = props;
@@ -74,7 +75,8 @@ export const Header = (props) => {
         <div className="header-container">
           <div className="logo">
             <NavLink to="/admin/dashboard">
-              {collapsed ? "NS" : "Nakaisoft"}
+              {collapsed ? <img src={logo} alt="Logo" /> : "Nakaisoft"}
+              
             </NavLink>
           </div>
           <div className="nav-wrap">

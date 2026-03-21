@@ -5,6 +5,7 @@ import { checkLogin } from '../../actions/login';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
+import { setUser } from '../../actions/user';
 
 const { Text } = Typography;
 
@@ -19,18 +20,16 @@ export const Login = () => {
     try {
       const res = await usersLogin(values);
 
-      console.log("res: ", res.code);
-
       if (res.code === 200) {
-        
-        // login success
-        // setCookie("id", res[0].id, 1);
-        // setCookie("name", res[0].name, 1);
-        // setCookie("username", res[0].username, 1);
+        // lưu token
         setCookie("token", res.token, 1);
 
+        // 🔥 lưu trạng thái login
         dispatchEvent(checkLogin(true));
-        console.log("Login successfully!");
+
+        // 🔥 LƯU USER (FIX LỖI CHÍNH)
+        dispatchEvent(setUser(res.user));
+
         setTimeout(() => {
           messageApi.success(res.message);
           navigate("/admin/dashboard");

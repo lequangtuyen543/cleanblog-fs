@@ -7,7 +7,8 @@
 - [x] Cập nhật giao diện admin/sidebar
 - [x] Cập nhật giao diện admin/main
 - [x] Chức năng tìm kiếm, sắp xếp và phân trang cho Post
-- [ ] Giao diện tìm kiếm, sắp xếp và phân trang cho Post
+- [x] Giao diện tìm kiếm, sắp xếp và phân trang cho Post
+- [ ] Tách component Searh, Sort, Pagination
 
 ## April 2026
 - [ ] Phân quyền trang

@@ -9,16 +9,14 @@ export const BlogStatistic = () => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await posts();
-      console.log(res);
       if (res) {
-        console.log(res);
         let obj = {
           total: 0,
           statusTrue: 0,
           statusFalse: 0
         }
         obj.total = res.length;
-        res.forEach((item) => {
+        res.data.forEach((item) => {
           item.status === 'active' ? obj.statusTrue++ : obj.statusFalse++
         })
         setData(obj);

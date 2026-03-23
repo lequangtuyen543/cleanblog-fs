@@ -11,7 +11,7 @@ export const Home = () => {
     const fetchData = async () => {
       const res = await posts();
       if (res) {
-        setData(res);
+        setData(res.data);
       }
     };
     fetchData();
@@ -24,7 +24,7 @@ export const Home = () => {
       <HeroItem title="Clean Blog" subtitle="A Blog Theme by Start Bootstrap" thumbnail={homeBg} />
       <div className='container'>
         <div className="bg-white py-12 sm:py-16 post">
-          {data && data.map((post) => (
+          {data && data?.map((post) => (
             <>
               <article className="flex flex-col items-start justify-between border-b border-gray-200 blog-card">
                 <div className="group relative grow post-preview">

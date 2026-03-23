@@ -1,78 +1,116 @@
 import { useEffect, useState } from "react";
-import { Button, Space, Table, Tag, Tooltip } from 'antd';
+import { Button, Space, Table, Tag, Tooltip, Input, Row, Col } from "antd";
 import { Link } from "react-router-dom";
 import { EyeOutlined, PlusOutlined } from "@ant-design/icons";
 import { DeleteBlog } from "./delete";
 import { posts } from "../../../services/postsServices";
 import { EditBlog } from "./edit";
-import { usersInfo } from "../../../services/usersService";
-import { useSelector } from "react-redux";
+
+const { Search } = Input;
 
 export const BlogList = () => {
   const [data, setData] = useState([]);
-  const [user, setUser] = useState();
-  const user2 = useSelector(state => state.user);
+  const [loading, setLoading] = useState(false);
 
-  const fetchData = async () => {
-    const res = await posts();
+  // 🔥 state control
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 5,
+    total: 0,
+  });
+
+  const [searchText, setSearchText] = useState("");
+
+  const fetchData = async (params = {}) => {
+    setLoading(true);
+
+    const res = await posts({
+      keyword: params.search || "",
+      page: params.pagination?.current || 1,
+      limit: params.pagination?.pageSize || 5,
+      sortKey: params.sortField || "",
+      sortValue:
+        params.sortOrder === "ascend"
+          ? "asc"
+          : params.sortOrder === "descend"
+            ? "desc"
+            : "",
+    });
+
     if (res) {
-      setData(res.reverse());
+      setData(res.data);
+
+      const totalItems =
+        res.pagination?.totalPages * res.pagination?.limitItems || res.data.length;
+      setPagination({
+        current: res.pagination?.currentPage || 1,
+        pageSize: res.pagination?.limitItems || 5,
+        total: totalItems,
+      });
     }
+
+    setLoading(false);
   };
 
   useEffect(() => {
-    fetchData();
+    fetchData({ pagination });
   }, []);
 
-  const fetchUser = async () => {
-    const res = await usersInfo();
-    if (res) {
-      setUser(res.data);
-    }
+  // 🔥 Table change (pagination + sort)
+  const handleTableChange = (newPagination, filters, sorter) => {
+    fetchData({
+      pagination: newPagination,
+      sortField: sorter.field,
+      sortOrder: sorter.order,
+      search: searchText,
+    });
   };
 
-  useEffect(() => {
-    fetchUser();
-  }, []);
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // 🔥 Search
+  const onSearch = (value) => {
+    setSearchText(value);
+    fetchData({
+      pagination: { ...pagination, current: 1 },
+      search: value,
+    });
+  };
 
   const handleReload = () => {
-    fetchData();
-  }
+    fetchData({ pagination, search: searchText });
+  };
 
   const columns = [
     {
-      title: 'Title',
-      dataIndex: 'title',
-      key: 'title'
+      title: "Title",
+      dataIndex: "title",
+      sorter: true, // bật sort
     },
     {
-      title: 'Created By',
-      dataIndex: 'createdBy',
-      key: 'createdBy',
+      title: "Created By",
+      dataIndex: "createdBy",
+      sorter: true,
     },
     {
-      title: 'Status',
-      key: 'status',
-      render: (_, record) => {
-        return record.status === "active" ? (
+      title: "Status",
+      dataIndex: "status",
+      filters: [
+        { text: "Active", value: "active" },
+        { text: "Inactive", value: "inactive" },
+      ],
+      render: (status) =>
+        status === "active" ? (
           <Tag color="green">Active</Tag>
         ) : (
           <Tag color="red">Inactive</Tag>
-        );
-      },
+        ),
     },
     {
-      title: 'Action',
-      key: 'action',
+      title: "Action",
       render: (_, record) => (
         <Space size="small">
           <Tooltip title="Detail">
             <Link to={`/admin/detail-blog/${record._id}`}>
-              <Button icon={<EyeOutlined />} type="default" />
+              <Button icon={<EyeOutlined />} />
             </Link>
           </Tooltip>
           <EditBlog record={record} onReload={handleReload} />
@@ -82,20 +120,38 @@ export const BlogList = () => {
     },
   ];
 
-  console.log("user2: ", user2);
-
   return (
     <>
-      {user?.role.permissions.includes("posts_view") && (<>ok</>)}
-
       <h3>Blog List</h3>
 
-      <Link to="/admin/create-blog">
-        <Button icon={<PlusOutlined />} type="primary" style={{ marginBottom: 20 }}>Create Blog
-        </Button>
-      </Link>
+      <Row justify="space-between" style={{ marginBottom: 16 }}>
+        <Col>
+          <Link to="/admin/create-blog">
+            <Button icon={<PlusOutlined />} type="primary">
+              Create Blog
+            </Button>
+          </Link>
+        </Col>
 
-      <Table columns={columns} dataSource={data} />
+        <Col>
+          <Search
+            placeholder="Search by title..."
+            allowClear
+            enterButton="Search"
+            onSearch={onSearch}
+            style={{ width: 300 }}
+          />
+        </Col>
+      </Row>
+
+      <Table
+        rowKey="_id"
+        columns={columns}
+        dataSource={data}
+        loading={loading}
+        pagination={pagination}
+        onChange={handleTableChange}
+      />
     </>
   );
-}
+};

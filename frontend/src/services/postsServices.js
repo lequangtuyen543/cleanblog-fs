@@ -1,7 +1,8 @@
 import { DELETE, GET, PATCH, POST } from "../utils/request";
 
-export const posts = async () => {
-  const result = await GET(`posts`);
+export const posts = async (params = {}) => {
+  const query = new URLSearchParams(params).toString();
+  const result = await GET(`posts?${query}`);
   return result;
 };
 

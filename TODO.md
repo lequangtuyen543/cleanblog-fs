@@ -1,11 +1,11 @@
 # TODO Project
 
-## Design
-- [ ] Thiết kế database đẩy đủ
-- [ ] Thiết kế API đẩy đủ
-- [ ] Thiết kế giao diện đẩy đủ
+## Analysis + Design
+- [x] Thiết kế database v1.1
+- [ ] Thiết kế API v1.1
+- [ ] Thiết kế giao diện v1.1
 
-## March 2026
+## Backend + Frontend
 - [x] Cập nhật dropdown avatar của admin/header
 - [x] Tính năng thay đổi mật khẩu
 - [x] Giao diện thay đổi mật khẩu
@@ -14,8 +14,6 @@
 - [x] Chức năng tìm kiếm, sắp xếp và phân trang cho Post
 - [x] Giao diện tìm kiếm, sắp xếp và phân trang cho Post
 - [x] Tách component Table, Toolbar, useTable
-
-## April 2026
 - [ ] Phân quyền trang
 - [ ] Phân quyền sidebar
 - [ ] Phân quyền routes

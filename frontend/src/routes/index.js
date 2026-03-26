@@ -71,8 +71,8 @@ export const routes = [
           { path: "users/detail/:id", element: <DetailUser /> },
           // Blogs routes
           { path: "blogs", element: <BlogList /> },
-          { path: "create-blog", element: <CreateBlog /> },
-          { path: "detail-blog/:id", element: <DetailBlog /> },
+          { path: "blogs/create", element: <CreateBlog /> },
+          { path: "blogs/detail/:id", element: <DetailBlog /> },
           // Roles routes
           { path: "roles", element: <RolesIndex /> },
           { path: "roles/create", element: <RolesCreate /> },

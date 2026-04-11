@@ -32,11 +32,20 @@ POST /api/v1/auth/register
 
 Request Body:
 {
-  name: String,
   username: String,
   email: String,
   password: String
 }
+
+👉 Backend xử lý:
+
+hash password (bcrypt)
+set:
+```
+roleId = defaultRoleUser
+status = "active"
+deleted = false
+```
 
 Response (Success):
 {
@@ -53,7 +62,7 @@ POST /api/v1/auth/login
 
 Request Body:
 {
-  username: String,
+  username: String, // hoặc email
   password: String
 }
 
@@ -79,10 +88,30 @@ Auth: Required (Admin)
 Query Params (optional):
 - keyword (search theo username hoặc email)
 
+filter thêm deleted: false
+search đúng field
+
+```
+{
+  $or: [
+    { username: /keyword/i },
+    { email: /keyword/i }
+  ],
+  deleted: false
+}
+```
+
 Response:
 {
-  code: 200,
-  data: [User]
+  "code": 200,
+  "message": "Success",
+  "data": [...],
+  "pagination": {
+    "currentPage": 1,
+    "limitItems": 5,
+    "totalItems": 23,
+    "totalPages": 5
+  }
 }
 
 ---
@@ -109,9 +138,10 @@ Auth: Required
 
 Request Body:
 {
-  username?: String,
-  role?: String (admin only),
-  status?: String (admin only)
+  "username": "string",
+  "avatar": "string",
+  "roleId": "string",   // admin only
+  "status": "active"      // admin only
 }
 
 Response:
@@ -147,9 +177,18 @@ Auth: Required
 
 Request Body:
 {
-  title: String,
-  content: String
+  "title": "string",
+  "content": "string",
+  "thumbnail": "string",
+  "categoryId": "ObjectId"
 }
+
+👉 Backend tự set:
+```
+userId = req.user.id
+status = "active"
+deleted = false
+```
 
 ---
 
@@ -159,10 +198,39 @@ GET /api/v1/posts
 
 Auth: Optional
 
-Query Params (optional):
-- keyword (search theo title)
+Find: 
+{
+  deleted: false,
+  status: "active"
+}
+
+Query Params (optional): /api/v1/posts?keyword=react&categoryId=...&page=1&limit=5
+
+| Param      | Kiểu   | Mô tả                |
+| ---------- | ------ | -------------------- |
+| keyword    | String | search theo title    |
+| sortKey    | String | title, createdAt     |
+| sortValue  | String | asc / desc           |
+| page       | Number | mặc định 1           |
+| limit      | Number | mặc định 5           |
+
+👉 Thêm filter category:
+if (categoryId) filter.categoryId = categoryId
 
 Chỉ trả về bài viết có deleted = false.
+
+Response:
+{
+  "code": 200,
+  "message": "Success",
+  "data": [Post],
+  "pagination": {
+    "currentPage": 1,
+    "limitItems": 5,
+    "totalItems": 23,
+    "totalPages": 5
+  }
+}
 
 ---
 
@@ -171,6 +239,33 @@ Chỉ trả về bài viết có deleted = false.
 GET /api/v1/posts/detail/:id
 
 Auth: Optional
+
+Populate đúng theo DB:
+```
+Post.findById(id)
+  .populate("userId", "username")
+  .populate("categoryId", "title")
+```
+
+Response: 
+```
+{
+  "_id": "...",
+  "title": "...",
+  "content": "...",
+  "status": "active",
+
+  "user": {
+    "_id": "...",
+    "username": "..."
+  },
+
+  "category": {
+    "_id": "...",
+    "title": "..."
+  }
+}
+```
 
 ---
 
@@ -182,6 +277,23 @@ Auth: Required
 
 - User chỉ cập nhật bài của mình
 - Admin cập nhật mọi bài
+
+Logic:
+```
+{
+  deleted: true,
+  updatedAt: new Date()
+}
+```
+
+Response: 
+{
+  "title": "string",
+  "content": "string",
+  "thumbnail": "string",
+  "categoryId": "ObjectId",
+  "status": "active" // admin only
+}
 
 ---
 
@@ -197,7 +309,43 @@ deleted = true
 
 ---
 
-# 5. HTTP Status Codes
+# 5. Category APIs
+## 5.1. GET /api/v1/categories
+{ deleted: false }
+
+## 5.2. POST /api/v1/categories
+{
+  "title": "Programming",
+  "slug": "programming"
+}
+
+## 5.3. PATCH /api/v1/categories/:id
+
+## 5.4. DELETE /api/v1/categories/:id
+
+→ soft delete
+
+# 6. ROLE APIs
+## 6.1. GET /api/v1/roles
+
+## 6.2. POST /api/v1/roles
+{
+  "title": "Admin",
+  "permissions": ["posts_create", "posts_delete"]
+}
+## 6.3. PATCH /api/v1/roles/:id
+
+## 6.2. DELETE /api/v1/roles/:id
+
+# 7. SETTINGS APIs
+GET /api/v1/settings
+PATCH /api/v1/settings
+{
+  "key": "site_name",
+  "value": "My Blog"
+}
+
+# 8. HTTP Status Codes
 
 - 200: Thành công
 - 201: Tạo mới thành công
@@ -209,7 +357,7 @@ deleted = true
 
 ---
 
-# 6. Quy Tắc Thiết Kế
+# 9. Quy Tắc Thiết Kế
 
 - Sử dụng danh từ cho route (users, posts)
 - Không dùng động từ trong URL
@@ -219,7 +367,7 @@ deleted = true
 
 ---
 
-# 7. Tiêu Chí Hoàn Thành
+# 10. Tiêu Chí Hoàn Thành
 
 API được xem là hoàn chỉnh khi:
 
@@ -232,5 +380,5 @@ API được xem là hoàn chỉnh khi:
 ---
 
 Tác giả: [Lê Quang Tuyến]  
-Phiên bản: 1.0  
+Phiên bản: 1.1
 Trạng thái: Giai đoạn phân tích & thiết kế

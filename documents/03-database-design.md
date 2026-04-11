@@ -266,7 +266,7 @@ refreshTokens {
 
 Thiết kế database được xem là hoàn chỉnh khi:
 
-- [ ] Đủ để triển khai toàn bộ chức năng FR-01 đến FR-13
+- [ ] Đủ để triển khai toàn bộ chức năng FR-01 đến FR-15
 - [ ] Không cần thay đổi cấu trúc lớn trong quá trình code
 - [ ] Quan hệ dữ liệu rõ ràng, có tài liệu
 - [ ] Không trùng lặp dữ liệu không cần thiết

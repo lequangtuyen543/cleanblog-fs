@@ -371,7 +371,7 @@ PATCH /api/v1/settings
 
 API được xem là hoàn chỉnh khi:
 
-- Đáp ứng đầy đủ FR-01 đến FR-13
+- Đáp ứng đầy đủ FR-01 đến FR-15
 - Phân quyền hoạt động đúng
 - Soft delete hoạt động chính xác
 - JWT xác thực ổn định

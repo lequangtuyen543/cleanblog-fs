@@ -16,8 +16,6 @@ const settingSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-settingSchema.index({ key: 1 }, { unique: true });
-
 const Setting = mongoose.model("Setting", settingSchema, "settings");
 
 export default Setting;

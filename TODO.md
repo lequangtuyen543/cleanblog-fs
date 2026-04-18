@@ -9,9 +9,12 @@
 - [x] Viết tài liệu luồng hoạt động v1.1
 
 ## Backend
-- [x] Code các file đầy đủ cho thư mục models
+- [x] Code các file cho thư mục models
 - [x] Tạo database trên mongodb
-- [x] Code các file đây đủ cho thư mục routes
+- [x] Code các file cho thư mục routes
+
+### Controllers
+- [x] Code file auth.controller
 
 ## Frontend
 - [ ] Thiết kế giao diện bằng Stitch

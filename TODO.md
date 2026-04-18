@@ -1,14 +1,15 @@
 # TODO Project
 
 ## Analysis + Design
-- [x] Phân tích tổng quan v1.1
-- [x] Phân tích yêu cầu v1.1
-- [x] Thiết kế database v1.1
-- [x] Thiết kế API v1.1
-- [ ] Thiết kế giao diện v1.1
-- [ ] Thiết kế luồng hoạt động v1.1
+- [x] Viết tài liệu tổng quan v1.1
+- [x] Viết tài liệu yêu cầu v1.1
+- [x] Viết tài liệu database v1.1
+- [x] Viết tài liệu API v1.1
+- [x] Viết tài liệu giao diện v1.1
+- [ ] Viết tài liệu luồng hoạt động v1.1
 
 ## Backend
 - [ ] Viết code đầy đủ cho models
 
 ## Frontend
+- [ ] Thiết kế giao diện bằng Stitch

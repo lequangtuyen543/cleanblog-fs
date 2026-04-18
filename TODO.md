@@ -10,7 +10,7 @@
 
 ## Backend
 - [x] Code các file đầy đủ cho models
-- [ ] Tạo database trên mongodb
+- [x] Tạo database trên mongodb
 
 ## Frontend
 - [ ] Thiết kế giao diện bằng Stitch

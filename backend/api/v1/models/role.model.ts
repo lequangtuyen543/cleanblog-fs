@@ -1,21 +1,32 @@
 import mongoose from "mongoose";
 
-const roleSchema = new mongoose.Schema({
-  title: String,
-  description: String,
-  permissions: {
-    type: Array,
-    default: []
+const roleSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+    },
+    description: {
+      type: String,
+      default: "",
+    },
+    permissions: {
+      type: [String],
+      default: [],
+    },
+    deleted: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
   },
-  deleted: {
-    type: Boolean,
-    default: false
-  },
-  deleteAt: Date
-}, {
-  timestamps: true
-});
+  { timestamps: true },
+);
 
-const Role = mongoose.model('Role', roleSchema, 'roles');
+roleSchema.index({ title: 1 }, { unique: true });
+
+const Role = mongoose.model("Role", roleSchema, "roles");
 
 export default Role;

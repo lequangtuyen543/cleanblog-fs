@@ -6,10 +6,11 @@
 - [x] Viết tài liệu database v1.1
 - [x] Viết tài liệu API v1.1
 - [x] Viết tài liệu giao diện v1.1
-- [ ] Viết tài liệu luồng hoạt động v1.1
+- [x] Viết tài liệu luồng hoạt động v1.1
 
 ## Backend
-- [ ] Viết code đầy đủ cho models
+- [x] Code các file đầy đủ cho models
+- [ ] Tạo database trên mongodb
 
 ## Frontend
 - [ ] Thiết kế giao diện bằng Stitch

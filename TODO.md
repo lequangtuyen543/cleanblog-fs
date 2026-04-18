@@ -1,7 +1,7 @@
 # TODO Project
 
 ## Analysis + Design
-- [ ] Phân tích tổng quan v1.1
+- [x] Phân tích tổng quan v1.1
 - [x] Phân tích yêu cầu v1.1
 - [x] Thiết kế database v1.1
 - [x] Thiết kế API v1.1

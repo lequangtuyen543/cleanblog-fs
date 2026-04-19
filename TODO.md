@@ -15,10 +15,10 @@
 
 ### Controllers
 - [x] Code file auth.controller
+- [x] Code file role.controller
 - [x] Code file user.controller
 - [x] Code file post.controller
 - [x] Tách code user.controller
-- [ ] Code file category.controller
 
 
 ## Frontend

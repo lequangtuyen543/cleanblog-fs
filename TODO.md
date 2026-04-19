@@ -16,6 +16,7 @@
 ### Controllers
 - [x] Code file auth.controller
 - [x] Code file user.controller
+- [ ] Code file post.controller
 
 ## Frontend
 - [ ] Thiết kế giao diện bằng Stitch

@@ -7,19 +7,31 @@ export const requireAuth = async (
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
-  if (req.headers.authorization) {
-    const token: string = req.headers.authorization.split(" ")[1];
+  try {
+    if (!req.headers.authorization) {
+      res.json({
+        code: 400,
+        message: "Vui lòng gửi kèm token!",
+      });
+      return;
+    }
 
+    const tokenParts = req.headers.authorization.split(" ");
+    if (tokenParts.length !== 2 || !tokenParts[1]) {
+      res.json({
+        code: 400,
+        message: "token không hợp lệ!",
+      });
+      return;
+    }
+
+    const token: string = tokenParts[1];
     const user = await User.findOne({
-      token: token,
+      token,
       deleted: false,
-    }).select("-password").lean();
-
-    const roleInfo = await Role.findOne({
-      _id: user.roleId,
-    }).select("title permissions");
-
-    user["role"] = roleInfo;
+    })
+      .select("-password")
+      .lean();
 
     if (!user) {
       res.json({
@@ -29,13 +41,19 @@ export const requireAuth = async (
       return;
     }
 
-    res.locals.user = user;
+    const roleInfo = await Role.findOne({
+      _id: user.roleId,
+    })
+      .select("title permissions")
+      .lean();
 
+    if (roleInfo) {
+      (user as any)["role"] = roleInfo;
+    }
+
+    res.locals.user = user;
     next();
-  } else {
-    res.json({
-      code: 400,
-      message: "Vui lòng gửi kèm token!",
-    });
+  } catch (error) {
+    next(error);
   }
 };

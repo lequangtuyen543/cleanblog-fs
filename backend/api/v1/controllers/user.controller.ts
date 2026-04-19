@@ -2,31 +2,18 @@ import { Request, Response } from "express";
 import mongoose from "mongoose";
 import md5 from "md5";
 import User from "../models/user.model";
-import Role from "../models/role.model";
 import searchHelper from "../../../helpers/search";
 import paginationHelper from "../../../helpers/pagination";
-
-type LocalUser = {
-  _id: mongoose.Types.ObjectId;
-  role?: { title?: string; permissions?: string[] } | null;
-};
-
-const isAdmin = (user: LocalUser): boolean => {
-  const title = user.role?.title?.toLowerCase();
-  if (title === "admin") return true;
-  const perms = user.role?.permissions ?? [];
-  return perms.some((p) => p.toLowerCase() === "admin" || p === "manage_users");
-};
-
-const isPopulatedRole = (
-  roleId: unknown,
-): roleId is { _id: mongoose.Types.ObjectId; title?: string; permissions?: string[] } =>
-  Boolean(
-    roleId &&
-      typeof roleId === "object" &&
-      roleId !== null &&
-      "title" in roleId,
-  );
+import {
+  getParamId,
+  isAdmin,
+  LocalUser,
+  normalizeUserWithRole,
+} from "../helpers/user.helper";
+import {
+  buildUserEditPatch,
+  validatePasswordChange,
+} from "../validates/user.validate";
 
 // [GET] /api/v1/users/info
 export const info = async (req: Request, res: Response): Promise<void> => {
@@ -91,14 +78,7 @@ export const list = async (req: Request, res: Response): Promise<void> => {
       .populate("roleId", "title permissions")
       .lean();
 
-    const data = users.map((u) => {
-      const doc = u as Record<string, unknown> & { roleId?: unknown };
-      const { roleId, ...rest } = doc;
-      if (isPopulatedRole(roleId)) {
-        return { ...rest, role: roleId, roleId: roleId._id };
-      }
-      return { ...rest, role: null, roleId };
-    });
+    const data = users.map((u) => normalizeUserWithRole(u as Record<string, unknown> & { roleId?: unknown }));
 
     res.json({
       code: 200,
@@ -124,9 +104,7 @@ export const list = async (req: Request, res: Response): Promise<void> => {
 // [PATCH] /api/v1/users/edit/:id
 export const edit = async (req: Request, res: Response): Promise<void> => {
   try {
-    const id = Array.isArray(req.params.id)
-      ? req.params.id[0]
-      : req.params.id;
+    const id = getParamId(req);
     if (!id || !mongoose.Types.ObjectId.isValid(id)) {
       res.status(400).json({
         code: 400,
@@ -149,15 +127,6 @@ export const edit = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    if (!admin && (req.body.roleId !== undefined || req.body.status !== undefined)) {
-      res.status(403).json({
-        code: 403,
-        message: "Chỉ admin mới được cập nhật roleId hoặc status",
-        data: null,
-      });
-      return;
-    }
-
     const existing = await User.findOne({ _id: id, deleted: false });
     if (!existing) {
       res.status(404).json({
@@ -168,62 +137,17 @@ export const edit = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const patch: Record<string, unknown> = {};
-
-    if (typeof req.body.username === "string") {
-      patch.username = req.body.username.trim();
-    }
-    if (typeof req.body.avatar === "string") {
-      patch.avatar = req.body.avatar;
-    }
-
-    if (admin) {
-      if (req.body.roleId !== undefined) {
-        if (!mongoose.Types.ObjectId.isValid(String(req.body.roleId))) {
-          res.status(400).json({
-            code: 400,
-            message: "roleId không hợp lệ",
-            data: null,
-          });
-          return;
-        }
-        const role = await Role.findOne({
-          _id: req.body.roleId,
-          deleted: false,
-        });
-        if (!role) {
-          res.status(400).json({
-            code: 400,
-            message: "Vai trò không tồn tại",
-            data: null,
-          });
-          return;
-        }
-        patch.roleId = role._id;
-      }
-      if (req.body.status !== undefined) {
-        if (!["active", "inactive"].includes(req.body.status)) {
-          res.status(400).json({
-            code: 400,
-            message: "status phải là active hoặc inactive",
-            data: null,
-          });
-          return;
-        }
-        patch.status = req.body.status;
-      }
-    }
-
-    if (Object.keys(patch).length === 0) {
-      res.status(400).json({
-        code: 400,
-        message: "Không có dữ liệu hợp lệ để cập nhật",
+    const { patch, error } = await buildUserEditPatch(req, admin);
+    if (error) {
+      res.status(error.code).json({
+        code: error.code,
+        message: error.message,
         data: null,
       });
       return;
     }
 
-    if (patch.username !== undefined) {
+    if (patch?.username !== undefined) {
       const dup = await User.findOne({
         _id: { $ne: id },
         deleted: false,
@@ -257,13 +181,7 @@ export const edit = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const doc = updated as Record<string, unknown> & { roleId?: unknown };
-    const { roleId, ...rest } = doc;
-    const data =
-      isPopulatedRole(roleId)
-        ? { ...rest, role: roleId, roleId: roleId._id }
-        : { ...rest, role: null, roleId };
-
+    const data = normalizeUserWithRole(updated as Record<string, unknown> & { roleId?: unknown });
     res.json({
       code: 200,
       message: "Cập nhật thành công",
@@ -286,25 +204,17 @@ export const changePassword = async (
 ): Promise<void> => {
   try {
     const id = (res.locals.user as LocalUser)._id;
-    const { oldPassword, newPassword } = req.body as {
-      oldPassword?: string;
-      newPassword?: string;
-    };
-
-    if (
-      typeof oldPassword !== "string" ||
-      typeof newPassword !== "string" ||
-      !oldPassword ||
-      !newPassword
-    ) {
-      res.status(400).json({
-        code: 400,
-        message: "Vui lòng gửi oldPassword và newPassword",
+    const { data, error } = validatePasswordChange(req.body);
+    if (error) {
+      res.status(error.code).json({
+        code: error.code,
+        message: error.message,
         data: null,
       });
       return;
     }
 
+    const { oldPassword, newPassword } = data!;
     const user = await User.findOne({ _id: id, deleted: false }).select(
       "+password",
     );

@@ -6,28 +6,55 @@ import Role from "../models/role.model";
 
 // [POST] /api/v1/auth/register
 export const register = async (req: Request, res: Response) => {
-  req.body.password = md5(req.body.password);
+  try {
+    const { fullName, email, username, password } = req.body as {
+      fullName?: unknown;
+      email?: unknown;
+      username?: unknown;
+      password?: unknown;
+    };
 
-  const existEmail = await User.findOne({
-    email: req.body.email,
-    deleted: false,
-  });
-  const existUsername = await User.findOne({
-    username: req.body.username,
-    deleted: false,
-  });
+    if (
+      typeof fullName !== "string" ||
+      typeof email !== "string" ||
+      typeof username !== "string" ||
+      typeof password !== "string" ||
+      !fullName.trim() ||
+      !email.trim() ||
+      !username.trim() ||
+      !password
+    ) {
+      res.status(400).json({
+        code: 400,
+        message: "Vui lòng gửi đầy đủ fullName, email, username và password",
+      });
+      return;
+    }
 
-  if (existEmail) {
-    res.json({
-      code: 400,
-      message: "Email đã tồn tại!",
+    const existEmail = await User.findOne({
+      email,
+      deleted: false,
     });
-  } else if (existUsername) {
-    res.json({
-      code: 400,
-      message: "Tên đăng nhập đã tồn tại!",
+    if (existEmail) {
+      res.status(400).json({
+        code: 400,
+        message: "Email đã tồn tại!",
+      });
+      return;
+    }
+
+    const existUsername = await User.findOne({
+      username,
+      deleted: false,
     });
-  } else {
+    if (existUsername) {
+      res.status(400).json({
+        code: 400,
+        message: "Tên đăng nhập đã tồn tại!",
+      });
+      return;
+    }
+
     let defaultRole = await Role.findOne({
       title: { $in: ["User", "user", "USER"] },
       deleted: false,
@@ -46,64 +73,88 @@ export const register = async (req: Request, res: Response) => {
     }
 
     const user = new User({
-      fullName: req.body.fullName,
-      email: req.body.email,
-      username: req.body.username,
-      password: req.body.password,
+      fullName: fullName.trim(),
+      email: email.trim(),
+      username: username.trim(),
+      password: md5(password),
       token: generateHelper.generateRandomString(20),
       roleId: defaultRole._id,
     });
 
-    user.save();
+    await user.save();
 
     const token = user.get("token");
-    res.cookie("token", token);
+    res.cookie("token", token, { httpOnly: true });
 
     res.json({
       code: 200,
       message: "Đăng ký thành công!",
-      token: token,
+      token,
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Lỗi máy chủ";
+    res.status(500).json({
+      code: 500,
+      message,
     });
   }
 };
 
 // [POST] /api/v1/auth/login
 export const login = async (req: Request, res: Response) => {
-  const username = req.body.username;
-  const password = req.body.password;
+  try {
+    const { username, password } = req.body as {
+      username?: unknown;
+      password?: unknown;
+    };
 
-  const user = await User.findOne({
-    username: username,
-    deleted: false,
-  }).select("+password");
+    if (typeof username !== "string" || typeof password !== "string") {
+      res.status(400).json({
+        code: 400,
+        message: "Vui lòng gửi username và password",
+      });
+      return;
+    }
 
-  if (!user) {
+    const user = await User.findOne({
+      username,
+      deleted: false,
+    }).select("+password");
+
+    if (!user) {
+      res.status(400).json({
+        code: 400,
+        message: "username không tồn tại!",
+      });
+      return;
+    }
+
+    if (md5(password) !== user.get("password")) {
+      res.status(400).json({
+        code: 400,
+        message: "Sai mật khẩu!",
+      });
+      return;
+    }
+
+    const token = user.get("token");
+    res.cookie("token", token, { httpOnly: true });
+
+    const safeUser = user.toObject() as Record<string, unknown>;
+    delete safeUser.password;
+
     res.json({
-      code: 400,
-      message: "username không tồn tại!",
+      code: 200,
+      message: "Đăng nhập thành công!",
+      token,
+      user: safeUser,
     });
-    return;
-  }
-
-  if (md5(password) !== user.get("password")) {
-    res.json({
-      code: 400,
-      message: "Sai mật khẩu!",
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Lỗi máy chủ";
+    res.status(500).json({
+      code: 500,
+      message,
     });
-    return;
   }
-
-  const token = user.get("token");
-  res.cookie("token", token);
-
-  const safeUser = user.toObject();
-  delete safeUser.password;
-
-  res.json({
-    code: 200,
-    message: "Đăng nhập thành công!",
-    token: token,
-    user: safeUser,
-  });
 };
 

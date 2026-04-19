@@ -20,7 +20,7 @@
 - [x] Code file post.controller
 - [x] Tách code user.controller
 - [x] Code file category.controller
-- [ ] Code file setting.controller
+- [x] Code file setting.controller
 
 
 ## Frontend

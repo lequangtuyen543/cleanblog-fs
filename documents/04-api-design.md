@@ -310,39 +310,195 @@ deleted = true
 ---
 
 # 5. Category APIs
+
 ## 5.1. GET /api/v1/categories
-{ deleted: false }
+
+Auth: Optional
+
+Find: { deleted: false }
+
+Query Params (optional): /api/v1/categories?keyword=react&page=1&limit=10
+
+| Param      | Kiểu   | Mô tả                |
+| ---------- | ------ | -------------------- |
+| keyword    | String | search theo title    |
+| page       | Number | mặc định 1           |
+| limit      | Number | mặc định 10          |
+
+👉 Thêm search:
+if (keyword) filter.title = /keyword/i
+
+Response:
+{
+  "code": 200,
+  "message": "Success",
+  "data": [Category],
+  "pagination": {
+    "currentPage": 1,
+    "limitItems": 10,
+    "totalItems": 5,
+    "totalPages": 1
+  }
+}
 
 ## 5.2. POST /api/v1/categories
+
+Auth: Required (Admin)
+
+Request Body:
 {
   "title": "Programming",
   "slug": "programming"
 }
 
+👉 Backend xử lý:
+- Validate title, slug unique
+- set deleted: false
+
+Response (Success):
+{
+  code: 200,
+  message: "Tạo danh mục thành công",
+  data: Category
+}
+
 ## 5.3. PATCH /api/v1/categories/:id
+
+Auth: Required (Admin)
+
+Request Body:
+{
+  "title": "Updated Title",
+  "slug": "updated-slug"
+}
+
+👉 Backend xử lý:
+- Validate title, slug unique (không trùng với category khác)
+- Update fields
+
+Response:
+{
+  code: 200,
+  message: "Cập nhật thành công",
+  data: Category
+}
 
 ## 5.4. DELETE /api/v1/categories/:id
 
-→ soft delete
+Auth: Required (Admin)
+
+→ Soft delete: update deleted = true, deletedAt = new Date()
+
+Response:
+{
+  code: 200,
+  message: "Xóa thành công",
+  data: null
+}
 
 # 6. ROLE APIs
+
 ## 6.1. GET /api/v1/roles
 
+Auth: Required (Admin)
+
+Find: { deleted: false }
+
+Response:
+{
+  "code": 200,
+  "message": "Success",
+  "data": [Role]
+}
+
 ## 6.2. POST /api/v1/roles
+
+Auth: Required (Admin)
+
+Request Body:
 {
   "title": "Admin",
-  "permissions": ["posts_create", "posts_delete"]
+  "description": "Administrator role",
+  "permissions": ["posts_create", "posts_delete", "users_manage"]
 }
+
+👉 Backend xử lý:
+- Validate title unique
+- permissions là array of strings
+
+Response (Success):
+{
+  code: 200,
+  message: "Tạo vai trò thành công",
+  data: Role
+}
+
 ## 6.3. PATCH /api/v1/roles/:id
 
-## 6.2. DELETE /api/v1/roles/:id
+Auth: Required (Admin)
+
+Request Body:
+{
+  "title": "Updated Role",
+  "description": "Updated description",
+  "permissions": ["posts_view", "posts_edit"]
+}
+
+👉 Backend xử lý:
+- Validate title unique (nếu update)
+- Update fields
+
+Response:
+{
+  code: 200,
+  message: "Cập nhật thành công",
+  data: Role
+}
+
+## 6.4. DELETE /api/v1/roles/:id
+
+Auth: Required (Admin)
+
+→ Soft delete: update deleted = true, deletedAt = new Date()
+
+Response:
+{
+  code: 200,
+  message: "Xóa thành công",
+  data: null
+}
 
 # 7. SETTINGS APIs
-GET /api/v1/settings
-PATCH /api/v1/settings
+
+## 7.1. GET /api/v1/settings
+
+Auth: Required (Admin)
+
+Response:
+{
+  "code": 200,
+  "message": "Success",
+  "data": { "site_name": "My Blog", "site_description": "..." }
+}
+
+## 7.2. PATCH /api/v1/settings
+
+Auth: Required (Admin)
+
+Request Body:
 {
   "key": "site_name",
-  "value": "My Blog"
+  "value": "Updated Blog Name"
+}
+
+👉 Backend xử lý:
+- Update hoặc tạo setting theo key
+
+Response:
+{
+  code: 200,
+  message: "Cập nhật thành công",
+  data: null
 }
 
 # 8. HTTP Status Codes

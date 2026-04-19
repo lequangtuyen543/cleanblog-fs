@@ -1,39 +1,14 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 import Post from "../models/post.model";
-import Category from "../models/category.model";
 import searchHelper from "../../../helpers/search";
 import paginationHelper from "../../../helpers/pagination";
-
-type LocalUser = {
-  _id: mongoose.Types.ObjectId;
-  role?: { title?: string; permissions?: string[] } | null;
-};
-
-const isAdmin = (user: LocalUser): boolean => {
-  const title = user.role?.title?.toLowerCase();
-  if (title === "admin") return true;
-  const perms = user.role?.permissions ?? [];
-  return perms.some((p) => p.toLowerCase() === "admin" || p === "manage_users");
-};
-
-const paramId = (req: Request): string | undefined => {
-  const raw = req.params.id;
-  if (Array.isArray(raw)) return raw[0];
-  return raw;
-};
-
-const ownerOrAdmin = (postUserId: unknown, me: LocalUser): boolean => {
-  if (isAdmin(me)) return true;
-  const uid =
-    postUserId &&
-    typeof postUserId === "object" &&
-    postUserId !== null &&
-    "_id" in postUserId
-      ? String((postUserId as { _id: mongoose.Types.ObjectId })._id)
-      : String(postUserId);
-  return uid === String(me._id);
-};
+import { isAdmin, LocalUser, getParamId } from "../helpers/user.helper";
+import { ownerOrAdmin } from "../helpers/post.helper";
+import {
+  validatePostCreate,
+  validatePostEdit,
+} from "../validates/post.validate";
 
 // [GET] /api/v1/posts
 export const index = async (req: Request, res: Response): Promise<void> => {
@@ -114,7 +89,7 @@ export const index = async (req: Request, res: Response): Promise<void> => {
 
 // [GET] /api/v1/posts/detail/:id
 export const detail = async (req: Request, res: Response): Promise<void> => {
-  const id = paramId(req);
+  const id = getParamId(req);
   if (!id || !mongoose.Types.ObjectId.isValid(id)) {
     res.status(400).json({
       code: 400,
@@ -168,55 +143,29 @@ export const detail = async (req: Request, res: Response): Promise<void> => {
 export const create = async (req: Request, res: Response): Promise<void> => {
   try {
     const me = res.locals.user as LocalUser;
-    const { title, content, thumbnail, categoryId } = req.body as {
-      title?: string;
-      content?: string;
-      thumbnail?: string;
-      categoryId?: string;
-    };
-
-    if (
-      typeof title !== "string" ||
-      !title.trim() ||
-      typeof content !== "string" ||
-      !content.trim() ||
-      typeof categoryId !== "string" ||
-      !mongoose.Types.ObjectId.isValid(categoryId)
-    ) {
-      res.status(400).json({
-        code: 400,
-        message: "Vui lòng gửi title, content và categoryId hợp lệ",
-        data: null,
-      });
-      return;
-    }
-
-    const category = await Category.findOne({
-      _id: categoryId,
-      deleted: false,
-      status: "active",
-    });
-    if (!category) {
-      res.status(400).json({
-        code: 400,
-        message: "Danh mục không tồn tại hoặc không khả dụng",
+    
+    const { data, error } = await validatePostCreate(req);
+    if (error) {
+      res.status(error.code).json({
+        code: error.code,
+        message: error.message,
         data: null,
       });
       return;
     }
 
     const record = new Post({
-      title: title.trim(),
-      content: content.trim(),
-      thumbnail: typeof thumbnail === "string" ? thumbnail : "",
-      categoryId,
+      title: data!.title,
+      content: data!.content,
+      thumbnail: data!.thumbnail,
+      categoryId: data!.categoryId,
       userId: me._id,
       status: "active",
       deleted: false,
     });
 
-    const data = await record.save();
-    const populated = await Post.findById(data._id)
+    const saved = await record.save();
+    const populated = await Post.findById(saved._id)
       .populate("userId", "username")
       .populate("categoryId", "title")
       .lean();
@@ -230,7 +179,7 @@ export const create = async (req: Request, res: Response): Promise<void> => {
       res.json({
         code: 200,
         message: "Tạo thành công!",
-        data,
+        data: saved,
       });
       return;
     }
@@ -252,8 +201,8 @@ export const create = async (req: Request, res: Response): Promise<void> => {
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Lỗi!";
-    res.status(400).json({
-      code: 400,
+    res.status(500).json({
+      code: 500,
       message,
       data: null,
     });
@@ -263,7 +212,7 @@ export const create = async (req: Request, res: Response): Promise<void> => {
 // [PATCH] /api/v1/posts/edit/:id
 export const edit = async (req: Request, res: Response): Promise<void> => {
   try {
-    const id = paramId(req);
+    const id = getParamId(req);
     if (!id || !mongoose.Types.ObjectId.isValid(id)) {
       res.status(400).json({
         code: 400,
@@ -294,69 +243,11 @@ export const edit = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    if (!isAdmin(me) && req.body.status !== undefined) {
-      res.status(403).json({
-        code: 403,
-        message: "Chỉ admin mới được cập nhật status",
-        data: null,
-      });
-      return;
-    }
-
-    const patch: Record<string, unknown> = {};
-
-    if (typeof req.body.title === "string" && req.body.title.trim()) {
-      patch.title = req.body.title.trim();
-    }
-    if (typeof req.body.content === "string" && req.body.content.trim()) {
-      patch.content = req.body.content.trim();
-    }
-    if (typeof req.body.thumbnail === "string") {
-      patch.thumbnail = req.body.thumbnail;
-    }
-
-    if (req.body.categoryId !== undefined) {
-      const cid = String(req.body.categoryId);
-      if (!mongoose.Types.ObjectId.isValid(cid)) {
-        res.status(400).json({
-          code: 400,
-          message: "categoryId không hợp lệ",
-          data: null,
-        });
-        return;
-      }
-      const category = await Category.findOne({
-        _id: cid,
-        deleted: false,
-        status: "active",
-      });
-      if (!category) {
-        res.status(400).json({
-          code: 400,
-          message: "Danh mục không tồn tại hoặc không khả dụng",
-          data: null,
-        });
-        return;
-      }
-      patch.categoryId = category._id;
-    }
-
-    if (isAdmin(me) && req.body.status !== undefined) {
-      if (!["active", "inactive"].includes(req.body.status)) {
-        res.status(400).json({
-          code: 400,
-          message: "status phải là active hoặc inactive",
-          data: null,
-        });
-        return;
-      }
-      patch.status = req.body.status;
-    }
-
-    if (Object.keys(patch).length === 0) {
-      res.status(400).json({
-        code: 400,
-        message: "Không có dữ liệu hợp lệ để cập nhật",
+    const { data, error } = await validatePostEdit(req, isAdmin(me));
+    if (error) {
+      res.status(error.code).json({
+        code: error.code,
+        message: error.message,
         data: null,
       });
       return;
@@ -364,7 +255,7 @@ export const edit = async (req: Request, res: Response): Promise<void> => {
 
     const updated = await Post.findOneAndUpdate(
       { _id: id, deleted: false },
-      { $set: patch },
+      { $set: data },
       { new: true, runValidators: true },
     )
       .populate("userId", "username")
@@ -401,8 +292,8 @@ export const edit = async (req: Request, res: Response): Promise<void> => {
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Lỗi!";
-    res.status(400).json({
-      code: 400,
+    res.status(500).json({
+      code: 500,
       message,
       data: null,
     });
@@ -412,7 +303,7 @@ export const edit = async (req: Request, res: Response): Promise<void> => {
 // [DELETE] /api/v1/posts/delete/:id
 export const deletePost = async (req: Request, res: Response): Promise<void> => {
   try {
-    const id = paramId(req);
+    const id = getParamId(req);
     if (!id || !mongoose.Types.ObjectId.isValid(id)) {
       res.status(400).json({
         code: 400,
@@ -452,8 +343,8 @@ export const deletePost = async (req: Request, res: Response): Promise<void> => 
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Lỗi!";
-    res.status(400).json({
-      code: 400,
+    res.status(500).json({
+      code: 500,
       message,
       data: null,
     });

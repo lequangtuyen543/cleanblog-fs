@@ -18,10 +18,8 @@
 - [x] Code file role.controller
 - [x] Code file user.controller
 - [x] Code file post.controller
-- [x] Tách code user.controller
 - [x] Code file category.controller
 - [x] Code file setting.controller
-
 
 ## Frontend
 - [ ] Thiết kế giao diện bằng Stitch

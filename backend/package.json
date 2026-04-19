@@ -26,7 +26,8 @@
     "md5": "^2.3.0",
     "mongoose": "^9.1.4",
     "pre-commit": "^1.2.2",
-    "rimraf": "^6.1.2"
+    "rimraf": "^6.1.2",
+    "slug": "^11.0.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",

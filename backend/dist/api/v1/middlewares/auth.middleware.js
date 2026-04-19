@@ -14,13 +14,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.requireAuth = void 0;
 const user_model_1 = __importDefault(require("../models/user.model"));
+const role_model_1 = __importDefault(require("../models/role.model"));
 const requireAuth = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    if (req.headers.authorization) {
-        const token = req.headers.authorization.split(" ")[1];
+    try {
+        if (!req.headers.authorization) {
+            res.json({
+                code: 400,
+                message: "Vui lòng gửi kèm token!",
+            });
+            return;
+        }
+        const tokenParts = req.headers.authorization.split(" ");
+        if (tokenParts.length !== 2 || !tokenParts[1]) {
+            res.json({
+                code: 400,
+                message: "token không hợp lệ!",
+            });
+            return;
+        }
+        const token = tokenParts[1];
         const user = yield user_model_1.default.findOne({
-            token: token,
+            token,
             deleted: false,
-        }).select("-password");
+        })
+            .select("-password")
+            .lean();
         if (!user) {
             res.json({
                 code: 400,
@@ -28,14 +46,19 @@ const requireAuth = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
             });
             return;
         }
+        const roleInfo = yield role_model_1.default.findOne({
+            _id: user.roleId,
+        })
+            .select("title permissions")
+            .lean();
+        if (roleInfo) {
+            user["role"] = roleInfo;
+        }
         res.locals.user = user;
         next();
     }
-    else {
-        res.json({
-            code: 400,
-            message: "Vui lòng gửi kèm token!",
-        });
+    catch (error) {
+        next(error);
     }
 });
 exports.requireAuth = requireAuth;

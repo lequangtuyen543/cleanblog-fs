@@ -12,27 +12,46 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteRecord = exports.editRecord = exports.createRecord = exports.index = void 0;
+exports.deleteRecord = exports.edit = exports.create = exports.index = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
-const role_model_1 = __importDefault(require("../models/role.model"));
+const category_model_1 = __importDefault(require("../models/category.model"));
 const user_helper_1 = require("../helpers/user.helper");
-const role_validate_1 = require("../validates/role.validate");
+const search_1 = __importDefault(require("../../../helpers/search"));
+const pagination_1 = __importDefault(require("../../../helpers/pagination"));
+const category_validate_1 = require("../validates/category.validate");
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
     try {
-        const me = res.locals.user;
-        if (!(0, user_helper_1.isAdmin)(me)) {
-            res.status(403).json({
-                code: 403,
-                message: "Không có quyền truy cập",
-                data: null,
-            });
-            return;
+        const find = {
+            deleted: false,
+        };
+        if (req.query.keyword) {
+            const objectSearch = (0, search_1.default)(req.query);
+            if (objectSearch.regex) {
+                find.title = objectSearch.regex;
+            }
         }
-        const records = yield role_model_1.default.find({ deleted: false }).sort({ createdAt: -1 });
+        const initPagination = {
+            currentPage: 1,
+            limitItems: 10,
+        };
+        const countCategories = yield category_model_1.default.countDocuments(find);
+        const objectPagination = (0, pagination_1.default)(initPagination, req.query, countCategories);
+        const records = yield category_model_1.default.find(find)
+            .sort({ createdAt: -1 })
+            .limit(objectPagination.limitItems)
+            .skip((_a = objectPagination.skip) !== null && _a !== void 0 ? _a : 0)
+            .lean();
         res.json({
             code: 200,
-            message: "Thành công!",
+            message: "Success",
             data: records,
+            pagination: {
+                currentPage: objectPagination.currentPage,
+                limitItems: objectPagination.limitItems,
+                totalItems: countCategories,
+                totalPages: (_b = objectPagination.totalPages) !== null && _b !== void 0 ? _b : 0,
+            },
         });
     }
     catch (error) {
@@ -45,7 +64,7 @@ const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.index = index;
-const createRecord = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const me = res.locals.user;
         if (!(0, user_helper_1.isAdmin)(me)) {
@@ -56,7 +75,7 @@ const createRecord = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             });
             return;
         }
-        const { data, error } = yield (0, role_validate_1.validateRoleCreate)(req);
+        const { data, error } = yield (0, category_validate_1.validateCategoryCreate)(req);
         if (error) {
             res.status(error.code).json({
                 code: error.code,
@@ -65,11 +84,11 @@ const createRecord = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             });
             return;
         }
-        const record = new role_model_1.default(data);
+        const record = new category_model_1.default(data);
         const saved = yield record.save();
         res.json({
-            code: 200,
-            message: "Tạo thành công!",
+            code: 201,
+            message: "Tạo danh mục thành công",
             data: saved,
         });
     }
@@ -82,8 +101,8 @@ const createRecord = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         });
     }
 });
-exports.createRecord = createRecord;
-const editRecord = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.create = create;
+const edit = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const me = res.locals.user;
         if (!(0, user_helper_1.isAdmin)(me)) {
@@ -103,16 +122,16 @@ const editRecord = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             });
             return;
         }
-        const existing = yield role_model_1.default.findOne({ _id: id, deleted: false });
+        const existing = yield category_model_1.default.findOne({ _id: id, deleted: false });
         if (!existing) {
             res.status(404).json({
                 code: 404,
-                message: "Không tìm thấy vai trò",
+                message: "Không tìm thấy danh mục",
                 data: null,
             });
             return;
         }
-        const { data, error } = yield (0, role_validate_1.validateRoleEdit)(req, id);
+        const { data, error } = yield (0, category_validate_1.validateCategoryEdit)(req, id);
         if (error) {
             res.status(error.code).json({
                 code: error.code,
@@ -121,10 +140,10 @@ const editRecord = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             });
             return;
         }
-        yield role_model_1.default.updateOne({ _id: id }, data);
+        yield category_model_1.default.updateOne({ _id: id }, data);
         res.json({
             code: 200,
-            message: "Cập nhật thành công!",
+            message: "Cập nhật thành công",
             data: null,
         });
     }
@@ -137,7 +156,7 @@ const editRecord = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
 });
-exports.editRecord = editRecord;
+exports.edit = edit;
 const deleteRecord = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const me = res.locals.user;
@@ -158,22 +177,22 @@ const deleteRecord = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             });
             return;
         }
-        const existing = yield role_model_1.default.findOne({ _id: id, deleted: false });
+        const existing = yield category_model_1.default.findOne({ _id: id, deleted: false });
         if (!existing) {
             res.status(404).json({
                 code: 404,
-                message: "Không tìm thấy vai trò",
+                message: "Không tìm thấy danh mục",
                 data: null,
             });
             return;
         }
-        yield role_model_1.default.updateOne({ _id: id }, {
+        yield category_model_1.default.updateOne({ _id: id }, {
             deleted: true,
             deletedAt: new Date(),
         });
         res.json({
             code: 200,
-            message: "Xóa thành công!",
+            message: "Xóa thành công",
             data: null,
         });
     }

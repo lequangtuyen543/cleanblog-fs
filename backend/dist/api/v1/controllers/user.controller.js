@@ -1,37 +1,4 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -45,179 +12,223 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUser = exports.edit = exports.detail = exports.create = exports.list = exports.info = exports.login = exports.register = void 0;
+exports.changePassword = exports.edit = exports.list = exports.info = void 0;
+const mongoose_1 = __importDefault(require("mongoose"));
 const md5_1 = __importDefault(require("md5"));
 const user_model_1 = __importDefault(require("../models/user.model"));
-const generateHelper = __importStar(require("../../../helpers/generate"));
-const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    req.body.password = (0, md5_1.default)(req.body.password);
-    const existEmail = yield user_model_1.default.findOne({ email: req.body.email, deleted: false });
-    const existUsername = yield user_model_1.default.findOne({ username: req.body.username, deleted: false });
-    if (existEmail) {
-        res.json({
-            code: 400,
-            message: "Email đã tồn tại!",
-        });
-    }
-    else if (existUsername) {
-        res.json({
-            code: 400,
-            message: "Tên đăng nhập đã tồn tại!",
-        });
-    }
-    else {
-        const user = new user_model_1.default({
-            fullName: req.body.fullName,
-            email: req.body.email,
-            username: req.body.username,
-            password: req.body.password,
-            token: generateHelper.generateRandomString(20)
-        });
-        user.save();
-        const token = user.token;
-        res.cookie("token", token);
-        res.json({
-            code: 200,
-            message: "Đăng ký thành công!",
-            token: token
-        });
-    }
-});
-exports.register = register;
-const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const username = req.body.username;
-    const password = req.body.password;
-    const user = yield user_model_1.default.findOne({
-        username: username,
-        deleted: false
-    });
-    if (!user) {
-        res.json({
-            code: 400,
-            message: "username không tồn tại!",
-        });
-        return;
-    }
-    if ((0, md5_1.default)(password) !== user.password) {
-        res.json({
-            code: 400,
-            message: "Sai mật khẩu!",
-        });
-        return;
-    }
-    const token = user.token;
-    res.cookie("token", token);
-    res.json({
-        code: 200,
-        message: "Đăng nhập thành công!",
-        token: token
-    });
-});
-exports.login = login;
+const search_1 = __importDefault(require("../../../helpers/search"));
+const pagination_1 = __importDefault(require("../../../helpers/pagination"));
+const user_helper_1 = require("../helpers/user.helper");
+const user_validate_1 = require("../validates/user.validate");
 const info = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const raw = res.locals.user;
+    const safe = Object.assign({}, raw);
+    delete safe.password;
+    delete safe.token;
     res.json({
         code: 200,
         message: "Thành công",
-        data: res.locals.user
+        data: safe,
     });
 });
 exports.info = info;
 const list = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const users = yield user_model_1.default.find({
-        deleted: false
-    });
-    if (!users) {
-        res.json({
-            code: 400,
-            message: "Không có người dùng nào!",
-        });
-        return;
-    }
-    res.json({
-        code: 200,
-        message: "Lấy danh sách người dùng thành công!",
-        data: users
-    });
-});
-exports.list = list;
-const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    req.body.password = (0, md5_1.default)(req.body.password);
-    const existEmail = yield user_model_1.default.findOne({ email: req.body.email, deleted: false });
-    const existUsername = yield user_model_1.default.findOne({ username: req.body.username, deleted: false });
-    if (existEmail) {
-        res.json({
-            code: 400,
-            message: "Email đã tồn tại!",
-        });
-    }
-    else if (existUsername) {
-        res.json({
-            code: 400,
-            message: "Tên đăng nhập đã tồn tại!",
-        });
-    }
-    else {
-        const user = new user_model_1.default({
-            fullName: req.body.fullName,
-            email: req.body.email,
-            username: req.body.username,
-            password: req.body.password,
-            token: generateHelper.generateRandomString(20)
-        });
-        user.save();
-        const token = user.token;
-        res.cookie("token", token);
-        res.json({
-            code: 200,
-            message: "Đăng ký thành công!",
-            token: token
-        });
-    }
-});
-exports.create = create;
-const detail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = req.params.id;
-    const user = yield user_model_1.default.findOne({
-        _id: id,
-        deleted: false,
-    });
-    res.json(user);
-});
-exports.detail = detail;
-const edit = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
     try {
-        const id = req.params.id;
-        yield user_model_1.default.updateOne({ _id: id }, req.body);
+        const me = res.locals.user;
+        if (!(0, user_helper_1.isAdmin)(me)) {
+            res.status(403).json({
+                code: 403,
+                message: "Không có quyền truy cập",
+                data: null,
+            });
+            return;
+        }
+        const find = {
+            deleted: false,
+        };
+        if (req.query.keyword) {
+            const objectSearch = (0, search_1.default)(req.query);
+            if (objectSearch.regex) {
+                find.$or = [
+                    { username: objectSearch.regex },
+                    { email: objectSearch.regex },
+                ];
+            }
+        }
+        const initPagination = {
+            currentPage: 1,
+            limitItems: 10,
+        };
+        const countUsers = yield user_model_1.default.countDocuments(find);
+        const objectPagination = (0, pagination_1.default)(initPagination, req.query, countUsers);
+        const sort = { createdAt: -1 };
+        const users = yield user_model_1.default.find(find)
+            .select("-password -token")
+            .sort(sort)
+            .limit(objectPagination.limitItems)
+            .skip((_a = objectPagination.skip) !== null && _a !== void 0 ? _a : 0)
+            .populate("roleId", "title permissions")
+            .lean();
+        const data = users.map((u) => (0, user_helper_1.normalizeUserWithRole)(u));
         res.json({
             code: 200,
-            message: "Cập nhật thành công!",
+            message: "Success",
+            data,
+            pagination: {
+                currentPage: objectPagination.currentPage,
+                limitItems: objectPagination.limitItems,
+                totalItems: countUsers,
+                totalPages: (_b = objectPagination.totalPages) !== null && _b !== void 0 ? _b : 0,
+            },
         });
     }
     catch (error) {
+        const message = error instanceof Error ? error.message : "Lỗi!";
+        res.status(500).json({
+            code: 500,
+            message,
+            data: null,
+        });
+    }
+});
+exports.list = list;
+const edit = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = (0, user_helper_1.getParamId)(req);
+        if (!id || !mongoose_1.default.Types.ObjectId.isValid(id)) {
+            res.status(400).json({
+                code: 400,
+                message: "Id không hợp lệ",
+                data: null,
+            });
+            return;
+        }
+        const me = res.locals.user;
+        const meId = String(me._id);
+        const admin = (0, user_helper_1.isAdmin)(me);
+        if (!admin && meId !== id) {
+            res.status(403).json({
+                code: 403,
+                message: "Không có quyền cập nhật người dùng này",
+                data: null,
+            });
+            return;
+        }
+        const existing = yield user_model_1.default.findOne({ _id: id, deleted: false });
+        if (!existing) {
+            res.status(404).json({
+                code: 404,
+                message: "Không tìm thấy người dùng",
+                data: null,
+            });
+            return;
+        }
+        const { patch, error } = yield (0, user_validate_1.buildUserEditPatch)(req, admin);
+        if (error) {
+            res.status(error.code).json({
+                code: error.code,
+                message: error.message,
+                data: null,
+            });
+            return;
+        }
+        if ((patch === null || patch === void 0 ? void 0 : patch.username) !== undefined) {
+            const dup = yield user_model_1.default.findOne({
+                _id: { $ne: id },
+                deleted: false,
+                username: patch.username,
+            });
+            if (dup) {
+                res.status(400).json({
+                    code: 400,
+                    message: "Tên đăng nhập đã được sử dụng",
+                    data: null,
+                });
+                return;
+            }
+        }
+        const updated = yield user_model_1.default.findOneAndUpdate({ _id: id, deleted: false }, { $set: patch }, { new: true, runValidators: true })
+            .select("-password -token")
+            .populate("roleId", "title permissions")
+            .lean();
+        if (!updated) {
+            res.status(404).json({
+                code: 404,
+                message: "Không tìm thấy người dùng",
+                data: null,
+            });
+            return;
+        }
+        const data = (0, user_helper_1.normalizeUserWithRole)(updated);
         res.json({
-            code: 400,
-            message: "Lỗi!",
+            code: 200,
+            message: "Cập nhật thành công",
+            data,
+        });
+    }
+    catch (error) {
+        const message = error instanceof Error ? error.message : "Lỗi!";
+        res.status(500).json({
+            code: 500,
+            message,
+            data: null,
         });
     }
 });
 exports.edit = edit;
-const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const changePassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const id = req.params.id;
-        yield user_model_1.default.updateOne({ _id: id }, {
-            deleted: true,
-            deletedAt: new Date()
-        });
+        const id = res.locals.user._id;
+        const { data, error } = (0, user_validate_1.validatePasswordChange)(req.body);
+        if (error) {
+            res.status(error.code).json({
+                code: error.code,
+                message: error.message,
+                data: null,
+            });
+            return;
+        }
+        const { oldPassword, newPassword } = data;
+        const user = yield user_model_1.default.findOne({ _id: id, deleted: false }).select("+password");
+        if (!user) {
+            res.status(404).json({
+                code: 404,
+                message: "User không tồn tại!",
+                data: null,
+            });
+            return;
+        }
+        if ((0, md5_1.default)(oldPassword) !== user.get("password")) {
+            res.status(400).json({
+                code: 400,
+                message: "Mật khẩu cũ không đúng!",
+                data: null,
+            });
+            return;
+        }
+        if (newPassword.length < 6) {
+            res.status(400).json({
+                code: 400,
+                message: "Mật khẩu mới phải có ít nhất 6 ký tự",
+                data: null,
+            });
+            return;
+        }
+        yield user_model_1.default.updateOne({ _id: id }, { password: (0, md5_1.default)(newPassword) });
         res.json({
             code: 200,
-            message: "Xóa thành công!",
+            message: "Đổi mật khẩu thành công!",
+            data: null,
         });
     }
     catch (error) {
-        res.json({
-            code: 400,
-            message: "Lỗi!",
+        const message = error instanceof Error ? error.message : "Lỗi!";
+        res.status(500).json({
+            code: 500,
+            message,
+            data: null,
         });
     }
 });
-exports.deleteUser = deleteUser;
+exports.changePassword = changePassword;

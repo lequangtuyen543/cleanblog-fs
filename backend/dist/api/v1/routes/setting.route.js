@@ -33,13 +33,11 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userRoutes = void 0;
+exports.settingRoutes = void 0;
 const express_1 = require("express");
-const controller = __importStar(require("../controllers/user.controller"));
+const controller = __importStar(require("../controllers/setting.controller"));
 const authMiddleware = __importStar(require("../middlewares/auth.middleware"));
 const router = (0, express_1.Router)();
-router.get("/", authMiddleware.requireAuth, controller.list);
-router.get("/info", authMiddleware.requireAuth, controller.info);
-router.patch("/edit/:id", authMiddleware.requireAuth, controller.edit);
-router.patch("/change-password", authMiddleware.requireAuth, controller.changePassword);
-exports.userRoutes = router;
+router.get("/", authMiddleware.requireAuth, controller.index);
+router.patch("/", authMiddleware.requireAuth, controller.upsert);
+exports.settingRoutes = router;

@@ -4,29 +4,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
-const postSchema = new mongoose_1.default.Schema({
+const categorySchema = new mongoose_1.default.Schema({
     title: {
         type: String,
         required: true,
         trim: true,
     },
-    content: {
+    slug: {
         type: String,
         required: true,
-    },
-    thumbnail: {
-        type: String,
-        default: "",
-    },
-    categoryId: {
-        type: mongoose_1.default.Schema.Types.ObjectId,
-        ref: "Category",
-        required: true,
-    },
-    userId: {
-        type: mongoose_1.default.Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
+        unique: true,
+        trim: true,
+        lowercase: true,
     },
     status: {
         type: String,
@@ -39,5 +28,5 @@ const postSchema = new mongoose_1.default.Schema({
         index: true,
     },
 }, { timestamps: true });
-const Post = mongoose_1.default.model("Post", postSchema, "posts");
-exports.default = Post;
+const Category = mongoose_1.default.model("Category", categorySchema, "categories");
+exports.default = Category;

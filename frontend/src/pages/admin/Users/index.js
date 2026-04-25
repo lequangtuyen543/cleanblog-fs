@@ -15,10 +15,10 @@ export const UserList = () => {
   const [form] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
 
-  const fetchData = async () => {
+  const fetchData = async (keyword = '') => {
     setLoading(true);
     try {
-      const [usersRes, rolesRes] = await Promise.all([getUsers(), getRoles()]);
+      const [usersRes, rolesRes] = await Promise.all([getUsers({ keyword }), getRoles()]);
       if (usersRes?.data) setData(usersRes.data);
       if (rolesRes?.data) setRoles(rolesRes.data);
     } catch (error) {
@@ -59,7 +59,6 @@ export const UserList = () => {
         status: values.status ? 'active' : 'inactive'
       };
 
-      if (editingUser) {
         const res = await updateUserInfo(editingUser._id, payload);
         if (res?.code === 200) {
           messageApi.success("Cập nhật thành công!");
@@ -68,43 +67,12 @@ export const UserList = () => {
         } else {
           messageApi.error(res?.message || "Lỗi cập nhật");
         }
-      } else {
-        const res = await createUser(payload);
-        if (res?.code === 200) {
-          messageApi.success("Tạo mới thành công!");
-          handleModalClose();
-          fetchData();
-        } else {
-          messageApi.error(res?.message || "Lỗi tạo mới");
-        }
-      }
     } catch (error) {
       messageApi.error(error.response?.data?.message || "Đã có lỗi xảy ra");
     }
   };
 
-  const handleDelete = (id) => {
-    Modal.confirm({
-      title: 'Bạn có chắc chắn muốn xóa người dùng này?',
-      content: 'Hành động này sẽ áp dụng Soft Delete.',
-      okText: 'Xóa',
-      okType: 'danger',
-      cancelText: 'Hủy',
-      onOk: async () => {
-        try {
-          const res = await deleteUser(id);
-          if (res?.code === 200) {
-            messageApi.success("Xóa thành công!");
-            fetchData();
-          } else {
-            messageApi.error(res?.message || "Lỗi xóa");
-          }
-        } catch (error) {
-          messageApi.error("Không thể xóa người dùng");
-        }
-      }
-    });
-  };
+
 
   const columns = [
     {
@@ -155,9 +123,6 @@ export const UserList = () => {
           <Tooltip title="Chỉnh sửa">
             <Button type="text" icon={<EditOutlined className="text-indigo-600" />} onClick={() => showModal(record)} />
           </Tooltip>
-          <Tooltip title="Xóa">
-            <Button type="text" danger icon={<DeleteOutlined />} onClick={() => handleDelete(record._id)} />
-          </Tooltip>
         </Space>
       ),
     },
@@ -174,19 +139,12 @@ export const UserList = () => {
         </div>
         
         <div className="flex items-center gap-3 w-full sm:w-auto">
-          <Input 
-            placeholder="Tìm kiếm..." 
-            prefix={<SearchOutlined className="text-gray-400" />}
+          <Input.Search 
+            placeholder="Tìm kiếm theo username, email..." 
+            onSearch={(val) => fetchData(val)}
+            allowClear
             className="w-full sm:w-64"
           />
-          <Button 
-            type="primary" 
-            icon={<PlusOutlined />} 
-            onClick={() => showModal()}
-            className="bg-[#005daa] hover:bg-[#0075d5]"
-          >
-            Thêm mới
-          </Button>
         </div>
       </div>
 
@@ -200,7 +158,7 @@ export const UserList = () => {
       />
 
       <Modal
-        title={editingUser ? "Chỉnh sửa Người dùng" : "Tạo Người dùng mới"}
+        title="Chỉnh sửa Người dùng"
         open={isModalOpen}
         onCancel={handleModalClose}
         footer={null}
@@ -219,11 +177,7 @@ export const UserList = () => {
             <Input placeholder="email@example.com" />
           </Form.Item>
 
-          {!editingUser && (
-            <Form.Item label="Mật khẩu" name='password' rules={[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]}>
-              <Input.Password placeholder="••••••••" />
-            </Form.Item>
-          )}
+
 
           <Form.Item label="Vai trò" name='roleId' rules={[{ required: true, message: 'Vui lòng chọn vai trò!' }]}>
             <Select placeholder="Chọn vai trò">
@@ -240,7 +194,7 @@ export const UserList = () => {
           <div className="flex justify-end gap-3 mt-8">
             <Button onClick={handleModalClose}>Hủy</Button>
             <Button type="primary" htmlType="submit" className="bg-[#005daa] hover:bg-[#0075d5]">
-              {editingUser ? "Cập nhật" : "Tạo mới"}
+              Cập nhật
             </Button>
           </div>
         </Form>

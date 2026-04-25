@@ -27,6 +27,12 @@ export const buildUserEditPatch = async (
   if (typeof req.body.avatar === "string") {
     patch.avatar = req.body.avatar;
   }
+  if (admin && typeof req.body.fullName === "string") {
+    patch.fullName = req.body.fullName.trim();
+  }
+  if (admin && typeof req.body.email === "string") {
+    patch.email = req.body.email.trim();
+  }
 
   if (admin && req.body.roleId !== undefined) {
     const roleId = String(req.body.roleId);

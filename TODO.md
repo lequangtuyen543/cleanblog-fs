@@ -56,6 +56,11 @@
 - [x] Code Dashboard và các trang quản lý (User, Category, Role, Settings)
 - [x] Cập nhật lại code trang Dashboard cho đẹp hơn 
 - [x] Hoàn thiện các chức năng và giao diện của Blogs
+- [x] Hoàn thiện các chức năng và giao diện của Users
+- [ ] Hoàn thiện các chức năng và giao diện của Categories
+- [ ] Hoàn thiện các chức năng và giao diện của Roles
+- [ ] Hoàn thiện các chức năng và giao diện của Settings
+- [ ] Hoàn thiện các chức năng và giao diện của User
 
 ### 6: `components/` 
 

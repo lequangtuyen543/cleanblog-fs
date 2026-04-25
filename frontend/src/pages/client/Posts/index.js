@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getPosts } from '../../../services/postsService';
-import './index.scss';
+
 import homeBg from '../../../assets/img/home-bg.jpg';
 import { HeroItem } from '../../../components/HeroItem';
 import { Skeleton, Empty } from 'antd';

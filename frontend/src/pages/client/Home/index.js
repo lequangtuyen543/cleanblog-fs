@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getPosts } from '../../../services/postsService';
-import './Home.scss';
+
 import homeBg from '../../../assets/img/home-bg.jpg';
 import { HeroItem } from '../../../components/HeroItem';
 import { Link } from 'react-router-dom';

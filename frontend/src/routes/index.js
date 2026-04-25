@@ -10,7 +10,7 @@ import { Posts } from "../pages/client/Posts/index.js";
 import { PostDetail } from "../pages/client/Posts/detail.js";
 import { About } from "../pages/client/About/index.js";
 import { Contact } from "../pages/client/Contact/index.js";
-import { SamplePost } from "../pages/client/Posts/sample.js";
+
 import { CreateUser } from "../pages/admin/Users/create.js";
 import { DetailUser } from "../pages/admin/Users/detail.js";
 import { BlogList } from "../pages/admin/Blogs/index.js";
@@ -40,7 +40,7 @@ export const routes = [
       { path: "posts/:id", element: <PostDetail /> },
       { path: "about", element: <About /> },
       { path: "contact", element: <Contact /> },
-      { path: "sample-post", element: <SamplePost /> },
+
       { path: "*", element: <NotFound /> },
     ],
   },

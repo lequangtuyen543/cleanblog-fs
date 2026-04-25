@@ -41,23 +41,24 @@
 - [x] Cấu hình Axios instance, interceptors xử lý Token trong `services/api.js`
 - [x] Viết các service gọi API (auth, post, category...)
 
-### 3: `pages/` (Phần Auth)
+### 3: `pages/auth`
 
 - [x] Code trang Login và Register để có thể đăng nhập lấy Token
 - [x] Kiểm tra login và register có hoạt động không
 
-### 4: `pages/` (Phần Client)
+### 4: `pages/client`
 
 - [x] Code trang danh sách bài viết và chi tiết bài viết
+- [x] Code các file cần thiết cho `pages/client/`
 
-### 5: `pages/` (Phần Admin)
+### 5: `pages/admin`
 
 - [ ] Code Dashboard và các trang quản lý (User, Category, Role, Settings)
 
-### 6: `components/` (Tách nhỏ các thành phần UI)
+### 6: `components/` 
 
 - [ ] Tối ưu hóa các thành phần dùng chung như Table, Form, Modal
 
-### 7: `actions/` & `reducers/` (Quản lý State)
+### 7: `actions/` & `reducers/` 
 
 - [ ] Đồng bộ hóa dữ liệu người dùng và trạng thái hệ thống toàn cục

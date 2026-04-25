@@ -25,59 +25,69 @@ import { RolesCreate } from "../pages/admin/Roles/create.js";
 import RolesPermissions from "../pages/admin/Roles/Permissions.jsx";
 import { UserPreferences } from "../pages/admin/User/Preferences.jsx";
 
+// Import các trang Admin còn thiếu (Placeholder nếu chưa có file)
+// import { CategoryList } from "../pages/admin/Categories";
+// import { SettingsPage } from "../pages/admin/Settings";
+
 export const routes = [
-  // Public layout
+  // 1. Public Layout (Dành cho khách)
   {
     path: "/",
     element: <LayoutClient />,
     children: [
       { index: true, element: <Home /> },
       { path: "posts", element: <Posts /> },
-      { path: "post/:id", element: <PostDetail /> },
+      { path: "posts/:id", element: <PostDetail /> },
       { path: "about", element: <About /> },
       { path: "contact", element: <Contact /> },
       { path: "sample-post", element: <SamplePost /> },
-      // 👇 404 public
       { path: "*", element: <NotFound /> },
     ],
   },
 
-  // Auth layout riêng
+  // 2. Auth Layout (Login/Register)
   {
     path: "/",
     element: <LayoutAuth />,
     children: [
-      { path: "register", element: <Register /> },
       { path: "login", element: <Login /> },
+      { path: "register", element: <Register /> },
       { path: "logout", element: <Logout /> },
     ],
   },
 
-  // Admin layout (protected)
+  // 3. Admin Layout (Protected - Cần đăng nhập)
   {
     path: "/admin",
-    element: <PrivateRoutes />, // chỉ bọc bảo vệ ở đây
+    element: <PrivateRoutes />,
     children: [
       {
-        element: <LayoutAdmin />, // layout admin riêng
+        element: <LayoutAdmin />,
         children: [
           { path: "dashboard", element: <Dashboard /> },
-          // User routes
-          { path: "user/profile", element: <UserProfile /> },
-          { path: "user/preferences", element: <UserPreferences /> },
-          // User routes
+          
+          // Quản lý Bài viết (Posts - đổi từ Blogs để đồng bộ API)
+          { path: "posts", element: <BlogList /> },
+          { path: "posts/create", element: <CreateBlog /> },
+          { path: "posts/edit/:id", element: <DetailBlog /> },
+          
+          // Quản lý Người dùng (Users)
           { path: "users", element: <UserList /> },
           { path: "users/create", element: <CreateUser /> },
-          { path: "users/detail/:id", element: <DetailUser /> },
-          // Blogs routes
-          { path: "blogs", element: <BlogList /> },
-          { path: "blogs/create", element: <CreateBlog /> },
-          { path: "blogs/detail/:id", element: <DetailBlog /> },
-          // Roles routes
+          { path: "users/edit/:id", element: <DetailUser /> },
+          
+          // Quản lý Vai trò (Roles)
           { path: "roles", element: <RolesIndex /> },
           { path: "roles/create", element: <RolesCreate /> },
-          { path: "roles/permissions", element: <RolesPermissions /> },        
-          // thêm route admin khác ở đây
+          { path: "roles/permissions", element: <RolesPermissions /> },
+
+          // Thông tin cá nhân
+          { path: "profile", element: <UserProfile /> },
+          { path: "preferences", element: <UserPreferences /> },
+
+          // Quản lý Danh mục & Cài đặt (Sẽ bổ sung sau)
+          // { path: "categories", element: <CategoryList /> },
+          // { path: "settings", element: <SettingsPage /> },
         ],
       },
     ],

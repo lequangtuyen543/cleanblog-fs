@@ -23,3 +23,19 @@
 
 ## Frontend
 - [x] Thiết kế giao diện bằng Stitch
+- [x] **Bước 1: `routes/` & `layout/`** (Xây dựng khung xương)
+    - [x] Định nghĩa danh sách các Route trong `routes/index.js`
+    - [ ] Tạo các Layout cơ bản (AdminLayout, ClientLayout, AuthLayout) trong `layout/`
+- [ ] **Bước 2: `services/` & `utils/`** (Thiết lập kết nối API)
+    - [ ] Cấu hình Axios instance, interceptors xử lý Token trong `services/api.js`
+    - [ ] Viết các service gọi API (auth, post, category...)
+- [ ] **Bước 3: `pages/` (Phần Auth)**
+    - [ ] Code trang Login và Register để có thể đăng nhập lấy Token
+- [ ] **Bước 4: `pages/` (Phần Client)**
+    - [ ] Code trang danh sách bài viết và chi tiết bài viết
+- [ ] **Bước 5: `pages/` (Phần Admin)**
+    - [ ] Code Dashboard và các trang quản lý (User, Category, Role, Settings)
+- [ ] **Bước 6: `components/`** (Tách nhỏ các thành phần UI)
+    - [ ] Tối ưu hóa các thành phần dùng chung như Table, Form, Modal
+- [ ] **Bước 7: `actions/` & `reducers/`** (Quản lý State)
+    - [ ] Đồng bộ hóa dữ liệu người dùng và trạng thái hệ thống toàn cục

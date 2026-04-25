@@ -25,9 +25,9 @@
 - [x] Thiết kế giao diện bằng Stitch
 - [x] **Bước 1: `routes/` & `layout/`** (Xây dựng khung xương)
     - [x] Định nghĩa danh sách các Route trong `routes/index.js`
-    - [ ] Tạo các Layout cơ bản (AdminLayout, ClientLayout, AuthLayout) trong `layout/`
+    - [x] Tạo các Layout cơ bản (AdminLayout, ClientLayout, AuthLayout) trong `layout/`
 - [ ] **Bước 2: `services/` & `utils/`** (Thiết lập kết nối API)
-    - [ ] Cấu hình Axios instance, interceptors xử lý Token trong `services/api.js`
+    - [x] Cấu hình Axios instance, interceptors xử lý Token trong `services/api.js`
     - [ ] Viết các service gọi API (auth, post, category...)
 - [ ] **Bước 3: `pages/` (Phần Auth)**
     - [ ] Code trang Login và Register để có thể đăng nhập lấy Token

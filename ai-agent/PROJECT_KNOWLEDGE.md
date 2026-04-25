@@ -18,6 +18,7 @@ Toàn bộ "linh hồn" thiết kế nằm tại thư mục `/documents`:
 - `04-api-design.md`: Đặc tả chi tiết các Endpoint RESTful API v1.
 - `05-ui-structure.md`: Sơ đồ trang, layout và luồng tương tác người dùng.
 - `06-system-flow.md`: Luồng hoạt động của hệ thống (Auth, CRUD).
+- **UI Prototypes:** `/stitch_clean_blog_management_system`: Chứa các mẫu giao diện và cấu trúc UI chi tiết được thiết kế bằng Stitch.
 
 ### B. Cấu Trúc Mã Nguồn (Codebase Structure)
 - **Backend:** `/backend`
@@ -31,7 +32,7 @@ Toàn bộ "linh hồn" thiết kế nằm tại thư mục `/documents`:
 
 ## 3. 🛠️ Quy Trình Làm Việc Với Agent (Agent Workflow)
 Yêu cầu Agent tuân thủ các bước sau:
-1.  **Tiếp nhận ngữ cảnh:** Luôn đọc file này và tài liệu trong `/documents` trước khi sửa code.
+1.  **Tiếp nhận ngữ cảnh:** Luôn đọc file này, tài liệu trong `/documents` và các bản mẫu thiết kế trong `/stitch_clean_blog_management_system` trước khi sửa code UI.
 2.  **Đối chiếu thiết kế:** Tuyệt đối không thay đổi cấu trúc Database hoặc API mà không xem file `03` và `04`.
 3.  **Xử lý Logic:** Ưu tiên xử lý Backend (API/Model) trước, sau đó mới cập nhật UI Frontend.
 4.  **Kiểm chứng:** Đảm bảo mọi bài viết/danh mục đều có logic Soft Delete và Auth check (JWT).

@@ -1,26 +1,17 @@
-import { DELETE, GET, PATCH, POST } from "../utils/request";
+import api from './api';
 
-export const rolesIndex = async () => {
-  const result = await GET(`roles`);
-  return result;
+export const getRoles = async () => {
+  return await api.get('roles');
 };
 
-export const rolesCreate = async (data) => {
-  const result = await POST(`roles/create`, data);
-  return result;
+export const createRole = async (data) => {
+  return await api.post('roles', data);
 };
 
-export const rolesEdit = async (id, data) => {
-  const result = await PATCH(`roles/edit/${id}`, data);
-  return result;
+export const updateRole = async (id, data) => {
+  return await api.patch(`roles/${id}`, data);
 };
 
-export const rolesDelete = async (id) => {
-  const result = await DELETE(`roles/delete/${id}`);
-  return result;
-};
-
-export const rolesPermissionsMulti = async (data) => {
-  const result = await PATCH(`roles/permissions-multi`, data);
-  return result;
+export const deleteRole = async (id) => {
+  return await api.delete(`roles/${id}`);
 };

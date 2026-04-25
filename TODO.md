@@ -28,7 +28,7 @@
     - [x] Tạo các Layout cơ bản (AdminLayout, ClientLayout, AuthLayout) trong `layout/`
 - [ ] **Bước 2: `services/` & `utils/`** (Thiết lập kết nối API)
     - [x] Cấu hình Axios instance, interceptors xử lý Token trong `services/api.js`
-    - [ ] Viết các service gọi API (auth, post, category...)
+    - [x] Viết các service gọi API (auth, post, category...)
 - [ ] **Bước 3: `pages/` (Phần Auth)**
     - [ ] Code trang Login và Register để có thể đăng nhập lấy Token
 - [ ] **Bước 4: `pages/` (Phần Client)**

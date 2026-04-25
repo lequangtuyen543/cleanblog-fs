@@ -24,7 +24,8 @@ export const Register = () => {
         messageApi.error(res.message || 'Đăng ký không thành công, vui lòng thử lại.');
       }
     } catch (error) {
-      messageApi.error('Đã có lỗi xảy ra trong quá trình đăng ký.');
+      const errorMsg = error.response?.data?.message || 'Đã có lỗi xảy ra trong quá trình đăng ký.';
+      messageApi.error(errorMsg);
     } finally {
       setLoading(false);
     }

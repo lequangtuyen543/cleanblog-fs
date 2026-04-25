@@ -1,117 +1,113 @@
-import { useState } from 'react'
-import {
-  Dialog,
-  DialogPanel,
-  PopoverGroup,
-} from '@headlessui/react'
-import {
-  Bars3Icon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline'
+import { useState, useEffect } from 'react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import { MenuOutlined, CloseOutlined, UserOutlined } from '@ant-design/icons';
+import { Button, Drawer } from 'antd';
 
 export const Header = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const navLinks = [
+    { title: 'Trang chủ', path: '/' },
+    { title: 'Bài viết', path: '/posts' },
+    { title: 'Về chúng tôi', path: '/about' },
+    { title: 'Liên hệ', path: '/contact' },
+  ];
+
+  const isActive = (path) => location.pathname === path;
 
   return (
-    <>
-      <header className="bg-white header">
-        <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
-          <div className="flex lg:flex-1">
-            <a href="/" className="-m-1.5 p-1.5">
-              <span className="logo">Start Bootstrap</span>
-            </a>
+    <header 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled ? 'bg-white/80 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'
+      }`}
+    >
+      <div className="container mx-auto px-6 flex items-center justify-between">
+        {/* Logo */}
+        <Link to="/" className="group flex items-center gap-2">
+          <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-xl group-hover:rotate-12 transition-transform">
+            C
           </div>
-          <div className="flex lg:hidden">
-            <button
-              type="button"
-              onClick={() => setMobileMenuOpen(true)}
-              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+          <span className={`text-xl font-bold tracking-tight ${scrolled ? 'text-gray-900' : 'text-white'}`}>
+            CleanBlog
+          </span>
+        </Link>
+
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center gap-8">
+          {navLinks.map((link) => (
+            <NavLink
+              key={link.path}
+              to={link.path}
+              className={({ isActive }) => 
+                `text-sm font-semibold transition-colors hover:text-indigo-600 ${
+                  isActive 
+                    ? 'text-indigo-600' 
+                    : (scrolled ? 'text-gray-600' : 'text-gray-200')
+                }`
+              }
             >
-              <span className="sr-only">Menu</span>
-              <Bars3Icon aria-hidden="true" className="size-6" />
-            </button>
-          </div>
-          <PopoverGroup className="hidden lg:flex lg:gap-x-12">
-            <a href="/" className="text-sm/6 font-semibold text-gray-900">
-              Home
-            </a>
-            <a href="/about" className="text-sm/6 font-semibold text-gray-900">
-              About
-            </a>
-            <a href="/sample-post" className="text-sm/6 font-semibold text-gray-900">
-              Sample Post
-            </a>
-            <a href="/contact" className="text-sm/6 font-semibold text-gray-900">
-              Contact
-            </a>
-            <a href="/register" className="text-sm/6 font-semibold text-gray-900">
-              Register
-            </a>
-            <a href="/login" className="text-sm/6 font-semibold text-gray-900">
-              Login
-            </a>
-          </PopoverGroup>
+              {link.title}
+            </NavLink>
+          ))}
+          <div className="h-4 w-px bg-gray-300/30 mx-2" />
+          <Link to="/login">
+            <Button 
+              type="primary" 
+              shape="round" 
+              icon={<UserOutlined />}
+              className="bg-indigo-600 hover:bg-indigo-700 border-none px-6 h-10 flex items-center"
+            >
+              Đăng nhập
+            </Button>
+          </Link>
         </nav>
-        <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
-          <div className="fixed inset-0 z-50" />
-          <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-            <div className="flex items-center justify-between">
-              <a href="#" className="-m-1.5 p-1.5">
-              </a>
-              <button
-                type="button"
-                onClick={() => setMobileMenuOpen(false)}
-                className="-m-2.5 rounded-md p-2.5 text-gray-700"
-              >
-                <span className="sr-only">Close menu</span>
-                <XMarkIcon aria-hidden="true" className="size-6" />
-              </button>
-            </div>
-            <div className="mt-6 flow-root">
-              <div className="-my-6 divide-y divide-gray-500/10">
-                <div className="space-y-2 py-6">
-                  <a
-                    href="/"
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-                  >
-                    Home
-                  </a>
-                  <a
-                    href="/about"
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-                  >
-                    About
-                  </a>
-                  <a
-                    href="/sample-post"
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-                  >
-                    Sample Post
-                  </a>
-                  <a
-                    href="/contact"
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-                  >
-                    Contact
-                  </a>
-                  <a
-                    href="/register"
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-                  >
-                    Register
-                  </a>
-                  <a
-                    href="/login"
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-                  >
-                    Login
-                  </a>
-                </div>
-              </div>
-            </div>
-          </DialogPanel>
-        </Dialog>
-      </header>
-    </>
-  )
-}
+
+        {/* Mobile Toggle */}
+        <button 
+          className={`md:hidden p-2 rounded-lg ${scrolled ? 'text-gray-900' : 'text-white'}`}
+          onClick={() => setOpen(true)}
+        >
+          <MenuOutlined style={{ fontSize: '20px' }} />
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      <Drawer
+        title="Menu"
+        placement="right"
+        onClose={() => setOpen(false)}
+        open={open}
+        width={280}
+      >
+        <div className="flex flex-col gap-6">
+          {navLinks.map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
+              className={`text-lg font-medium ${isActive(link.path) ? 'text-indigo-600' : 'text-gray-600'}`}
+              onClick={() => setOpen(false)}
+            >
+              {link.title}
+            </Link>
+          ))}
+          <hr className="border-gray-100" />
+          <Link to="/login" onClick={() => setOpen(false)}>
+            <Button type="primary" block size="large" className="bg-indigo-600">
+              Đăng nhập
+            </Button>
+          </Link>
+        </div>
+      </Drawer>
+    </header>
+  );
+};

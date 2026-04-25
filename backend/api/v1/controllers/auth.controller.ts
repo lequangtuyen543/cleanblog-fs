@@ -117,14 +117,17 @@ export const login = async (req: Request, res: Response) => {
     }
 
     const user = await User.findOne({
-      username,
+      $or: [
+        { username: username },
+        { email: username }
+      ],
       deleted: false,
     }).select("+password");
 
     if (!user) {
       res.status(400).json({
         code: 400,
-        message: "username không tồn tại!",
+        message: "Tài khoản không tồn tại!",
       });
       return;
     }

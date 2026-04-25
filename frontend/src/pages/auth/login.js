@@ -21,12 +21,12 @@ export const Login = () => {
 
       if (res.code === 200) {
         // Lưu token vào localStorage (đồng bộ với api.js)
-        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('token', res.token);
 
         // Lưu thông tin vào Redux
         dispatch(checkLogin(true));
-        if (res.data.user) {
-          dispatch(setUser(res.data.user));
+        if (res.user) {
+          dispatch(setUser(res.user));
         }
 
         messageApi.success('Đăng nhập thành công!');
@@ -38,7 +38,8 @@ export const Login = () => {
         messageApi.error(res.message || 'Tên đăng nhập hoặc mật khẩu không đúng');
       }
     } catch (error) {
-      messageApi.error('Đã có lỗi xảy ra, vui lòng thử lại sau.');
+      const errorMsg = error.response?.data?.message || 'Đã có lỗi xảy ra, vui lòng thử lại sau.';
+      messageApi.error(errorMsg);
     } finally {
       setLoading(false);
     }

@@ -33,7 +33,7 @@
 - [x] Định nghĩa danh sách các Route trong `routes/index.js`
 - [x] Tạo các Layout cơ bản (AdminLayout, ClientLayout, AuthLayout) trong `layout/`
 - [x] Code các file cần thiết cho `layout/auth/`
-- [ ] Code các file cần thiết cho `layout/client/`
+- [x] Code các file cần thiết cho `layout/client/`
 - [ ] Code các file cần thiết cho `layout/admin/`
 
 ### 2: `services/` & `utils/` (Thiết lập kết nối API)
@@ -44,6 +44,7 @@
 ### 3: `pages/` (Phần Auth)
 
 - [x] Code trang Login và Register để có thể đăng nhập lấy Token
+- [x] Kiểm tra login và register có hoạt động không
 
 ### 4: `pages/` (Phần Client)
 

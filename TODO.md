@@ -68,4 +68,4 @@
 
 ### 7: `actions/` & `reducers/` 
 
-- [ ] Đồng bộ hóa dữ liệu người dùng và trạng thái hệ thống toàn cục
+- [x] Đồng bộ hóa dữ liệu người dùng và trạng thái hệ thống toàn cục

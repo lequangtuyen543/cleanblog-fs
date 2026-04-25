@@ -104,3 +104,64 @@ a {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* Premium Table Styles */
+.premium-table-wrapper .ant-table {
+  background: transparent !important;
+}
+
+.premium-table-wrapper .ant-table-thead > tr > th {
+  background: #f8fafc !important;
+  color: #64748b !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  font-size: 11px !important;
+  letter-spacing: 0.05em !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  padding: 16px !important;
+}
+
+.premium-table-wrapper .ant-table-tbody > tr > td {
+  padding: 16px !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  transition: all 0.2s;
+}
+
+.premium-table-wrapper .ant-table-tbody > tr:hover > td {
+  background-color: #f1f5f9 !important;
+}
+
+.premium-pagination {
+  margin-top: 24px !important;
+  margin-bottom: 0 !important;
+}
+
+.premium-pagination .ant-pagination-item-active {
+  border-color: #4f46e5 !important;
+}
+
+.premium-pagination .ant-pagination-item-active a {
+  color: #4f46e5 !important;
+}
+
+/* Premium Modal Styles */
+.premium-modal .ant-modal-content {
+  border-radius: 20px !important;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+}
+
+.premium-modal .ant-modal-header {
+  margin-bottom: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+.premium-modal .ant-modal-body {
+  padding: 0 !important;
+}
+
+.premium-modal .ant-modal-close {
+  top: 24px !important;
+  right: 24px !important;
+}

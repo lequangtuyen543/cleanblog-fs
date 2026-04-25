@@ -64,7 +64,7 @@
 
 ### 6: `components/` 
 
-- [ ] Tối ưu hóa các thành phần dùng chung như Table, Form, Modal
+- [x] Tối ưu hóa các thành phần dùng chung như Table, Form, Modal
 
 ### 7: `actions/` & `reducers/` 
 

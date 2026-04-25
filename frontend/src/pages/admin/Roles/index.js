@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Button, Table, Tooltip, Input, Modal, Form, message, Space } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, SafetyCertificateOutlined } from "@ant-design/icons";
+import { Button, Table, Tooltip, Input, Modal, Form, message, Space, Select, Tag, Popconfirm } from 'antd';
+import { PlusOutlined, EditOutlined, DeleteOutlined, SafetyCertificateOutlined } from "@ant-design/icons";
 import { getRoles, createRole, updateRole, deleteRole } from "../../../services/rolesServices";
 
 export const RolesIndex = () => {
@@ -69,27 +69,18 @@ export const RolesIndex = () => {
     }
   };
 
-  const handleDelete = (id) => {
-    Modal.confirm({
-      title: 'Bạn có chắc chắn muốn xóa vai trò này?',
-      content: 'Hành động này không thể hoàn tác.',
-      okText: 'Xóa',
-      okType: 'danger',
-      cancelText: 'Hủy',
-      onOk: async () => {
-        try {
-          const res = await deleteRole(id);
-          if (res?.code === 200) {
-            messageApi.success("Xóa thành công!");
-            fetchData();
-          } else {
-            messageApi.error(res?.message || "Lỗi xóa");
-          }
-        } catch (error) {
-          messageApi.error("Không thể xóa vai trò");
-        }
+  const handleDelete = async (id) => {
+    try {
+      const res = await deleteRole(id);
+      if (res?.code === 200) {
+        message.success("Xóa thành công!");
+        fetchData();
+      } else {
+        message.error(res?.message || "Lỗi xóa");
       }
-    });
+    } catch (error) {
+      message.error("Không thể xóa vai trò");
+    }
   };
 
   const columns = [
@@ -111,6 +102,15 @@ export const RolesIndex = () => {
       key: 'description',
     },
     {
+      title: 'Quyền hạn',
+      key: 'permissions',
+      render: (_, record) => (
+        <Tag color="cyan">
+          {record.permissions?.length || 0} quyền được cấp
+        </Tag>
+      ),
+    },
+    {
       title: 'Thao tác',
       key: 'action',
       align: 'right',
@@ -120,7 +120,16 @@ export const RolesIndex = () => {
             <Button type="text" icon={<EditOutlined className="text-blue-600" />} onClick={() => showModal(record)} />
           </Tooltip>
           <Tooltip title="Xóa">
-            <Button type="text" danger icon={<DeleteOutlined />} onClick={() => handleDelete(record._id)} />
+            <Popconfirm
+              title="Xóa vai trò"
+              description="Bạn có chắc chắn muốn xóa vai trò này? Hành động này không thể hoàn tác."
+              onConfirm={() => handleDelete(record._id)}
+              okText="Xóa"
+              cancelText="Hủy"
+              okButtonProps={{ danger: true }}
+            >
+              <Button type="text" danger icon={<DeleteOutlined />} />
+            </Popconfirm>
           </Tooltip>
         </Space>
       ),
@@ -138,11 +147,6 @@ export const RolesIndex = () => {
         </div>
         
         <div className="flex items-center gap-3">
-          <Input 
-            placeholder="Tìm kiếm..." 
-            prefix={<SearchOutlined className="text-gray-400" />}
-            className="w-64"
-          />
           <Button 
             type="primary" 
             icon={<PlusOutlined />} 
@@ -176,7 +180,43 @@ export const RolesIndex = () => {
           </Form.Item>
 
           <Form.Item label="Mô tả" name='description'>
-            <Input.TextArea rows={4} placeholder="Mô tả quyền hạn của vai trò này" />
+            <Input.TextArea rows={2} placeholder="Mô tả quyền hạn của vai trò này" />
+          </Form.Item>
+
+          <Form.Item label="Quyền hạn (Permissions)" name='permissions'>
+            <Select 
+              mode="multiple" 
+              placeholder="Chọn các quyền cho vai trò này"
+              options={[
+                { label: "Người dùng", options: [
+                  { label: "Xem Người dùng", value: "users_view" },
+                  { label: "Sửa Người dùng", value: "users_edit" }
+                ]},
+                { label: "Vai trò", options: [
+                  { label: "Xem Vai trò", value: "roles_view" },
+                  { label: "Thêm Vai trò", value: "roles_create" },
+                  { label: "Sửa Vai trò", value: "roles_edit" },
+                  { label: "Xóa Vai trò", value: "roles_delete" }
+                ]},
+                { label: "Bài viết", options: [
+                  { label: "Xem Bài viết", value: "posts_view" },
+                  { label: "Thêm Bài viết", value: "posts_create" },
+                  { label: "Sửa Bài viết", value: "posts_edit" },
+                  { label: "Xóa Bài viết", value: "posts_delete" }
+                ]},
+                { label: "Danh mục", options: [
+                  { label: "Xem Danh mục", value: "categories_view" },
+                  { label: "Thêm Danh mục", value: "categories_create" },
+                  { label: "Sửa Danh mục", value: "categories_edit" },
+                  { label: "Xóa Danh mục", value: "categories_delete" }
+                ]},
+                { label: "Cài đặt", options: [
+                  { label: "Cài đặt Hệ thống", value: "settings_edit" }
+                ]}
+              ]}
+              style={{ width: '100%' }}
+              listHeight={300}
+            />
           </Form.Item>
 
           <div className="flex justify-end gap-3 mt-8">

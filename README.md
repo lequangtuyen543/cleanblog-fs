@@ -1,181 +1,157 @@
-# 🧠 Clean Blog FS
+<div align="center">
+  <h1>🧠 Clean Blog FS</h1>
+  
+  <p><strong>Hệ thống quản lý bài viết Full-Stack tích hợp AI, RBAC & Phân quyền thông minh</strong></p>
 
-Hệ thống quản lý bài viết **full-stack** với RBAC, danh mục, và tích hợp AI. Tech: NodeJS + Express + MongoDB + ReactJS + Vite.
+  <p>
+    <img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white" alt="NodeJS" />
+    <img src="https://img.shields.io/badge/Express.js-404D59?style=for-the-badge" alt="Express" />
+    <img src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" />
+    <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
+    <img src="https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E" alt="Vite" />
+    <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+  </p>
+</div>
 
-## 📋 Tổng Quan
+---
 
-| | |
-|---|---|
-| **Dự án** | Clean Blog FS |
-| **Mục tiêu** | Hệ thống quản lý bài viết với phân quyền (RBAC), danh mục và tích hợp AI |
-| **Trạng thái** | Phát triển (hoàn xong phân tích & thiết kế) |
-| **Tech Stack** | NodeJS + Express + MongoDB + ReactJS + Vite + TypeScript |
+## 📋 Tổng Quan Dự Án
 
-**Mục đích học tập:**
-- Frontend ↔ Backend ↔ Database workflow
-- RESTful API design & implementation
-- JWT token authentication
-- RBAC (Role-Based Access Control)
-- Soft Delete data integrity
+Clean Blog FS là một dự án quản lý nội dung bài viết toàn diện, được xây dựng với mục tiêu thực hành và làm chủ quy trình phát triển từ Frontend đến Backend. Dự án áp dụng các tiêu chuẩn thiết kế API hiện đại và mô hình bảo mật mạnh mẽ.
 
-## ⚙️ Tech Stack
+* **Trạng thái:** 🟢 Đang phát triển (Đã hoàn thiện phân tích & thiết kế)
+* **Mục tiêu học tập & áp dụng:**
+    * Làm chủ luồng dữ liệu Frontend ↔ Backend ↔ Database.
+    * Thiết kế & Triển khai RESTful API chuẩn mực.
+    * Bảo mật với JWT (JSON Web Token) & RBAC (Role-Based Access Control).
+    * Đảm bảo tính toàn vẹn dữ liệu với cơ chế Soft Delete.
 
-**Backend:** NodeJS · Express · MongoDB · Mongoose · TypeScript · JWT · Bcrypt
+---
 
-**Frontend:** ReactJS · Vite · TypeScript · TailwindCSS · Ant Design · Fetch API
+## 🛠 Tech Stack
 
-## 🔑 Chức Năng
+| Lĩnh vực | Công nghệ sử dụng |
+| :--- | :--- |
+| **Backend** | NodeJS, Express, MongoDB, Mongoose, TypeScript, JWT, Bcrypt |
+| **Frontend** | ReactJS, Vite, TypeScript, TailwindCSS, Ant Design, Fetch API |
+| **Architecture** | RESTful API, RBAC, Soft Delete, Mongoose Population |
 
-- **Xác thực:** Đăng ký/đăng nhập, JWT Bearer Token, RBAC
-- **Bài viết:** CRUD, Soft Delete, Slug, Phân trang
-- **Danh mục:** CRUD, Liên kết bài viết, Kiểm soát truy cập
-- **Người dùng:** Quản lý danh sách, Vai trò & quyền
-- **Tìm kiếm:** Filter/Search, Populate dữ liệu, Response chuẩn
+---
 
-## 📂 Cấu Trúc
+## ✨ Chức Năng Nổi Bật
 
-```
-clean-blog-fs/
-├── ai-agent/PROJECT_KNOWLEDGE.md      # Kiến thức hệ thống
-├── documents/                          # Tài liệu thiết kế
-│   ├── 01-project-overview.md
-│   ├── 02-requirements.md
-│   ├── 03-database-design.md
-│   ├── 04-api-design.md
-│   ├── 05-ui-structure.md
-│   └── 06-system-flow.md
-├── backend/                            # API & Database
-│   ├── api/v1/                        # Routes & Controllers
-│   ├── config/                        # Database, System
-│   ├── helpers/                       # Utilities
-│   └── index.ts
-├── frontend/                           # React UI
-│   └── src/
-│       ├── pages/                     # Admin, Client, Auth
-│       ├── components/                # React Components
-│       ├── services/                  # API Services
-│       └── utils/
-├── stitch_clean_blog_management_system/  # UI Prototypes
-└── README.md
-```
+* 🔐 **Xác thực & Phân quyền (RBAC):** Đăng ký/Đăng nhập an toàn bằng Bcrypt, quản lý phiên bằng JWT Bearer Token. Phân quyền truy cập linh hoạt theo vai trò.
+* 📝 **Quản lý Bài viết (Post):** Hỗ trợ CRUD đầy đủ, tự động tạo URL-friendly Slug, phân trang dữ liệu hiệu quả và bảo vệ dữ liệu với Soft Delete.
+* 📂 **Quản lý Danh mục (Category):** Tổ chức bài viết theo danh mục, kiểm soát truy cập và liên kết dữ liệu logic.
+* 👥 **Quản lý Người dùng (User & Role):** Theo dõi danh sách người dùng, cấp phát và thu hồi quyền hạn.
+* 🔍 **Tìm kiếm & Lọc (Search/Filter):** Hệ thống query dữ liệu mạnh mẽ, kết hợp Populate Mongoose để tối ưu Response chuẩn.
 
-## 🏛️ Architecture
+---
 
-**Database Collections:**
-- Users, Roles, Posts, Categories, Settings
+## 🏛 Kiến Trúc & Cấu Trúc
 
-**API Endpoints:**
-```
-/api/v1/auth/        # Xác thực
-/api/v1/posts/       # Bài viết
-/api/v1/categories/  # Danh mục
-/api/v1/users/       # Người dùng
-/api/v1/roles/       # Vai trò
-```
+### 1. Database Collections
+`Users` | `Roles` | `Posts` | `Categories` | `Settings`
 
-**Response Format:**
+### 2. API Endpoints Format
+Tất cả các API đều trả về format chuẩn hóa để Frontend dễ dàng xử lý:
 ```json
 {
   "code": 200,
   "message": "Success",
-  "data": {}
+  "data": { ... }
 }
 ```
 
-## 📚 Tài Liệu
-
-**Design Documents** (`/documents`)
-- 01: Project Overview - Tầm nhìn & phạm vi
-- 02: Requirements - Chức năng & bảo mật
-- 03: Database Design - Collection schemas
-- 04: API Design - RESTful endpoints
-- 05: UI Structure - Pages & layouts
-- 06: System Flow - Auth & CRUD workflows
-
-**Resources**
-- `/stitch_clean_blog_management_system` - UI Prototypes
-- `/ai-agent/PROJECT_KNOWLEDGE.md` - AI Agent Knowledge Base
-
-## 📝 Quy Tắc
-
-**Naming:**
-- camelCase (biến/hàm), PascalCase (Component), kebab-case (URL/Slug)
-
-**Bảo mật:**
-- Bcrypt password hashing
-- JWT Bearer Token authentication
-- Authorization header required
-
-**Data Integrity:**
-- ⭐ **Soft Delete only** (`deleted: true`)
-- No physical deletion
-- Full data recovery capability
-
-**API Standard:**
-- Response format: `{ code, message, data }`
-- Proper HTTP status codes
-- Consistent error handling
-
-## 🚀 Workflow
-
-1. **Context** - Đọc `/documents` trước code
-2. **Design** - Xác nhận Database (03) & API (04)
-3. **Backend First** - API/Model → UI
-4. **Verification** - Soft Delete & JWT check
-
-**Glossary:**
-- **Soft Delete** - Mark as deleted, not physical removal
-- **RBAC** - Role-Based Access Control
-- **Slug** - URL-friendly string (e.g., `hoc-javascript-co-ban`)
-- **Populate** - Mongoose data joining
-- **Bearer Token** - JWT authentication token
-
-## ⚙️ Cài đặt & Chạy dự án
-
-### 1. Cài đặt
-
-1. Mở terminal tại `clean-blog-fs/backend`
-   - `npm install`
-2. Mở terminal tại `clean-blog-fs/frontend`
-   - `npm install`
-3. Tạo file `.env` trong thư mục `backend` nếu cần và khai báo các biến môi trường như:
-   - `MONGODB_URI`
-   - `JWT_SECRET`
-   - `PORT`
-
-### 2. Chạy backend
-
-1. `cd clean-blog-fs/backend`
-2. `npm start`
-
-Backend sẽ chạy mặc định trên cổng `3002`.
-
-### 3. Chạy frontend
-
-1. `cd clean-blog-fs/frontend`
-2. `npm start`
-
-Frontend React sẽ chạy mặc định trên `http://localhost:3000`.
-
-### 4. Lưu ý
-
-- Hãy đảm bảo MongoDB đang chạy trước khi khởi động backend.
-- Nếu frontend không kết nối đúng API, kiểm tra cấu hình base URL tới `http://localhost:3002`.
-
-## 📸 Screenshots
-
-### Admin Dashboard
-![Admin Dashboard](./screenshot/dashboard.png)
-Trang dashboard chính dành cho Admin với thống kê bài viết, người dùng, lượt xem và bình luận.
-
-### Login Page
-![Login Page](./screenshot/login.png)
-Trang đăng nhập với form xác thực Email và Password an toàn.
-
-### Home Page
-![Home Page](./screenshot/home.png)
-Trang chủ cho người dùng thông thường với danh sách bài viết mới nhất.
+### 3. Cấu Trúc Thư Mục
+```text
+clean-blog-fs/
+├── ai-agent/         # 🤖 Cấu hình & Kiến thức cho AI Agent
+├── documents/        # 📚 Tài liệu phân tích & thiết kế (Yêu cầu, DB, API, UI, Flow)
+├── backend/          # ⚙️ Môi trường Node.js & Express API
+│   ├── api/v1/       # Định tuyến (Routes) & Logic điều khiển (Controllers)
+│   ├── config/       # Cấu hình Database & Hệ thống
+│   └── helpers/      # Các hàm tiện ích dùng chung
+├── frontend/         # 🎨 Giao diện người dùng ReactJS + Vite
+│   └── src/          
+│       ├── components/ # UI Components có thể tái sử dụng
+│       ├── pages/      # Các trang chính (Admin, Client, Auth)
+│       └── services/   # Tích hợp API Fetch/Axios
+└── README.md
+```
 
 ---
 
-📅 **Updated:** 25-04-2026
+## 🚀 Hướng Dẫn Cài Đặt & Chạy Dự Án
+
+### Yêu cầu hệ thống
+* Node.js (phiên bản 16.x trở lên)
+* MongoDB (Chạy local hoặc qua MongoDB Atlas)
+
+### Bước 1: Cài đặt Dependencies
+Mở 2 cửa sổ terminal riêng biệt cho Frontend và Backend:
+
+```bash
+# Terminal 1: Backend
+cd clean-blog-fs/backend
+npm install
+
+# Terminal 2: Frontend
+cd clean-blog-fs/frontend
+npm install
+```
+
+### Bước 2: Cấu hình Môi Trường (.env)
+Tạo file `.env` trong thư mục `backend` và khai báo:
+```env
+PORT=3002
+MONGODB_URI=mongodb://localhost:27017/clean_blog_fs
+JWT_SECRET=your_jwt_secret_key_here
+```
+
+### Bước 3: Khởi động 
+* **Backend:** Chạy lệnh `npm start` tại thư mục `backend` (API chạy tại `http://localhost:3002`).
+* **Frontend:** Chạy lệnh `npm start` tại thư mục `frontend` (Giao diện chạy tại `http://localhost:3000`).
+
+*(Lưu ý: Đảm bảo MongoDB của bạn đã được khởi động trước khi chạy Backend)*
+
+---
+
+## 📖 Quy Tắc & Tiêu Chuẩn Mở Rộng (Workflow)
+
+Để đảm bảo tính nhất quán của mã nguồn trong suốt quá trình phát triển, dự án áp dụng các quy tắc sau:
+
+1.  **Quy chuẩn Đặt tên:** `camelCase` cho biến/hàm, `PascalCase` cho React Components, `kebab-case` cho URL/Slug.
+2.  **Nguyên tắc "Soft Delete":** ⭐ Mọi thao tác xóa đều chỉ cập nhật trạng thái `deleted: true`. Tuyệt đối không xóa vật lý (No physical deletion) để đảm bảo khả năng phục hồi.
+3.  **Bảo mật:** Yêu cầu `Authorization: Bearer <token>` header cho các API cần bảo vệ.
+4.  **Quy trình Code (Workflow):** Đọc tài liệu `/documents` ➔ Xác nhận Thiết kế DB & API ➔ Triển khai Backend ➔ Xây dựng UI ➔ Kiểm thử JWT & Soft Delete.
+
+---
+
+## 📸 Giao Diện Trực Quan
+
+<details>
+<summary><b>1. Trang quản trị (Admin Dashboard)</b></summary>
+<br>
+Trang dashboard chính dành cho Admin với thống kê bài viết, người dùng, lượt xem và bình luận.
+<img src="./screenshot/dashboard.png" alt="Admin Dashboard" width="100%" />
+</details>
+
+<details>
+<summary><b>2. Trang đăng nhập (Login Page)</b></summary>
+<br>
+Trang đăng nhập với form xác thực Email và Password an toàn.
+<img src="./screenshot/login.png" alt="Login Page" width="100%" />
+</details>
+
+<details>
+<summary><b>3. Trang chủ (Home Page)</b></summary>
+<br>
+Trang chủ cho người dùng thông thường với danh sách bài viết mới nhất.
+<img src="./screenshot/home.png" alt="Home Page" width="100%" />
+</details>
+
+---
+<div align="center">
+  <i>Cập nhật lần cuối: 25-04-2026</i>
+</div>

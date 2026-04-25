@@ -2,8 +2,7 @@
 
 Hệ thống quản lý bài viết **full-stack** với RBAC, danh mục, và tích hợp AI. Tech: NodeJS + Express + MongoDB + ReactJS + Vite.
 
-<details>
-<summary><strong>📋 Tổng Quan</strong></summary>
+## 📋 Tổng Quan
 
 | | |
 |---|---|
@@ -19,19 +18,13 @@ Hệ thống quản lý bài viết **full-stack** với RBAC, danh mục, và t
 - RBAC (Role-Based Access Control)
 - Soft Delete data integrity
 
-</details>
-
-<details>
-<summary><strong>⚙️ Tech Stack</strong></summary>
+## ⚙️ Tech Stack
 
 **Backend:** NodeJS · Express · MongoDB · Mongoose · TypeScript · JWT · Bcrypt
 
 **Frontend:** ReactJS · Vite · TypeScript · TailwindCSS · Ant Design · Fetch API
 
-</details>
-
-<details>
-<summary><strong>🔑 Chức Năng</strong></summary>
+## 🔑 Chức Năng
 
 - **Xác thực:** Đăng ký/đăng nhập, JWT Bearer Token, RBAC
 - **Bài viết:** CRUD, Soft Delete, Slug, Phân trang
@@ -39,10 +32,7 @@ Hệ thống quản lý bài viết **full-stack** với RBAC, danh mục, và t
 - **Người dùng:** Quản lý danh sách, Vai trò & quyền
 - **Tìm kiếm:** Filter/Search, Populate dữ liệu, Response chuẩn
 
-</details>
-
-<details>
-<summary><strong>📂 Cấu Trúc</strong></summary>
+## 📂 Cấu Trúc
 
 ```
 clean-blog-fs/
@@ -69,10 +59,7 @@ clean-blog-fs/
 └── README.md
 ```
 
-</details>
-
-<details>
-<summary><strong>🏛️ Architecture</strong></summary>
+## 🏛️ Architecture
 
 **Database Collections:**
 - Users, Roles, Posts, Categories, Settings
@@ -95,10 +82,7 @@ clean-blog-fs/
 }
 ```
 
-</details>
-
-<details>
-<summary><strong>📚 Tài Liệu</strong></summary>
+## 📚 Tài Liệu
 
 **Design Documents** (`/documents`)
 - 01: Project Overview - Tầm nhìn & phạm vi
@@ -112,12 +96,9 @@ clean-blog-fs/
 - `/stitch_clean_blog_management_system` - UI Prototypes
 - `/ai-agent/PROJECT_KNOWLEDGE.md` - AI Agent Knowledge Base
 
-</details>
+## 📝 Quy Tắc
 
-<details>
-<summary><strong>📝 Quy Tắc</strong></summary>
-
-**Naming:** 
+**Naming:**
 - camelCase (biến/hàm), PascalCase (Component), kebab-case (URL/Slug)
 
 **Bảo mật:**
@@ -135,10 +116,7 @@ clean-blog-fs/
 - Proper HTTP status codes
 - Consistent error handling
 
-</details>
-
-<details>
-<summary><strong>🚀 Workflow</strong></summary>
+## 🚀 Workflow
 
 1. **Context** - Đọc `/documents` trước code
 2. **Design** - Xác nhận Database (03) & API (04)
@@ -152,10 +130,39 @@ clean-blog-fs/
 - **Populate** - Mongoose data joining
 - **Bearer Token** - JWT authentication token
 
-</details>
+## ⚙️ Cài đặt & Chạy dự án
 
-<details>
-<summary><strong>📸 Screenshots</strong></summary>
+### 1. Cài đặt
+
+1. Mở terminal tại `clean-blog-fs/backend`
+   - `npm install`
+2. Mở terminal tại `clean-blog-fs/frontend`
+   - `npm install`
+3. Tạo file `.env` trong thư mục `backend` nếu cần và khai báo các biến môi trường như:
+   - `MONGODB_URI`
+   - `JWT_SECRET`
+   - `PORT`
+
+### 2. Chạy backend
+
+1. `cd clean-blog-fs/backend`
+2. `npm start`
+
+Backend sẽ chạy mặc định trên cổng `3002`.
+
+### 3. Chạy frontend
+
+1. `cd clean-blog-fs/frontend`
+2. `npm start`
+
+Frontend React sẽ chạy mặc định trên `http://localhost:3000`.
+
+### 4. Lưu ý
+
+- Hãy đảm bảo MongoDB đang chạy trước khi khởi động backend.
+- Nếu frontend không kết nối đúng API, kiểm tra cấu hình base URL tới `http://localhost:3002`.
+
+## 📸 Screenshots
 
 ### Admin Dashboard
 ![Admin Dashboard](./screenshot/dashboard.png)
@@ -168,8 +175,6 @@ Trang đăng nhập với form xác thực Email và Password an toàn.
 ### Home Page
 ![Home Page](./screenshot/home.png)
 Trang chủ cho người dùng thông thường với danh sách bài viết mới nhất.
-
-</details>
 
 ---
 

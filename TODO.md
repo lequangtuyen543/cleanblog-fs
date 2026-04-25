@@ -34,7 +34,7 @@
 - [x] Tạo các Layout cơ bản (AdminLayout, ClientLayout, AuthLayout) trong `layout/`
 - [x] Code các file cần thiết cho `layout/auth/`
 - [x] Code các file cần thiết cho `layout/client/`
-- [ ] Code các file cần thiết cho `layout/admin/`
+- [x] Code các file cần thiết cho `layout/admin/`
 
 ### 2: `services/` & `utils/` (Thiết lập kết nối API)
 

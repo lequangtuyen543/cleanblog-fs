@@ -1,105 +1,111 @@
-import { NavLink } from "react-router-dom";
-import { Button, Space, Dropdown, Avatar } from "antd";
-import {
-  UserOutlined, LogoutOutlined, MenuUnfoldOutlined, MenuFoldOutlined, SettingOutlined, CreditCardOutlined,
+import { Layout, Button, Input, Dropdown, message } from 'antd';
+import { 
+  MenuFoldOutlined, 
+  MenuUnfoldOutlined, 
+  SearchOutlined, 
+  UserOutlined,
+  LogoutOutlined,
+  SettingOutlined,
+  PlusOutlined
 } from '@ant-design/icons';
-import { useEffect, useState } from "react";
-import { getUserInfo } from "../../services/usersService";
-import logo from "../../assets/img/logo.png";
+import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { checkLogin } from '../../actions/login';
 
-export const Header = (props) => {
-  const { collapsed, setCollapsed } = props;
-  const [data, setData] = useState();
+const { Header: AntHeader } = Layout;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await getUserInfo();
-      if (res) {
-        setData(res.data);
-      }
-    };
-    fetchData();
-  }, []);
+export const Header = ({ collapsed, setCollapsed }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const user = useSelector(state => state.userReducer);
 
-  // console.log("data", data);
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    dispatch(checkLogin(false));
+    message.success("Đăng xuất thành công!");
+    navigate('/login');
+  };
 
-  const items = [
+  const userMenuItems = [
     {
-      key: "info",
-      disabled: true,
-      label: <Space style={{ cursor: "pointer" }}>
-        <Avatar src="/assets/img/profile-img.webp" />
-        <div>
-          <div style={{ fontWeight: 500 }}>{data?.fullName}</div>
-          <div style={{ fontSize: 12, color: "#888" }}>{data?.role?.title}</div>
-        </div>
-      </Space>,
-    },
-    {
-      type: "divider",
-    },
-    {
-      key: "profile",
+      key: 'profile',
+      label: <Link to="/admin/profile">Thông tin cá nhân ({user?.fullName || 'Admin'})</Link>,
       icon: <UserOutlined />,
-      label: <NavLink to="/admin/user/profile">My Profile</NavLink>,
     },
     {
-      key: "preferences",
+      key: 'settings',
+      label: <Link to="/admin/preferences">Cài đặt</Link>,
       icon: <SettingOutlined />,
-      label: <NavLink to="/admin/user/preferences">Preferences</NavLink>,
     },
     {
-      key: "activity",
-      icon: <UserOutlined />,
-      label: "Activity Log",
+      type: 'divider',
     },
     {
-      key: "billing",
-      icon: <CreditCardOutlined />,
-      label: "Billing",
-    },
-    {
-      type: "divider",
-    },
-    {
-      key: "logout",
+      key: 'logout',
+      label: 'Đăng xuất',
       icon: <LogoutOutlined />,
-      label: <NavLink to="/logout">Sign Out</NavLink>,
       danger: true,
+      onClick: handleLogout
     },
   ];
 
+  // Helper function to get page title based on current route
+  const getPageTitle = () => {
+    const path = location.pathname;
+    if (path.includes('/users')) return 'User Management';
+    if (path.includes('/posts')) return 'Post Management';
+    if (path.includes('/roles')) return 'Role Management';
+    if (path.includes('/dashboard')) return 'Dashboard';
+    return 'Management';
+  };
+
   return (
-    <>
-      <header className={collapsed ? "header header--collapsed" : "header"}>
-        <div className="header-container">
-          <div className="logo">
-            <NavLink to="/admin/dashboard">
-              {collapsed ? <img src={logo} alt="Logo" /> : "Nakaisoft"}
-              
-            </NavLink>
+    <AntHeader className="bg-white sticky top-0 z-40 border-b border-gray-200 px-6 h-16 flex items-center justify-between p-0">
+      <div className="flex items-center gap-2">
+        <Button
+          type="text"
+          icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+          onClick={() => setCollapsed(!collapsed)}
+          className="text-lg hover:bg-gray-100 text-gray-500"
+          style={{ width: 40, height: 40 }}
+        />
+        <h2 className="text-[18px] font-bold text-[#1c1b1b] m-0 leading-none">
+          {getPageTitle()}
+        </h2>
+      </div>
+
+      <div className="flex items-center gap-4">
+        <div className="relative hidden md:block">
+          <Input 
+            placeholder="Search..." 
+            prefix={<SearchOutlined className="text-gray-400 text-lg mr-1" />}
+            className="w-64 rounded-lg border-gray-300 focus:border-[#005daa] focus:ring-1 focus:ring-[#005daa] py-1.5 transition-all text-[14px]"
+          />
+        </div>
+        
+        <Button 
+          type="primary" 
+          icon={<PlusOutlined />} 
+          className="bg-[#005daa] hover:bg-[#0075d5] border-none rounded-lg font-semibold px-4 hidden sm:flex items-center"
+        >
+          Create New
+        </Button>
+        
+        <div className="h-8 w-[1px] bg-gray-200 mx-2 hidden sm:block"></div>
+        
+        <Dropdown menu={{ items: userMenuItems }} placement="bottomRight" arrow trigger={['click']}>
+          <div className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 cursor-pointer transition-colors text-gray-500 hover:text-[#005daa]">
+            <UserOutlined className="text-[20px]" />
           </div>
-          <div className="nav-wrap">
-            <Button
-              type="primary"
-              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-              onClick={() => setCollapsed(!collapsed)}
-              style={{
-                fontSize: '16px',
-              }}
-            />
-            <Dropdown
-              menu={{ items, style: { minWidth: 200 } }}
-              placement="bottomRight"
-              trigger={["click"]}
-            >
-              <span style={{ cursor: "pointer" }}>
-                <Avatar src="/assets/img/profile-img.webp" />
-              </span>
-            </Dropdown>
+        </Dropdown>
+
+        <Link to="/admin/preferences">
+          <div className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 cursor-pointer transition-colors text-gray-500 hover:text-[#005daa]">
+            <SettingOutlined className="text-[20px]" />
           </div>
-        </div >
-      </header >
-    </>
+        </Link>
+      </div>
+    </AntHeader>
   );
-}
+};

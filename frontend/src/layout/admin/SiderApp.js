@@ -1,72 +1,99 @@
-import { BookOutlined, DashboardOutlined, UsergroupAddOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
-import { Children } from 'react';
-import { Link } from 'react-router-dom';
+import { 
+  DashboardOutlined, 
+  FileTextOutlined, 
+  UserOutlined, 
+  AppstoreOutlined, 
+  SafetyCertificateOutlined,
+  SettingOutlined,
+  PlusCircleOutlined
+} from '@ant-design/icons';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-export const SiderApp = () => {
-  const items = [
+export const SiderApp = ({ collapsed }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const menuItems = [
     {
-      key: 'dashboard',
-      label: <Link to="/admin/dashboard">Dashboard</Link>,
+      key: '/admin/dashboard',
       icon: <DashboardOutlined />,
+      label: 'Bảng điều khiển',
     },
     {
-      key: 'users',
-      label: "Users",
-      icon: <UsergroupAddOutlined />,
+      type: 'divider',
+      style: { margin: '16px 0', borderColor: 'rgba(255,255,255,0.05)' }
+    },
+    {
+      key: 'posts-group',
+      label: 'Nội dung',
+      type: 'group',
       children: [
         {
-          key: 'users-list',
-          label: <Link to="/admin/users">Users List</Link>,
+          key: '/admin/posts',
+          icon: <FileTextOutlined />,
+          label: 'Quản lý bài viết',
         },
         {
-          key: 'users-create',
-          label: <Link to="/admin/users/create">User Create</Link>,
-        }
+          key: '/admin/posts/create',
+          icon: <PlusCircleOutlined />,
+          label: 'Viết bài mới',
+        },
       ]
     },
     {
-      key: 'blogs',
-      label: "Blogs",
-      icon: <BookOutlined />,
+      key: 'system-group',
+      label: 'Hệ thống',
+      type: 'group',
       children: [
         {
-          key: 'blogs-list',
-          label: <Link to="/admin/blogs">Blogs List</Link>,
+          key: '/admin/users',
+          icon: <UserOutlined />,
+          label: 'Người dùng',
         },
         {
-          key: 'blogs-create',
-          label: <Link to="/admin/blogs/create">Blog Create</Link>,
-        }
+          key: '/admin/roles',
+          icon: <SafetyCertificateOutlined />,
+          label: 'Phân quyền',
+        },
+        {
+          key: '/admin/categories',
+          icon: <AppstoreOutlined />,
+          label: 'Danh mục',
+        },
       ]
     },
     {
-      key: 'roles',
-      label: "Roles",
-      icon: <BookOutlined />,
+      key: 'settings-group',
+      label: 'Cá nhân hóa',
+      type: 'group',
       children: [
         {
-          key: 'roles-list',
-          label: <Link to="/admin/roles">Roles List</Link>,
+          key: '/admin/profile',
+          icon: <UserOutlined />,
+          label: 'Hồ sơ của tôi',
         },
         {
-          key: 'roles-create',
-          label: <Link to="/admin/roles/create">Role Create</Link>,
-        },
-        {
-          key: 'roles-permissions',
-          label: <Link to="/admin/roles/permissions">Role Permissions</Link>,
+          key: '/admin/preferences',
+          icon: <SettingOutlined />,
+          label: 'Thiết lập',
         },
       ]
-    },
-
+    }
   ];
 
   return (
     <Menu
-      defaultSelectedKeys={['dashboard']}
+      theme="dark"
       mode="inline"
-      items={items}
+      selectedKeys={[location.pathname]}
+      defaultOpenKeys={['posts-group', 'system-group']}
+      items={menuItems}
+      onClick={(e) => navigate(e.key)}
+      className="border-none bg-transparent"
+      style={{
+        padding: '0 12px'
+      }}
     />
   );
 };

@@ -7,28 +7,27 @@ type ValidationError = {
 
 export const validateSettingUpsert = (
   req: Request,
-): { data?: { key: string; value: string }; error?: ValidationError } => {
-  const { key, value } = req.body as {
-    key?: unknown;
-    value?: unknown;
-  };
+): { data?: Record<string, string>; error?: ValidationError } => {
+  const body = req.body as Record<string, unknown>;
 
-  if (typeof key !== "string" || !key.trim()) {
+  if (!body || typeof body !== "object" || Array.isArray(body)) {
     return {
       error: {
         code: 400,
-        message: "Vui lòng gửi key hợp lệ",
+        message: "Dữ liệu không hợp lệ",
       },
     };
   }
 
-  const trimmedKey = key.trim();
-  const val = typeof value === "string" ? value : "";
+  const validatedData: Record<string, string> = {};
+  
+  for (const [key, value] of Object.entries(body)) {
+    if (typeof key === "string" && key.trim()) {
+      validatedData[key.trim()] = typeof value === "string" ? value : String(value || "");
+    }
+  }
 
   return {
-    data: {
-      key: trimmedKey,
-      value: val,
-    },
+    data: validatedData,
   };
 };

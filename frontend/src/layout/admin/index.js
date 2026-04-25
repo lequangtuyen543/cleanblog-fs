@@ -1,15 +1,17 @@
-import { Layout } from 'antd';
+import { Layout, Avatar } from 'antd';
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { SiderApp } from "./SiderApp";
 import { Header } from "./Header";
 import Footer from "./Footer";
 import './LayoutAdmin.scss';
+import { useSettings } from '../../context/SettingsContext';
 
 const { Sider, Content } = Layout;
 
 export const LayoutAdmin = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const { settings } = useSettings();
 
   return (
     <Layout className="min-h-screen bg-[#f0f2f5]">
@@ -30,14 +32,30 @@ export const LayoutAdmin = () => {
       >
         <div className="flex flex-col h-full bg-[#001529]">
           <div className="px-6 py-8">
-            <div className="text-white font-bold text-xl tracking-tight">
-              {collapsed ? 'CB' : 'Clean Blog'}
+            <div className="flex items-center gap-3">
+              {settings.siteLogo ? (
+                <Avatar 
+                  src={settings.siteLogo} 
+                  shape="square" 
+                  size={collapsed ? 32 : 40}
+                  className="bg-indigo-600 p-1"
+                />
+              ) : (
+                <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-xl">
+                  {settings.siteName ? settings.siteName.charAt(0) : 'C'}
+                </div>
+              )}
+              {!collapsed && (
+                <div className="overflow-hidden">
+                  <div className="text-white font-bold text-lg tracking-tight truncate">
+                    {settings.siteName || 'Clean Blog'}
+                  </div>
+                  <div className="text-gray-400 text-[10px] font-semibold uppercase tracking-widest opacity-60">
+                    Admin Panel
+                  </div>
+                </div>
+              )}
             </div>
-            {!collapsed && (
-              <div className="text-gray-400 text-[10px] font-semibold uppercase tracking-widest mt-1 opacity-60">
-                Management System
-              </div>
-            )}
           </div>
           
           <div className="flex-1 overflow-y-auto custom-scrollbar">

@@ -1,6 +1,22 @@
 import { useEffect, useState } from "react";
-import { Button, Form, Input, message, Skeleton, Divider } from 'antd';
-import { SaveOutlined, GlobalOutlined, MailOutlined, PhoneOutlined, PushpinOutlined } from "@ant-design/icons";
+import { Button, Form, Input, message, Skeleton, Divider, Tabs, Switch, Card, Row, Col, Space, Image } from 'antd';
+import { 
+  SaveOutlined, 
+  GlobalOutlined, 
+  MailOutlined, 
+  PhoneOutlined, 
+  PushpinOutlined, 
+  FacebookOutlined, 
+  InstagramOutlined, 
+  GithubOutlined, 
+  LinkedinOutlined, 
+  TwitterOutlined,
+  SettingOutlined,
+  SecurityScanOutlined,
+  CopyrightOutlined,
+  LinkOutlined,
+  PictureOutlined
+} from "@ant-design/icons";
 import { getSettings, updateSettings } from "../../../services/settingsService";
 
 export const SettingsPage = () => {
@@ -8,13 +24,24 @@ export const SettingsPage = () => {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
+  
+  // State for image previews
+  const [logoUrl, setLogoUrl] = useState('');
+  const [faviconUrl, setFaviconUrl] = useState('');
 
   const fetchSettings = async () => {
     setLoading(true);
     try {
       const res = await getSettings();
       if (res?.data) {
-        form.setFieldsValue(res.data);
+        // Convert maintenanceMode to boolean for Switch
+        const formData = { ...res.data };
+        if (formData.maintenanceMode) {
+          formData.maintenanceMode = formData.maintenanceMode === 'true';
+        }
+        form.setFieldsValue(formData);
+        setLogoUrl(formData.siteLogo || '');
+        setFaviconUrl(formData.siteFavicon || '');
       }
     } catch (error) {
       messageApi.error("Không thể tải cài đặt hệ thống");
@@ -30,7 +57,13 @@ export const SettingsPage = () => {
   const handleSubmit = async (values) => {
     setSaving(true);
     try {
-      const res = await updateSettings(values);
+      // Convert boolean to string for backend storage
+      const submitValues = { ...values };
+      if (submitValues.maintenanceMode !== undefined) {
+        submitValues.maintenanceMode = String(submitValues.maintenanceMode);
+      }
+
+      const res = await updateSettings(submitValues);
       if (res?.code === 200) {
         messageApi.success("Đã lưu cài đặt hệ thống!");
       } else {
@@ -43,18 +76,207 @@ export const SettingsPage = () => {
     }
   };
 
+  const tabItems = [
+    {
+      key: '1',
+      label: (
+        <span>
+          <GlobalOutlined /> Tổng quan
+        </span>
+      ),
+      children: (
+        <div className="space-y-8">
+          <Row gutter={24}>
+            <Col span={24} md={12}>
+              <Form.Item label="Tên Website" name='siteName' rules={[{ required: true, message: 'Vui lòng nhập tên website!' }]}>
+                <Input placeholder="Clean Blog" />
+              </Form.Item>
+            </Col>
+            <Col span={24} md={12}>
+              <Form.Item label="Copyright" name='siteCopyright'>
+                <Input prefix={<CopyrightOutlined className="text-gray-400" />} placeholder="© 2024 Clean Blog. All rights reserved." />
+              </Form.Item>
+            </Col>
+            <Col span={24}>
+              <Form.Item label="Mô tả Website (SEO)" name='siteDescription'>
+                <Input.TextArea rows={2} placeholder="Mô tả ngắn gọn về blog để hiển thị trên công cụ tìm kiếm" />
+              </Form.Item>
+            </Col>
+            
+            <Col span={24} md={12}>
+              <Form.Item label="Đường dẫn Logo (URL)" name='siteLogo'>
+                <Input 
+                  prefix={<LinkOutlined className="text-gray-400" />} 
+                  placeholder="https://example.com/logo.png" 
+                  onChange={(e) => setLogoUrl(e.target.value)}
+                />
+              </Form.Item>
+              {logoUrl && (
+                <div className="mt-2 p-4 border border-dashed border-gray-200 rounded-lg flex flex-col items-center bg-gray-50">
+                  <span className="text-xs text-gray-400 mb-2 font-medium uppercase tracking-wider">Xem trước Logo</span>
+                  <Image height={60} src={logoUrl} fallback="https://placehold.co/200x60?text=Logo+Error" alt="Logo Preview" className="object-contain" />
+                </div>
+              )}
+            </Col>
+            
+            <Col span={24} md={12}>
+              <Form.Item label="Đường dẫn Favicon (URL)" name='siteFavicon'>
+                <Input 
+                  prefix={<LinkOutlined className="text-gray-400" />} 
+                  placeholder="https://example.com/favicon.ico" 
+                  onChange={(e) => setFaviconUrl(e.target.value)}
+                />
+              </Form.Item>
+              {faviconUrl && (
+                <div className="mt-2 p-4 border border-dashed border-gray-200 rounded-lg flex flex-col items-center bg-gray-50">
+                  <span className="text-xs text-gray-400 mb-2 font-medium uppercase tracking-wider">Xem trước Favicon</span>
+                  <Image height={32} width={32} src={faviconUrl} fallback="https://placehold.co/32x32?text=F" alt="Favicon Preview" className="object-contain" />
+                </div>
+              )}
+            </Col>
+          </Row>
+        </div>
+      ),
+    },
+    {
+      key: '2',
+      label: (
+        <span>
+          <MailOutlined /> Liên hệ
+        </span>
+      ),
+      children: (
+        <div className="space-y-6">
+          <Row gutter={24}>
+            <Col span={24} md={12}>
+              <Form.Item label="Email liên hệ" name='contactEmail' rules={[{ type: 'email', message: 'Email không hợp lệ!' }]}>
+                <Input prefix={<MailOutlined className="text-gray-400" />} placeholder="contact@example.com" />
+              </Form.Item>
+            </Col>
+            <Col span={24} md={12}>
+              <Form.Item label="Số điện thoại" name='contactPhone'>
+                <Input prefix={<PhoneOutlined className="text-gray-400" />} placeholder="+84 123 456 789" />
+              </Form.Item>
+            </Col>
+            <Col span={24}>
+              <Form.Item label="Địa chỉ" name='contactAddress'>
+                <Input.TextArea rows={3} prefix={<PushpinOutlined className="text-gray-400" />} placeholder="123 Đường ABC, Quận XYZ, TP.HCM" />
+              </Form.Item>
+            </Col>
+            <Col span={24}>
+              <Form.Item label="Google Maps Embed URL" name='contactGoogleMaps'>
+                <Input.TextArea rows={2} placeholder="<iframe>...</iframe>" />
+              </Form.Item>
+            </Col>
+          </Row>
+        </div>
+      ),
+    },
+    {
+      key: '3',
+      label: (
+        <span>
+          <LinkOutlined /> Mạng xã hội
+        </span>
+      ),
+      children: (
+        <div className="space-y-6">
+          <Row gutter={24}>
+            <Col span={24} md={12}>
+              <Form.Item label="Facebook" name='socialFacebook'>
+                <Input prefix={<FacebookOutlined className="text-[#1877F2]" />} placeholder="https://facebook.com/yourpage" />
+              </Form.Item>
+            </Col>
+            <Col span={24} md={12}>
+              <Form.Item label="Instagram" name='socialInstagram'>
+                <Input prefix={<InstagramOutlined className="text-[#E4405F]" />} placeholder="https://instagram.com/yourprofile" />
+              </Form.Item>
+            </Col>
+            <Col span={24} md={12}>
+              <Form.Item label="Twitter / X" name='socialTwitter'>
+                <Input prefix={<TwitterOutlined className="text-black" />} placeholder="https://twitter.com/yourhandle" />
+              </Form.Item>
+            </Col>
+            <Col span={24} md={12}>
+              <Form.Item label="GitHub" name='socialGithub'>
+                <Input prefix={<GithubOutlined className="text-[#181717]" />} placeholder="https://github.com/yourrepo" />
+              </Form.Item>
+            </Col>
+            <Col span={24} md={12}>
+              <Form.Item label="LinkedIn" name='socialLinkedin'>
+                <Input prefix={<LinkedinOutlined className="text-[#0A66C2]" />} placeholder="https://linkedin.com/in/yourprofile" />
+              </Form.Item>
+            </Col>
+          </Row>
+        </div>
+      ),
+    },
+    {
+      key: '4',
+      label: (
+        <span>
+          <SettingOutlined /> Nâng cao
+        </span>
+      ),
+      children: (
+        <div className="space-y-6">
+          <Card className="bg-gray-50 border-none">
+            <div className="flex items-center justify-between">
+              <div>
+                <h4 className="text-base font-semibold text-gray-800 mb-1 flex items-center gap-2">
+                  <SecurityScanOutlined className="text-amber-500" /> Chế độ bảo trì
+                </h4>
+                <p className="text-sm text-gray-500 mb-0">Khi bật, khách truy cập sẽ thấy thông báo bảo trì thay vì nội dung blog.</p>
+              </div>
+              <Form.Item name="maintenanceMode" valuePropName="checked" noStyle>
+                <Switch checkedChildren="Bật" unCheckedChildren="Tắt" />
+              </Form.Item>
+            </div>
+          </Card>
+          
+          <Row gutter={24}>
+            <Col span={24}>
+              <Form.Item label="Google Analytics ID (G-XXXXXXX)" name='googleAnalyticsId'>
+                <Input placeholder="G-XXXXXXXXXX" />
+              </Form.Item>
+            </Col>
+            <Col span={24}>
+              <Form.Item label="Custom Scripts (Header)" name='headerScripts'>
+                <Input.TextArea rows={4} placeholder="Thêm scripts tùy chỉnh vào thẻ <head>" />
+              </Form.Item>
+            </Col>
+          </Row>
+        </div>
+      ),
+    },
+  ];
+
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-5xl mx-auto pb-12">
       {contextHolder}
       
-      <div className="mb-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-1">Cài đặt Hệ thống (Settings)</h2>
-        <p className="text-sm text-gray-500 m-0">Quản lý cấu hình chung cho toàn bộ website.</p>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-1">Cài đặt Hệ thống</h2>
+          <p className="text-gray-500 m-0">Quản lý cấu hình, thông tin liên hệ và các tùy chỉnh nâng cao cho website.</p>
+        </div>
+        <Button 
+          type="primary" 
+          onClick={() => form.submit()}
+          icon={<SaveOutlined />} 
+          loading={saving}
+          size="large"
+          className="bg-indigo-600 hover:bg-indigo-700 h-11 px-8 rounded-lg shadow-md shadow-indigo-100 font-semibold"
+        >
+          Lưu tất cả thay đổi
+        </Button>
       </div>
 
-      <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm">
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         {loading ? (
-          <Skeleton active paragraph={{ rows: 8 }} />
+          <div className="p-8">
+            <Skeleton active paragraph={{ rows: 12 }} />
+          </div>
         ) : (
           <Form 
             form={form} 
@@ -63,59 +285,39 @@ export const SettingsPage = () => {
             className="font-inter"
             size="large"
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
-              <div className="col-span-1 md:col-span-2">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                  <GlobalOutlined className="text-indigo-600" /> Cấu hình Website
-                </h3>
-              </div>
-
-              <Form.Item label="Tên Website" name='websiteName' rules={[{ required: true, message: 'Vui lòng nhập tên website!' }]}>
-                <Input placeholder="Clean Blog" />
-              </Form.Item>
-
-              <Form.Item label="Mô tả Website (SEO)" name='websiteDescription'>
-                <Input placeholder="Mô tả ngắn gọn về blog" />
-              </Form.Item>
-
-              <Form.Item label="Đường dẫn Logo (URL)" name='logo' className="col-span-1 md:col-span-2">
-                <Input placeholder="https://example.com/logo.png" />
-              </Form.Item>
-
-              <div className="col-span-1 md:col-span-2">
-                <Divider />
-                <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                  <PushpinOutlined className="text-indigo-600" /> Thông tin liên hệ
-                </h3>
-              </div>
-
-              <Form.Item label="Email liên hệ" name='email' rules={[{ type: 'email', message: 'Email không hợp lệ!' }]}>
-                <Input prefix={<MailOutlined className="text-gray-400" />} placeholder="contact@example.com" />
-              </Form.Item>
-
-              <Form.Item label="Số điện thoại" name='phone'>
-                <Input prefix={<PhoneOutlined className="text-gray-400" />} placeholder="+84 123 456 789" />
-              </Form.Item>
-
-              <Form.Item label="Địa chỉ" name='address' className="col-span-1 md:col-span-2">
-                <Input.TextArea rows={3} placeholder="123 Đường ABC, Quận XYZ, TP.HCM" />
-              </Form.Item>
-
-              <div className="col-span-1 md:col-span-2 mt-6 flex justify-end">
-                <Button 
-                  type="primary" 
-                  htmlType="submit" 
-                  icon={<SaveOutlined />} 
-                  loading={saving}
-                  className="bg-[#005daa] hover:bg-[#0075d5] h-10 px-6 font-semibold"
-                >
-                  Lưu thay đổi
-                </Button>
-              </div>
-            </div>
+            <Tabs 
+              defaultActiveKey="1" 
+              items={tabItems} 
+              className="settings-tabs"
+              tabBarStyle={{ padding: '0 24px', marginBottom: 0, borderBottom: '1px solid #f0f0f0' }}
+              contentStyle={{ padding: '32px' }}
+            />
           </Form>
         )}
       </div>
+
+      <style jsx global>{`
+        .settings-tabs .ant-tabs-tab {
+          padding: 16px 8px !important;
+          margin: 0 16px 0 0 !important;
+          font-weight: 500;
+        }
+        .settings-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
+          color: #4f46e5 !important;
+        }
+        .settings-tabs .ant-tabs-ink-bar {
+          background: #4f46e5 !important;
+          height: 3px !important;
+        }
+        .ant-form-item-label label {
+          font-weight: 600 !important;
+          color: #374151 !important;
+          font-size: 14px !important;
+        }
+        .ant-input, .ant-input-affix-wrapper {
+          border-radius: 8px !important;
+        }
+      `}</style>
     </div>
   );
 };

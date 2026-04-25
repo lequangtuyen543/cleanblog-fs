@@ -59,8 +59,7 @@
 - [x] Hoàn thiện các chức năng và giao diện của Users
 - [x] Hoàn thiện các chức năng và giao diện của Roles
 - [x] Hoàn thiện các chức năng và giao diện của Categories
-- [ ] Hoàn thiện các chức năng và giao diện của Settings
-- [ ] Hoàn thiện các chức năng và giao diện của User
+- [x] Hoàn thiện các chức năng và giao diện của Settings
 
 ### 6: `components/` 
 

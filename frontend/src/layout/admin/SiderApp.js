@@ -61,6 +61,11 @@ export const SiderApp = ({ collapsed }) => {
           icon: <AppstoreOutlined />,
           label: 'Danh mục',
         },
+        {
+          key: '/admin/settings',
+          icon: <SettingOutlined />,
+          label: 'Thiết lập',
+        },
       ]
     },
     {

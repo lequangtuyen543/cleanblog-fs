@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { MenuOutlined, CloseOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Drawer } from 'antd';
+import { Button, Drawer, Avatar } from 'antd';
+import { useSettings } from '../../context/SettingsContext';
 
 export const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const { settings } = useSettings();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,12 +35,21 @@ export const Header = () => {
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="group flex items-center gap-2">
-          <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-xl group-hover:rotate-12 transition-transform">
-            C
-          </div>
+        <Link to="/" className="group flex items-center gap-3">
+          {settings.siteLogo ? (
+            <Avatar 
+              src={settings.siteLogo} 
+              shape="square" 
+              size={40}
+              className="group-hover:rotate-12 transition-transform bg-indigo-600 p-1"
+            />
+          ) : (
+            <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-xl group-hover:rotate-12 transition-transform">
+              {settings.siteName ? settings.siteName.charAt(0) : 'C'}
+            </div>
+          )}
           <span className={`text-xl font-bold tracking-tight ${scrolled ? 'text-gray-900' : 'text-white'}`}>
-            CleanBlog
+            {settings.siteName || 'CleanBlog'}
           </span>
         </Link>
 

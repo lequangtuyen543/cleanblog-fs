@@ -62,11 +62,15 @@ export const upsert = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    await Setting.updateOne(
-      { key: data!.key },
-      { key: data!.key, value: data!.value },
-      { upsert: true },
-    );
+    const updatePromises = Object.entries(data!).map(([key, value]) => {
+      return Setting.updateOne(
+        { key },
+        { key, value },
+        { upsert: true }
+      );
+    });
+
+    await Promise.all(updatePromises);
 
     res.json({
       code: 200,

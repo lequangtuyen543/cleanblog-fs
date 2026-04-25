@@ -67,3 +67,40 @@ a {
 .btn-primary {
   @apply bg-indigo-600 text-white px-6 py-2.5 rounded-lg font-medium transition-all hover:bg-indigo-700 hover:shadow-lg active:scale-95;
 }
+
+/* Ant Design Component Overrides */
+.ant-form-item-label label {
+  font-weight: 600 !important;
+  color: #374151 !important;
+  font-size: 14px !important;
+}
+
+.ant-input, 
+.ant-input-affix-wrapper, 
+.ant-btn {
+  border-radius: 8px !important;
+}
+
+.ant-tabs-tab {
+  padding: 12px 8px !important;
+  font-weight: 500 !important;
+}
+
+.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #4f46e5 !important;
+}
+
+.ant-tabs-ink-bar {
+  background: #4f46e5 !important;
+  height: 3px !important;
+}
+
+/* Animations */
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

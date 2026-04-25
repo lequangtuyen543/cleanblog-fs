@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { Button, Form, Input, message, Skeleton, Divider, Tabs, Switch, Card, Row, Col, Space, Image } from 'antd';
-import { 
-  SaveOutlined, 
-  GlobalOutlined, 
-  MailOutlined, 
-  PhoneOutlined, 
-  PushpinOutlined, 
-  FacebookOutlined, 
-  InstagramOutlined, 
-  GithubOutlined, 
-  LinkedinOutlined, 
+import {
+  SaveOutlined,
+  GlobalOutlined,
+  MailOutlined,
+  PhoneOutlined,
+  PushpinOutlined,
+  FacebookOutlined,
+  InstagramOutlined,
+  GithubOutlined,
+  LinkedinOutlined,
   TwitterOutlined,
   SettingOutlined,
   SecurityScanOutlined,
@@ -24,7 +24,7 @@ export const SettingsPage = () => {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
-  
+
   // State for image previews
   const [logoUrl, setLogoUrl] = useState('');
   const [faviconUrl, setFaviconUrl] = useState('');
@@ -102,12 +102,12 @@ export const SettingsPage = () => {
                 <Input.TextArea rows={2} placeholder="Mô tả ngắn gọn về blog để hiển thị trên công cụ tìm kiếm" />
               </Form.Item>
             </Col>
-            
+
             <Col span={24} md={12}>
               <Form.Item label="Đường dẫn Logo (URL)" name='siteLogo'>
-                <Input 
-                  prefix={<LinkOutlined className="text-gray-400" />} 
-                  placeholder="https://example.com/logo.png" 
+                <Input
+                  prefix={<LinkOutlined className="text-gray-400" />}
+                  placeholder="https://example.com/logo.png"
                   onChange={(e) => setLogoUrl(e.target.value)}
                 />
               </Form.Item>
@@ -118,12 +118,12 @@ export const SettingsPage = () => {
                 </div>
               )}
             </Col>
-            
+
             <Col span={24} md={12}>
               <Form.Item label="Đường dẫn Favicon (URL)" name='siteFavicon'>
-                <Input 
-                  prefix={<LinkOutlined className="text-gray-400" />} 
-                  placeholder="https://example.com/favicon.ico" 
+                <Input
+                  prefix={<LinkOutlined className="text-gray-400" />}
+                  placeholder="https://example.com/favicon.ico"
                   onChange={(e) => setFaviconUrl(e.target.value)}
                 />
               </Form.Item>
@@ -233,7 +233,7 @@ export const SettingsPage = () => {
               </Form.Item>
             </div>
           </Card>
-          
+
           <Row gutter={24}>
             <Col span={24}>
               <Form.Item label="Google Analytics ID (G-XXXXXXX)" name='googleAnalyticsId'>
@@ -254,16 +254,16 @@ export const SettingsPage = () => {
   return (
     <div className="max-w-5xl mx-auto pb-12">
       {contextHolder}
-      
+
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
           <h2 className="text-2xl font-bold text-gray-900 mb-1">Cài đặt Hệ thống</h2>
           <p className="text-gray-500 m-0">Quản lý cấu hình, thông tin liên hệ và các tùy chỉnh nâng cao cho website.</p>
         </div>
-        <Button 
-          type="primary" 
+        <Button
+          type="primary"
           onClick={() => form.submit()}
-          icon={<SaveOutlined />} 
+          icon={<SaveOutlined />}
           loading={saving}
           size="large"
           className="bg-indigo-600 hover:bg-indigo-700 h-11 px-8 rounded-lg shadow-md shadow-indigo-100 font-semibold"
@@ -278,16 +278,16 @@ export const SettingsPage = () => {
             <Skeleton active paragraph={{ rows: 12 }} />
           </div>
         ) : (
-          <Form 
-            form={form} 
-            layout="vertical" 
+          <Form
+            form={form}
+            layout="vertical"
             onFinish={handleSubmit}
             className="font-inter"
             size="large"
           >
-            <Tabs 
-              defaultActiveKey="1" 
-              items={tabItems} 
+            <Tabs
+              defaultActiveKey="1"
+              items={tabItems}
               className="settings-tabs"
               tabBarStyle={{ padding: '0 24px', marginBottom: 0, borderBottom: '1px solid #f0f0f0' }}
               contentStyle={{ padding: '32px' }}
@@ -296,28 +296,7 @@ export const SettingsPage = () => {
         )}
       </div>
 
-      <style jsx global>{`
-        .settings-tabs .ant-tabs-tab {
-          padding: 16px 8px !important;
-          margin: 0 16px 0 0 !important;
-          font-weight: 500;
-        }
-        .settings-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
-          color: #4f46e5 !important;
-        }
-        .settings-tabs .ant-tabs-ink-bar {
-          background: #4f46e5 !important;
-          height: 3px !important;
-        }
-        .ant-form-item-label label {
-          font-weight: 600 !important;
-          color: #374151 !important;
-          font-size: 14px !important;
-        }
-        .ant-input, .ant-input-affix-wrapper {
-          border-radius: 8px !important;
-        }
-      `}</style>
+
     </div>
   );
 };

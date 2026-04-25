@@ -36,7 +36,7 @@ export const Home = () => {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-12 text-center">
             <div className="flex flex-col items-center">
-              <div className="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl mb-6">
+              <div className="w-16 h-16 bg-blue-50 text-[#005daa] rounded-lg flex items-center justify-center text-2xl mb-6">
                 <RocketOutlined />
               </div>
               <h3 className="text-xl font-bold mb-4">Tốc độ & Hiệu năng</h3>
@@ -66,7 +66,7 @@ export const Home = () => {
           <div className="flex justify-between items-end mb-12">
             <div>
               <h2 className="text-4xl font-bold text-gray-900 mb-2">Bài viết mới nhất</h2>
-              <div className="w-20 h-1.5 bg-indigo-600 rounded-full"></div>
+              <div className="w-20 h-1.5 bg-[#005daa] rounded-full"></div>
             </div>
             <Link to="/posts" className="text-indigo-600 font-bold hover:underline">
               Xem tất cả bài viết <ArrowRightOutlined />
@@ -100,7 +100,7 @@ export const Home = () => {
           <div className="mt-16 text-center">
             <Link 
               to="/posts" 
-              className="inline-flex items-center gap-2 px-10 py-4 bg-indigo-600 text-white font-bold rounded-full hover:bg-indigo-700 hover:shadow-2xl hover:-translate-y-1 transition-all"
+              className="inline-flex items-center gap-2 px-10 py-4 bg-[#005daa] text-white font-bold rounded hover:bg-[#004785] hover:shadow-xl hover:-translate-y-1 transition-all"
             >
               Khám phá thêm bài viết <ArrowRightOutlined />
             </Link>

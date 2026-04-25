@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
-import { Button, Table, Tag, Tooltip, Input, Modal, Form, message, Select, Switch, Space } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, UserOutlined } from "@ant-design/icons";
-import { getUsers, createUser, updateUserInfo, deleteUser } from "../../../services/usersService";
+import { Button, Tag, Tooltip, Space, message, Form, Input, Select, Switch } from 'antd';
+import { EditOutlined, UserOutlined } from "@ant-design/icons";
+import { getUsers, updateUserInfo } from "../../../services/usersService";
 import { getRoles } from "../../../services/rolesServices";
+import { DataTable } from "../../../components/DataTable";
+import { DataToolbar } from "../../../components/DataToolbar";
+import { CustomModal } from "../../../components/CustomModal";
 
 export const UserList = () => {
   const [data, setData] = useState([]);
   const [roles, setRoles] = useState([]);
   const [loading, setLoading] = useState(false);
-  
-  // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
   const [form] = Form.useForm();
@@ -30,7 +31,7 @@ export const UserList = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const showModal = (user = null) => {
     setEditingUser(user);
@@ -59,20 +60,18 @@ export const UserList = () => {
         status: values.status ? 'active' : 'inactive'
       };
 
-        const res = await updateUserInfo(editingUser._id, payload);
-        if (res?.code === 200) {
-          messageApi.success("Cập nhật thành công!");
-          handleModalClose();
-          fetchData();
-        } else {
-          messageApi.error(res?.message || "Lỗi cập nhật");
-        }
+      const res = await updateUserInfo(editingUser._id, payload);
+      if (res?.code === 200) {
+        messageApi.success("Cập nhật thành công!");
+        handleModalClose();
+        fetchData();
+      } else {
+        messageApi.error(res?.message || "Lỗi cập nhật");
+      }
     } catch (error) {
       messageApi.error(error.response?.data?.message || "Đã có lỗi xảy ra");
     }
   };
-
-
 
   const columns = [
     {
@@ -80,11 +79,11 @@ export const UserList = () => {
       key: 'user',
       render: (_, record) => (
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600">
-            <UserOutlined />
+          <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-[#005daa] font-bold">
+            {record.avatar ? <img src={record.avatar} alt="avatar" className="w-full h-full rounded-full object-cover" /> : <UserOutlined />}
           </div>
           <div>
-            <div className="font-semibold text-gray-900">{record.fullName || record.name || record.username}</div>
+            <div className="font-bold text-gray-900">{record.fullName || record.username}</div>
             <div className="text-xs text-gray-500">{record.email}</div>
           </div>
         </div>
@@ -94,13 +93,15 @@ export const UserList = () => {
       title: 'Username',
       dataIndex: 'username',
       key: 'username',
+      render: (text) => <span className="font-medium text-gray-700">@{text}</span>
     },
     {
       title: 'Vai trò',
       key: 'role',
       render: (_, record) => {
         const roleInfo = roles.find(r => r._id === record.roleId) || record.role;
-        return <Tag color={roleInfo?.title?.toLowerCase() === 'admin' ? 'purple' : 'blue'}>
+        const isAdmin = roleInfo?.title?.toLowerCase() === 'admin';
+        return <Tag color={isAdmin ? 'purple' : 'blue'} className="border-none px-3 py-0.5 rounded-full font-medium">
           {roleInfo?.title || 'Unknown'}
         </Tag>;
       },
@@ -109,8 +110,8 @@ export const UserList = () => {
       title: 'Trạng thái',
       key: 'status',
       render: (_, record) => (
-        <Tag color={record.status === "active" ? "green" : "red"} className="capitalize">
-          {record.status}
+        <Tag color={record.status === "active" ? "green" : "red"} className="border-none px-3 py-0.5 rounded-full font-medium">
+          {record.status === "active" ? "Hoạt động" : "Tạm khóa"}
         </Tag>
       ),
     },
@@ -121,7 +122,7 @@ export const UserList = () => {
       render: (_, record) => (
         <Space>
           <Tooltip title="Chỉnh sửa">
-            <Button type="text" icon={<EditOutlined className="text-indigo-600" />} onClick={() => showModal(record)} />
+            <Button type="text" icon={<EditOutlined className="text-[#005daa]" />} onClick={() => showModal(record)} />
           </Tooltip>
         </Space>
       ),
@@ -129,42 +130,34 @@ export const UserList = () => {
   ];
 
   return (
-    <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+    <div className="bg-white p-8 rounded shadow-sm border border-gray-100 animate-fade-in">
       {contextHolder}
       
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-        <div>
-          <h2 className="text-xl font-bold text-gray-900 mb-1">Quản lý Người dùng</h2>
-          <p className="text-sm text-gray-500 m-0">Quản lý tài khoản và phân quyền truy cập hệ thống.</p>
-        </div>
-        
-        <div className="flex items-center gap-3 w-full sm:w-auto">
-          <Input.Search 
-            placeholder="Tìm kiếm theo username, email..." 
-            onSearch={(val) => fetchData(val)}
-            allowClear
-            className="w-full sm:w-64"
-          />
-        </div>
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-1">Quản lý Người dùng</h2>
+        <p className="text-sm text-gray-500 m-0">Quản lý tài khoản, phân quyền và trạng thái hoạt động của thành viên.</p>
       </div>
 
-      <Table 
-        columns={columns} 
-        dataSource={data} 
-        rowKey="_id" 
-        loading={loading}
-        pagination={{ pageSize: 10 }}
-        className="font-inter"
+      <DataToolbar 
+        onSearch={fetchData}
+        showCreate={false}
+        searchPlaceholder="Tìm theo tên, email, username..."
       />
 
-      <Modal
+      <DataTable 
+        columns={columns} 
+        data={data} 
+        loading={loading}
+        pagination={{ pageSize: 10 }}
+      />
+
+      <CustomModal
         title="Chỉnh sửa Người dùng"
         open={isModalOpen}
         onCancel={handleModalClose}
-        footer={null}
-        destroyOnClose
+        width={550}
       >
-        <Form form={form} layout="vertical" onFinish={handleSubmit} className="mt-4">
+        <Form form={form} layout="vertical" onFinish={handleSubmit} className="mt-2" size="large">
           <Form.Item label="Họ và tên" name='fullName' rules={[{ required: true, message: 'Vui lòng nhập tên!' }]}>
             <Input placeholder="Nguyễn Văn A" />
           </Form.Item>
@@ -177,8 +170,6 @@ export const UserList = () => {
             <Input placeholder="email@example.com" />
           </Form.Item>
 
-
-
           <Form.Item label="Vai trò" name='roleId' rules={[{ required: true, message: 'Vui lòng chọn vai trò!' }]}>
             <Select placeholder="Chọn vai trò">
               {roles.map(r => (
@@ -188,17 +179,20 @@ export const UserList = () => {
           </Form.Item>
 
           <Form.Item label="Trạng thái hoạt động" name='status' valuePropName='checked'>
-            <Switch />
+            <div className="flex items-center gap-3 bg-gray-50 p-4 rounded-lg border border-gray-100">
+              <Switch />
+              <span className="text-sm font-medium text-gray-700">Cho phép truy cập hệ thống</span>
+            </div>
           </Form.Item>
 
-          <div className="flex justify-end gap-3 mt-8">
-            <Button onClick={handleModalClose}>Hủy</Button>
-            <Button type="primary" htmlType="submit" className="bg-[#005daa] hover:bg-[#0075d5]">
+          <div className="flex justify-end gap-3 mt-10">
+            <Button onClick={handleModalClose} className="h-11 px-8 rounded font-medium">Hủy</Button>
+            <Button type="primary" htmlType="submit" className="bg-[#005daa] hover:bg-[#004785] h-11 px-8 rounded font-semibold">
               Cập nhật
             </Button>
           </div>
         </Form>
-      </Modal>
+      </CustomModal>
     </div>
   );
 };

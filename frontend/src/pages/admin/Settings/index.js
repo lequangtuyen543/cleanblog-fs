@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Form, Input, message, Skeleton, Divider, Tabs, Switch, Card, Row, Col, Space, Image } from 'antd';
+import { Button, Form, Input, message, Skeleton, Tabs, Switch, Card, Row, Col, Image } from 'antd';
 import {
   SaveOutlined,
   GlobalOutlined,
@@ -14,8 +14,7 @@ import {
   SettingOutlined,
   SecurityScanOutlined,
   CopyrightOutlined,
-  LinkOutlined,
-  PictureOutlined
+  LinkOutlined
 } from "@ant-design/icons";
 import { getSettings, updateSettings } from "../../../services/settingsService";
 
@@ -52,7 +51,7 @@ export const SettingsPage = () => {
 
   useEffect(() => {
     fetchSettings();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSubmit = async (values) => {
     setSaving(true);
@@ -252,13 +251,13 @@ export const SettingsPage = () => {
   ];
 
   return (
-    <div className="max-w-5xl mx-auto pb-12">
+    <div className="bg-white p-8 rounded shadow-sm border border-gray-100 animate-fade-in">
       {contextHolder}
 
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 pb-6 border-b border-gray-50">
         <div>
           <h2 className="text-2xl font-bold text-gray-900 mb-1">Cài đặt Hệ thống</h2>
-          <p className="text-gray-500 m-0">Quản lý cấu hình, thông tin liên hệ và các tùy chỉnh nâng cao cho website.</p>
+          <p className="text-sm text-gray-500 m-0">Quản lý cấu hình, thông tin liên hệ và các tùy chỉnh nâng cao cho website.</p>
         </div>
         <Button
           type="primary"
@@ -266,15 +265,15 @@ export const SettingsPage = () => {
           icon={<SaveOutlined />}
           loading={saving}
           size="large"
-          className="bg-indigo-600 hover:bg-indigo-700 h-11 px-8 rounded-lg shadow-md shadow-indigo-100 font-semibold"
+          className="bg-[#005daa] hover:bg-[#004785] h-11 px-8 rounded font-semibold"
         >
           Lưu tất cả thay đổi
         </Button>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div>
         {loading ? (
-          <div className="p-8">
+          <div className="py-8">
             <Skeleton active paragraph={{ rows: 12 }} />
           </div>
         ) : (
@@ -289,14 +288,13 @@ export const SettingsPage = () => {
               defaultActiveKey="1"
               items={tabItems}
               className="settings-tabs"
-              tabBarStyle={{ padding: '0 24px', marginBottom: 0, borderBottom: '1px solid #f0f0f0' }}
-              contentStyle={{ padding: '32px' }}
+              tabBarStyle={{ marginBottom: 0 }}
+              contentStyle={{ paddingTop: '32px' }}
             />
           </Form>
         )}
       </div>
-
-
     </div>
   );
 };
+

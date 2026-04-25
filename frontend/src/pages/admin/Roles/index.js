@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
-import { Button, Table, Tooltip, Input, Modal, Form, message, Space, Select, Tag, Popconfirm } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, SafetyCertificateOutlined } from "@ant-design/icons";
+import { Button, Tooltip, Form, message, Space, Select, Tag, Popconfirm, Input } from 'antd';
+import { EditOutlined, DeleteOutlined, SafetyCertificateOutlined, PlusOutlined } from "@ant-design/icons";
 import { getRoles, createRole, updateRole, deleteRole } from "../../../services/rolesServices";
+import { DataTable } from "../../../components/DataTable";
+import { DataToolbar } from "../../../components/DataToolbar";
+import { CustomModal } from "../../../components/CustomModal";
 
 export const RolesIndex = () => {
   const [data, setData] = useState([]);
@@ -11,10 +14,10 @@ export const RolesIndex = () => {
   const [form] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
 
-  const fetchData = async () => {
+  const fetchData = async (keyword = '') => {
     setLoading(true);
     try {
-      const res = await getRoles();
+      const res = await getRoles({ keyword });
       if (res?.data) setData(res.data);
     } catch (error) {
       messageApi.error("Không thể tải danh sách vai trò");
@@ -25,7 +28,7 @@ export const RolesIndex = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const showModal = (role = null) => {
     setEditingRole(role);
@@ -89,7 +92,7 @@ export const RolesIndex = () => {
       key: 'title',
       render: (_, record) => (
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
+          <div className="w-8 h-8 rounded bg-blue-50 flex items-center justify-center text-[#005daa]">
             <SafetyCertificateOutlined />
           </div>
           <span className="font-semibold text-gray-900">{record.title}</span>
@@ -100,13 +103,14 @@ export const RolesIndex = () => {
       title: 'Mô tả',
       dataIndex: 'description',
       key: 'description',
+      render: (text) => <span className="text-gray-500 text-sm">{text || 'Chưa có mô tả'}</span>
     },
     {
       title: 'Quyền hạn',
       key: 'permissions',
       render: (_, record) => (
-        <Tag color="cyan">
-          {record.permissions?.length || 0} quyền được cấp
+        <Tag color="blue" className="border-none px-3 py-0.5 rounded-full font-medium">
+          {record.permissions?.length || 0} quyền
         </Tag>
       ),
     },
@@ -117,12 +121,12 @@ export const RolesIndex = () => {
       render: (_, record) => (
         <Space>
           <Tooltip title="Chỉnh sửa">
-            <Button type="text" icon={<EditOutlined className="text-blue-600" />} onClick={() => showModal(record)} />
+            <Button type="text" icon={<EditOutlined className="text-[#005daa]" />} onClick={() => showModal(record)} />
           </Tooltip>
           <Tooltip title="Xóa">
             <Popconfirm
               title="Xóa vai trò"
-              description="Bạn có chắc chắn muốn xóa vai trò này? Hành động này không thể hoàn tác."
+              description="Hành động này không thể hoàn tác. Tiếp tục?"
               onConfirm={() => handleDelete(record._id)}
               okText="Xóa"
               cancelText="Hủy"
@@ -137,46 +141,45 @@ export const RolesIndex = () => {
   ];
 
   return (
-    <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+    <div className="bg-white p-8 rounded shadow-sm border border-gray-100 animate-fade-in">
       {contextHolder}
       
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h2 className="text-xl font-bold text-gray-900 mb-1">Quản lý Phân quyền (Roles)</h2>
-          <p className="text-sm text-gray-500 m-0">Quản lý các nhóm vai trò trong hệ thống.</p>
-        </div>
-        
-        <div className="flex items-center gap-3">
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-1">Quản lý Phân quyền</h2>
+        <p className="text-sm text-gray-500 m-0">Quản lý các nhóm vai trò và quyền truy cập chi tiết trong hệ thống.</p>
+      </div>
+
+      <DataToolbar 
+        onSearch={fetchData}
+        showCreate={false}
+        extra={
           <Button 
             type="primary" 
             icon={<PlusOutlined />} 
             onClick={() => showModal()}
-            className="bg-[#005daa] hover:bg-[#0075d5]"
+            className="bg-[#005daa] hover:bg-[#004785] h-10 px-6 rounded font-semibold"
           >
             Thêm vai trò
           </Button>
-        </div>
-      </div>
-
-      <Table 
-        columns={columns} 
-        dataSource={data} 
-        rowKey="_id" 
-        loading={loading}
-        pagination={{ pageSize: 10 }}
-        className="font-inter"
+        }
       />
 
-      <Modal
+      <DataTable 
+        columns={columns} 
+        data={data} 
+        loading={loading}
+        pagination={{ pageSize: 10 }}
+      />
+
+      <CustomModal
         title={editingRole ? "Chỉnh sửa Vai trò" : "Tạo Vai trò mới"}
         open={isModalOpen}
         onCancel={handleModalClose}
-        footer={null}
-        destroyOnClose
+        width={600}
       >
-        <Form form={form} layout="vertical" onFinish={handleSubmit} className="mt-4">
+        <Form form={form} layout="vertical" onFinish={handleSubmit} className="mt-2" size="large">
           <Form.Item label="Tên vai trò" name='title' rules={[{ required: true, message: 'Vui lòng nhập tên vai trò!' }]}>
-            <Input placeholder="Ví dụ: Editor" />
+            <Input placeholder="Ví dụ: Biên tập viên" />
           </Form.Item>
 
           <Form.Item label="Mô tả" name='description'>
@@ -188,45 +191,46 @@ export const RolesIndex = () => {
               mode="multiple" 
               placeholder="Chọn các quyền cho vai trò này"
               options={[
-                { label: "Người dùng", options: [
-                  { label: "Xem Người dùng", value: "users_view" },
-                  { label: "Sửa Người dùng", value: "users_edit" }
+                { label: "Hệ thống", options: [
+                  { label: "Truy cập Dashboard", value: "dashboard_view" },
+                  { label: "Cài đặt hệ thống", value: "settings_edit" }
                 ]},
-                { label: "Vai trò", options: [
-                  { label: "Xem Vai trò", value: "roles_view" },
-                  { label: "Thêm Vai trò", value: "roles_create" },
-                  { label: "Sửa Vai trò", value: "roles_edit" },
-                  { label: "Xóa Vai trò", value: "roles_delete" }
+                { label: "Người dùng", options: [
+                  { label: "Xem danh sách", value: "users_view" },
+                  { label: "Chỉnh sửa tài khoản", value: "users_edit" }
+                ]},
+                { label: "Phân quyền", options: [
+                  { label: "Xem vai trò", value: "roles_view" },
+                  { label: "Thêm vai trò", value: "roles_create" },
+                  { label: "Sửa vai trò", value: "roles_edit" },
+                  { label: "Xóa vai trò", value: "roles_delete" }
                 ]},
                 { label: "Bài viết", options: [
-                  { label: "Xem Bài viết", value: "posts_view" },
-                  { label: "Thêm Bài viết", value: "posts_create" },
-                  { label: "Sửa Bài viết", value: "posts_edit" },
-                  { label: "Xóa Bài viết", value: "posts_delete" }
+                  { label: "Xem danh sách", value: "posts_view" },
+                  { label: "Tạo bài mới", value: "posts_create" },
+                  { label: "Sửa bài viết", value: "posts_edit" },
+                  { label: "Xóa bài viết", value: "posts_delete" }
                 ]},
                 { label: "Danh mục", options: [
-                  { label: "Xem Danh mục", value: "categories_view" },
-                  { label: "Thêm Danh mục", value: "categories_create" },
-                  { label: "Sửa Danh mục", value: "categories_edit" },
-                  { label: "Xóa Danh mục", value: "categories_delete" }
-                ]},
-                { label: "Cài đặt", options: [
-                  { label: "Cài đặt Hệ thống", value: "settings_edit" }
+                  { label: "Xem danh mục", value: "categories_view" },
+                  { label: "Thêm danh mục", value: "categories_create" },
+                  { label: "Sửa danh mục", value: "categories_edit" },
+                  { label: "Xóa danh mục", value: "categories_delete" }
                 ]}
               ]}
               style={{ width: '100%' }}
-              listHeight={300}
+              listHeight={350}
             />
           </Form.Item>
 
-          <div className="flex justify-end gap-3 mt-8">
-            <Button onClick={handleModalClose}>Hủy</Button>
-            <Button type="primary" htmlType="submit" className="bg-[#005daa] hover:bg-[#0075d5]">
+          <div className="flex justify-end gap-3 mt-10">
+            <Button onClick={handleModalClose} className="h-11 px-8 rounded font-medium">Hủy</Button>
+            <Button type="primary" htmlType="submit" className="bg-[#005daa] hover:bg-[#004785] h-11 px-8 rounded font-semibold">
               {editingRole ? "Cập nhật" : "Tạo mới"}
             </Button>
           </div>
         </Form>
-      </Modal>
+      </CustomModal>
     </div>
   );
 };

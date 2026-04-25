@@ -6,7 +6,6 @@ import { LockOutlined, SafetyOutlined, BellOutlined, EyeOutlined, InsuranceOutli
 export const UserPreferences = () => {
   const [form] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
-  const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
 
   const handleSubmit = async (values) => {

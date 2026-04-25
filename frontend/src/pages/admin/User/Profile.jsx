@@ -30,7 +30,7 @@ export const UserProfile = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSubmit = async (values) => {
     setSaving(true);

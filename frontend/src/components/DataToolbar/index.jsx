@@ -1,4 +1,4 @@
-import { Button, Input, Row, Col, Space } from "antd";
+import { Button, Input } from "antd";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
@@ -29,7 +29,7 @@ export const DataToolbar = ({
           type="primary" 
           icon={<PlusOutlined />} 
           size="large"
-          className="bg-indigo-600 hover:bg-indigo-700 h-10 px-6 rounded-lg font-semibold shadow-md shadow-indigo-100 w-full sm:w-auto"
+          className="bg-[#005daa] hover:bg-[#004785] h-10 px-6 rounded font-semibold shadow-md shadow-blue-50 w-full sm:w-auto"
         >
           {createLabel}
         </Button>

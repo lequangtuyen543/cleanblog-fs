@@ -69,3 +69,11 @@
 ### 7: `actions/` & `reducers/` 
 
 - [x] Đồng bộ hóa dữ liệu người dùng và trạng thái hệ thống toàn cục
+
+### 8: Optimization & Deployment (Final Polish)
+
+- [x] Thay thế các bảng và thanh công cụ cũ bằng `DataTable` và `DataToolbar` dùng chung
+- [x] Hoàn thiện chức năng Tìm kiếm và Phân trang cho trang danh sách bài viết (Client)
+- [x] Kiểm tra lại toàn bộ logic Soft Delete trên cả Backend và Frontend
+- [x] Tối ưu hóa SEO (Title, Meta description) dựa trên dữ liệu từ `Settings`
+- [x] Xây dựng bản build sản xuất (`npm run build`) và kiểm tra lỗi cuối cùng

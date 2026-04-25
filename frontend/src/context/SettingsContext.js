@@ -18,6 +18,17 @@ export const SettingsProvider = ({ children }) => {
           document.title = res.data.siteName;
         }
         
+        // Update meta description
+        if (res.data.siteDescription) {
+          let metaDesc = document.querySelector("meta[name='description']");
+          if (!metaDesc) {
+            metaDesc = document.createElement('meta');
+            metaDesc.name = 'description';
+            document.head.appendChild(metaDesc);
+          }
+          metaDesc.content = res.data.siteDescription;
+        }
+
         // Update favicon if siteFavicon is available
         if (res.data.siteFavicon) {
           const link = document.querySelector("link[rel~='icon']");

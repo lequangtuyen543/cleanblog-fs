@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { MenuOutlined, CloseOutlined, UserOutlined } from '@ant-design/icons';
+import { MenuOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Drawer, Avatar } from 'antd';
 import { useSettings } from '../../context/SettingsContext';
 

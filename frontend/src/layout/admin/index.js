@@ -38,10 +38,10 @@ export const LayoutAdmin = () => {
                   src={settings.siteLogo} 
                   shape="square" 
                   size={collapsed ? 32 : 40}
-                  className="bg-indigo-600 p-1"
+                  className="bg-[#005daa] p-1"
                 />
               ) : (
-                <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-xl">
+                <div className="w-10 h-10 bg-[#005daa] rounded-lg flex items-center justify-center text-white font-bold text-xl">
                   {settings.siteName ? settings.siteName.charAt(0) : 'C'}
                 </div>
               )}

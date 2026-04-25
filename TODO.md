@@ -55,6 +55,7 @@
 
 - [x] Code Dashboard và các trang quản lý (User, Category, Role, Settings)
 - [x] Cập nhật lại code trang Dashboard cho đẹp hơn 
+- [x] Hoàn thiện các chức năng và giao diện của Blogs
 
 ### 6: `components/` 
 

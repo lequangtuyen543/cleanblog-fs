@@ -97,9 +97,14 @@ export const Dashboard = () => {
       key: 'action',
       align: 'right',
       render: (_, record) => (
-        <Link to={`/admin/posts/edit/${record._id}`}>
-          <Button type="text" icon={<ArrowRightOutlined className="text-gray-400" />} />
-        </Link>
+        <Space>
+          <Link to={`/posts/${record._id}`} target="_blank">
+            <Button type="text" icon={<EyeOutlined className="text-gray-400 hover:text-green-600" />} />
+          </Link>
+          <Link to={`/admin/posts/edit/${record._id}`}>
+            <Button type="text" icon={<ArrowRightOutlined className="text-gray-400 hover:text-blue-600" />} />
+          </Link>
+        </Space>
       ),
     },
   ];

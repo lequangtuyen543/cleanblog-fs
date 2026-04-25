@@ -1,105 +1,97 @@
-import { Button, Card, Checkbox, Form, Input, message, Typography } from 'antd';
-import { setCookie } from '../../helpers/cookie';
-import { usersLogin } from '../../services/usersService';
-import { checkLogin } from '../../actions/login';
+import { Button, Form, Input, message, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
+import { login as authLogin } from '../../services/authService';
+import { checkLogin } from '../../actions/login';
 import { setUser } from '../../actions/user';
 
-const { Text } = Typography;
+const { Title, Text, Paragraph } = Typography;
 
 export const Login = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
-  const dispatchEvent = useDispatch();
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
-  const onFinish = async values => {
+  const onFinish = async (values) => {
     setLoading(true);
     try {
-      const res = await usersLogin(values);
+      const res = await authLogin(values);
 
       if (res.code === 200) {
-        // lưu token
-        setCookie("token", res.token, 1);
+        // Lưu token vào localStorage (đồng bộ với api.js)
+        localStorage.setItem('token', res.data.token);
 
-        // 🔥 lưu trạng thái login
-        dispatchEvent(checkLogin(true));
+        // Lưu thông tin vào Redux
+        dispatch(checkLogin(true));
+        if (res.data.user) {
+          dispatch(setUser(res.data.user));
+        }
 
-        // 🔥 LƯU USER (FIX LỖI CHÍNH)
-        dispatchEvent(setUser(res.user));
-
+        messageApi.success('Đăng nhập thành công!');
+        
         setTimeout(() => {
-          messageApi.success(res.message);
-          navigate("/admin/dashboard");
+          navigate('/admin/dashboard');
         }, 1000);
       } else {
-        // login fail
-        messageApi.error(res.message);
+        messageApi.error(res.message || 'Tên đăng nhập hoặc mật khẩu không đúng');
       }
     } catch (error) {
-      messageApi.error('Something went wrong!');
+      messageApi.error('Đã có lỗi xảy ra, vui lòng thử lại sau.');
     } finally {
       setLoading(false);
     }
-
-  };
-
-  const onFinishFailed = errorInfo => {
-    console.log('Failed:', errorInfo);
   };
 
   return (
-    <>
+    <div className="p-8">
       {contextHolder}
-
-      <div className='container'>
-        <div className="bg-white py-12 sm:py-16">
-          <Card title={"Login"} style={{ maxWidth: 300, margin: "0 auto" }}>
-            <Form
-              name="basic"
-              initialValues={{ remember: true }}
-              onFinish={onFinish}
-              onFinishFailed={onFinishFailed}
-              autoComplete="off"
-              layout="vertical"
-            >
-              <Form.Item
-                label="Username"
-                name="username"
-                rules={[{ required: true, message: 'Please input your username!' }]}
-              >
-                <Input />
-              </Form.Item>
-
-              <Form.Item
-                label="Password"
-                name="password"
-                rules={[{ required: true, message: 'Please input your password!' }]}
-              >
-                <Input.Password />
-              </Form.Item>
-
-              <Form.Item name="remember" valuePropName="checked" label={null}>
-                <Checkbox>Remember me</Checkbox>
-              </Form.Item>
-
-              <Form.Item label={null}>
-                <Button type="primary" htmlType="submit" loading={loading}>
-                  Login
-                </Button>
-              </Form.Item>
-
-              <Form.Item label={null}>
-                <Text>
-                  Don't have account? <a href="/register">Create an account</a>
-                </Text>
-              </Form.Item>
-            </Form>
-          </Card>
-        </div>
+      <div className="text-center mb-8">
+        <Title level={2} className="m-0 text-indigo-600">Chào mừng trở lại</Title>
+        <Paragraph className="text-gray-500">Vui lòng đăng nhập để quản lý blog của bạn</Paragraph>
       </div>
-    </>
+
+      <Form
+        name="login-form"
+        onFinish={onFinish}
+        layout="vertical"
+        size="large"
+      >
+        <Form.Item
+          label="Tên đăng nhập hoặc Email"
+          name="username"
+          rules={[{ required: true, message: 'Vui lòng nhập tên đăng nhập!' }]}
+        >
+          <Input placeholder="admin / user@example.com" />
+        </Form.Item>
+
+        <Form.Item
+          label="Mật khẩu"
+          name="password"
+          rules={[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]}
+        >
+          <Input.Password placeholder="••••••••" />
+        </Form.Item>
+
+        <Form.Item className="mt-8">
+          <Button 
+            type="primary" 
+            htmlType="submit" 
+            loading={loading} 
+            block 
+            className="h-12 bg-indigo-600 hover:bg-indigo-700"
+          >
+            Đăng nhập
+          </Button>
+        </Form.Item>
+
+        <div className="text-center">
+          <Text className="text-gray-500">
+            Chưa có tài khoản? <a href="/register" className="text-indigo-600 font-semibold">Đăng ký ngay</a>
+          </Text>
+        </div>
+      </Form>
+    </div>
   );
 }

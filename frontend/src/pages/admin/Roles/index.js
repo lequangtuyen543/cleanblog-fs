@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Space, Table } from 'antd';
 import { Link } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
-import { rolesIndex } from "../../../services/rolesServices";
+import { getRoles } from "../../../services/rolesServices";
 import { RolesEdit } from "./edit";
 import { RolesDelete } from "./delete";
 
@@ -10,7 +10,7 @@ export const RolesIndex = () => {
   const [data, setData] = useState([]);
 
   const fetchData = async () => {
-    const res = await rolesIndex();
+    const res = await getRoles();
     if (res) {
       setData(res.data);
     }

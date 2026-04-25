@@ -1,5 +1,5 @@
 import { Button, Card, Col, Form, Input, message, Row } from "antd";
-import { rolesCreate } from "../../../services/rolesServices";
+import { createRole } from "../../../services/rolesServices";
 
 export const RolesCreate = () => {
   const [form] = Form.useForm();
@@ -7,7 +7,7 @@ export const RolesCreate = () => {
 
   const handleSubmit = async (values) => {
     try {
-      const res = await rolesCreate(values);
+      const res = await createRole(values);
 
       // console.log(res);
 

@@ -8,6 +8,8 @@
 - [x] Viết tài liệu giao diện v1.1
 - [x] Viết tài liệu luồng hoạt động v1.1
 
+---
+
 ## Backend
 - [x] Code các file cho thư mục models
 - [x] Tạo database trên mongodb
@@ -21,21 +23,40 @@
 - [x] Code file category.controller
 - [x] Code file setting.controller
 
+---
+
 ## Frontend
 - [x] Thiết kế giao diện bằng Stitch
-- [x] **Bước 1: `routes/` & `layout/`** (Xây dựng khung xương)
-    - [x] Định nghĩa danh sách các Route trong `routes/index.js`
-    - [x] Tạo các Layout cơ bản (AdminLayout, ClientLayout, AuthLayout) trong `layout/`
-- [ ] **Bước 2: `services/` & `utils/`** (Thiết lập kết nối API)
-    - [x] Cấu hình Axios instance, interceptors xử lý Token trong `services/api.js`
-    - [x] Viết các service gọi API (auth, post, category...)
-- [ ] **Bước 3: `pages/` (Phần Auth)**
-    - [ ] Code trang Login và Register để có thể đăng nhập lấy Token
-- [ ] **Bước 4: `pages/` (Phần Client)**
-    - [ ] Code trang danh sách bài viết và chi tiết bài viết
-- [ ] **Bước 5: `pages/` (Phần Admin)**
-    - [ ] Code Dashboard và các trang quản lý (User, Category, Role, Settings)
-- [ ] **Bước 6: `components/`** (Tách nhỏ các thành phần UI)
-    - [ ] Tối ưu hóa các thành phần dùng chung như Table, Form, Modal
-- [ ] **Bước 7: `actions/` & `reducers/`** (Quản lý State)
-    - [ ] Đồng bộ hóa dữ liệu người dùng và trạng thái hệ thống toàn cục
+
+### 1: `routes/` & `layout/` (Xây dựng khung xương)
+
+- [x] Định nghĩa danh sách các Route trong `routes/index.js`
+- [x] Tạo các Layout cơ bản (AdminLayout, ClientLayout, AuthLayout) trong `layout/`
+- [x] Code các file cần thiết cho `layout/auth/`
+- [ ] Code các file cần thiết cho `layout/client/`
+- [ ] Code các file cần thiết cho `layout/admin/`
+
+### 2: `services/` & `utils/` (Thiết lập kết nối API)
+
+- [x] Cấu hình Axios instance, interceptors xử lý Token trong `services/api.js`
+- [x] Viết các service gọi API (auth, post, category...)
+
+### 3: `pages/` (Phần Auth)
+
+- [x] Code trang Login và Register để có thể đăng nhập lấy Token
+
+### 4: `pages/` (Phần Client)
+
+- [x] Code trang danh sách bài viết và chi tiết bài viết
+
+### 5: `pages/` (Phần Admin)
+
+- [ ] Code Dashboard và các trang quản lý (User, Category, Role, Settings)
+
+### 6: `components/` (Tách nhỏ các thành phần UI)
+
+- [ ] Tối ưu hóa các thành phần dùng chung như Table, Form, Modal
+
+### 7: `actions/` & `reducers/` (Quản lý State)
+
+- [ ] Đồng bộ hóa dữ liệu người dùng và trạng thái hệ thống toàn cục

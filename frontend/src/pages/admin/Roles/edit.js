@@ -1,7 +1,7 @@
 import { Button, Col, Form, Input, message, Modal, Row, Tooltip } from 'antd';
 import { EditOutlined } from "@ant-design/icons";
 import { useState } from 'react';
-import { rolesEdit } from '../../../services/rolesServices';
+import { updateRole } from '../../../services/rolesServices';
 
 export const RolesEdit = (props) => {
   const { record, onReload } = props;
@@ -24,7 +24,7 @@ export const RolesEdit = (props) => {
   const handleSubmit = async (values) => {
     console.log(values);
     try {
-      const res = await rolesEdit(record._id, values);
+      const res = await updateRole(record._id, values);
       console.log(res);
       if (res && res.code === 200) {
         messageApi.success("Update role successfully!");

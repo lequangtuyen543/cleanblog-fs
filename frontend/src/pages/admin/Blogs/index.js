@@ -2,11 +2,11 @@ import { useTableData }  from "../../../helpers/useTableData";
 import { DataToolbar }   from "../../../components/DataToolbar";
 import { DataTable }     from "../../../components/DataTable";
 import { blogColumns }   from "./blogColumns";
-import { posts }         from "../../../services/postsServices";
+import { getPosts }      from "../../../services/postsService";
 
 export const BlogList = () => {
   const { data, loading, pagination, handleTableChange, onSearch, handleReload }
-    = useTableData(posts);  // ← truyền service vào đây
+    = useTableData(getPosts);  // ← truyền service vào đây
 
   return (
     <>

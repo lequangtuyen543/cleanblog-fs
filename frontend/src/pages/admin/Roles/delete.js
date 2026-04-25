@@ -1,13 +1,14 @@
 import { Button, message, Popconfirm, Tooltip } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons'
 import { rolesDelete } from '../../../services/rolesServices';
+import { deleteRole } from '../../../services/rolesServices';
 
 export const RolesDelete = (props) => {
   const { record, onReload } = props;
 
   const confirm = async e => {
     message.success('Click on Yes');
-    const res = await rolesDelete(record._id);
+    const res = await deleteRole(record._id);
     console.log("res delete", res);
     if (res) {
       onReload();

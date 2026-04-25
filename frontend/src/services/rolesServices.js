@@ -15,3 +15,7 @@ export const updateRole = async (id, data) => {
 export const deleteRole = async (id) => {
   return await api.delete(`roles/${id}`);
 };
+
+export const updatePermissionsMulti = async (data) => {
+  return await api.patch('roles/permissions-multi', data);
+};

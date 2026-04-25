@@ -1,5 +1,5 @@
 import { Button, Card, Col, Form, Input, message, Row, Switch } from "antd";
-import { usersCreate } from "../../../services/usersService";
+import { createUser } from "../../../services/usersService";
 import getTimeCurrent from "../../../helpers/time";
 
 export const CreateUser = () => {
@@ -28,7 +28,7 @@ export const CreateUser = () => {
       values.updatedAt = getTimeCurrent();
       values.status = values.status ? "active" : "inactive";
 
-      const res = await usersCreate(values);
+      const res = await createUser(values);
 
       console.log(res);
 

@@ -1,6 +1,6 @@
 import { Button, message, Popconfirm, Tooltip } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons'
-import { deletePost } from '../../../services/postsServices';
+import { deletePost } from '../../../services/postsService';
 
 export const DeleteBlog = (props) => {
   const { record, onReload } = props;

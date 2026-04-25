@@ -2,8 +2,8 @@ import { Button, Col, Form, Input, message, Modal, Row, Select, Switch, Tooltip 
 import { EditOutlined } from "@ant-design/icons";
 import { use, useState } from 'react';
 import getTimeCurrent from '../../../helpers/time';
-import { usersEdit } from '../../../services/usersService';
-import { rolesIndex } from '../../../services/rolesServices';
+import { updateUserInfo } from '../../../services/usersService';
+import { getRoles } from '../../../services/rolesServices';
 
 export const EditUser = (props) => {
   const { record, onReload } = props;
@@ -29,7 +29,7 @@ export const EditUser = (props) => {
     try {
       values.updateAt = getTimeCurrent();
       values.status = values.status ? "active" : "inactive";
-      const res = await usersEdit(record._id, values);
+      const res = await updateUserInfo(record._id, values);
       console.log(res);
       if (res) {
         messageApi.success("Update user successfully!");
@@ -45,7 +45,7 @@ export const EditUser = (props) => {
 
   useState(() => {
     const fetchData = async () => {
-      const result = await rolesIndex();
+      const result = await getRoles();
       if (result) {
         setRoles(result.data);
       }

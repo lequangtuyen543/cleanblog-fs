@@ -3,14 +3,14 @@ import { Button, Space, Table, Tag, Tooltip } from 'antd';
 import { Link } from "react-router-dom";
 import { EyeOutlined, PlusOutlined } from "@ant-design/icons";
 import { EditUser } from "./edit";
-import { usersList } from "../../../services/usersService";
+import { getUsers } from "../../../services/usersService";
 import { DeleteUser } from "./delete";
 
 export const UserList = () => {
   const [data, setData] = useState([]);
 
   const fetchData = async () => {
-    const res = await usersList();
+    const res = await getUsers();
     if (res) {
       setData(res.data);
     }

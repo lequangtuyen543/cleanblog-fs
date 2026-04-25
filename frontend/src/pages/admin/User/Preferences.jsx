@@ -1,6 +1,6 @@
 import { Button, Card, Col, Form, Input, message, Row, Select } from "antd";
 import { useEffect, useState } from "react";
-import { usersChangePassword, usersInfo } from "../../../services/usersService";
+import { changePassword, getUserInfo } from "../../../services/usersService";
 
 export const UserPreferences = () => {
   const [form] = Form.useForm();
@@ -9,7 +9,7 @@ export const UserPreferences = () => {
   const [isEdit, setIsEdit] = useState(false);
 
   const fetchData = async () => {
-    const res = await usersInfo();
+    const res = await getUserInfo();
     if (res) {
       setData(res.data);
     }
@@ -29,7 +29,7 @@ export const UserPreferences = () => {
 
   const handleSubmit = async (values) => {
     try {
-      const res = await usersChangePassword(values);
+      const res = await changePassword(values);
       if (res.code === 200) {
         messageApi.success(res.message);
         fetchData();

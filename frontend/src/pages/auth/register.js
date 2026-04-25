@@ -1,11 +1,9 @@
-import { Button, Card, Checkbox, Form, Input, message, Typography } from 'antd';
-import { usersRegister } from '../../services/usersService';
+import { Button, Form, Input, message, Typography, Checkbox } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import generateToken from '../../helpers/generateToken';
-import './Register.scss';
+import { register as authRegister } from '../../services/authService';
 
-const { Text } = Typography;
+const { Title, Text, Paragraph } = Typography;
 
 export const Register = () => {
   const [messageApi, contextHolder] = message.useMessage();
@@ -15,115 +13,97 @@ export const Register = () => {
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      values.token = generateToken();
-
-      const res = await usersRegister(values);
-
-      console.log('res', res);
+      const res = await authRegister(values);
 
       if (res.code === 200) {
-        messageApi.success('Create user successfully!');
+        messageApi.success('Đăng ký tài khoản thành công!');
         setTimeout(() => {
           navigate('/login');
-        }, 3000);
+        }, 2000);
       } else {
-        messageApi.error(res.message);
+        messageApi.error(res.message || 'Đăng ký không thành công, vui lòng thử lại.');
       }
     } catch (error) {
-      messageApi.error('Something went wrong!');
+      messageApi.error('Đã có lỗi xảy ra trong quá trình đăng ký.');
     } finally {
       setLoading(false);
     }
   };
 
-  const onFinishFailed = errorInfo => {
-    console.log('Failed:', errorInfo);
-  };
-
   return (
-    <>
+    <div className="p-8">
       {contextHolder}
-
-      <div className='container'>
-        <div className="bg-white py-12 sm:py-16">
-          <Card title={<>
-            <h2 className='text-2xl font-bold py-2'>Create an Account</h2>
-            <p>Enter your personal details to create account</p>
-          </>} style={{ maxWidth: 400, margin: "0 auto" }}>
-            <Form
-              name="basic"
-              initialValues={{ remember: true }}
-              onFinish={onFinish}
-              onFinishFailed={onFinishFailed}
-              autoComplete="off"
-              layout="vertical"
-            >
-              <Form.Item
-                label="Your Name"
-                name="name"
-                rules={[{ required: true, message: 'Please input your name!' }]}
-              >
-                <Input />
-              </Form.Item>
-
-              <Form.Item
-                label="Your Email"
-                name="email"
-                rules={[{ required: true, message: 'Please input your email!', type: 'email' }]}
-              >
-                <Input />
-              </Form.Item>
-
-              <Form.Item
-                label="Username"
-                name="username"
-                rules={[{ required: true, message: 'Please input user name!' }]}
-              >
-                <Input />
-              </Form.Item>
-
-              <Form.Item
-                label="Password"
-                name="password"
-                rules={[{ required: true, message: 'Please input your password!' }]}
-              >
-                <Input.Password />
-              </Form.Item>
-
-              <Form.Item
-                name="terms"
-                valuePropName="checked"
-                rules={[
-                  {
-                    validator: (_, value) =>
-                      value
-                        ? Promise.resolve()
-                        : Promise.reject(new Error('You must agree before submitting.')),
-                  },
-                ]}
-              >
-                <Checkbox>
-                  I agree and accept the <a href="/">terms and conditions</a>
-                </Checkbox>
-              </Form.Item>
-
-
-              <Form.Item label={null}>
-                <Button type="primary" htmlType="submit" loading={loading} className='btn-primary'>
-                  Create Account
-                </Button>
-              </Form.Item>
-
-              <Form.Item label={null}>
-                <Text>
-                  Already have an account? <a href="/login">Log in</a>
-                </Text>
-              </Form.Item>
-            </Form>
-          </Card>
-        </div>
+      <div className="text-center mb-8">
+        <Title level={2} className="m-0 text-indigo-600">Tạo tài khoản</Title>
+        <Paragraph className="text-gray-500">Tham gia cộng đồng Clean Blog ngay hôm nay</Paragraph>
       </div>
 
-    </>
+      <Form
+        name="register-form"
+        onFinish={onFinish}
+        layout="vertical"
+        size="large"
+      >
+        <Form.Item
+          label="Tên đăng nhập"
+          name="username"
+          rules={[{ required: true, message: 'Vui lòng nhập tên đăng nhập!' }]}
+        >
+          <Input placeholder="ví dụ: quangtuyen" />
+        </Form.Item>
+
+        <Form.Item
+          label="Email"
+          name="email"
+          rules={[
+            { required: true, message: 'Vui lòng nhập email!' },
+            { type: 'email', message: 'Email không đúng định dạng!' }
+          ]}
+        >
+          <Input placeholder="name@example.com" />
+        </Form.Item>
+
+        <Form.Item
+          label="Mật khẩu"
+          name="password"
+                rules={[{ required: true, message: 'Please input your password!' }]}
+        >
+          <Input.Password placeholder="••••••••" />
+        </Form.Item>
+
+        <Form.Item
+          name="agreement"
+          valuePropName="checked"
+          rules={[
+            {
+              validator: (_, value) =>
+                value ? Promise.resolve() : Promise.reject(new Error('Bạn phải đồng ý với điều khoản')),
+            },
+          ]}
+        >
+          <Checkbox>
+            Tôi đồng ý với <a href="/" className="text-indigo-600">điều khoản & điều kiện</a>
+          </Checkbox>
+        </Form.Item>
+
+        <Form.Item className="mt-8">
+          <Button 
+            type="primary" 
+            htmlType="submit" 
+            loading={loading} 
+            block 
+            className="h-12 bg-indigo-600 hover:bg-indigo-700"
+          >
+            Đăng ký tài khoản
+          </Button>
+        </Form.Item>
+
+        <div className="text-center">
+          <Text className="text-gray-500">
+            Đã có tài khoản? <a href="/login" className="text-indigo-600 font-semibold">Đăng nhập</a>
+          </Text>
+        </div>
+      </Form>
+    </div>
   );
 }

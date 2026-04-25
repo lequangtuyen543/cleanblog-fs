@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Table, Checkbox, Button, Typography, message } from "antd";
-import { rolesIndex, rolesPermissionsMulti } from "../../../services/rolesServices";
+import { getRoles, updatePermissionsMulti } from "../../../services/rolesServices";
 
 const { Title } = Typography;
 
@@ -45,7 +45,7 @@ export default function RolesPermissions() {
   }, []);
 
   const fetchRoles = async () => {
-    const res = await rolesIndex("/admin/roles");
+    const res = await getRoles();
     setRoles(res.data);
 
     // Convert permissions sang object để check nhanh
@@ -79,7 +79,7 @@ export default function RolesPermissions() {
     }));
 
     try {
-      const result = await rolesPermissionsMulti({
+      const result = await updatePermissionsMulti({
         permissions: data,
       });
 

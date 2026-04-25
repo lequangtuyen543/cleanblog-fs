@@ -3,7 +3,7 @@ import { EditOutlined } from "@ant-design/icons";
 import { useState } from 'react';
 import TextArea from 'antd/es/input/TextArea';
 import getTimeCurrent from '../../../helpers/time';
-import { editPost } from '../../../services/postsServices';
+import { updatePost } from '../../../services/postsService';
 
 export const EditBlog = (props) => {
   const { record, onReload } = props;
@@ -26,7 +26,7 @@ export const EditBlog = (props) => {
   const handleSubmit = async (values) => {
     try {
       values.updatedAt = getTimeCurrent();
-      const res = await editPost(record._id, values);
+      const res = await updatePost(record._id, values);
       if (res.code === 200) {
         messageApi.success("Edit blog successfully!");
         setIsModalOpen(false);

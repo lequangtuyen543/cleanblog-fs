@@ -1,9 +1,9 @@
 import { Button, Card, Col, Form, Input, message, Row, Select, Switch } from "antd";
-import { usersDetail, usersInfo } from "../../../services/usersService";
+import { getUserDetail, getUserInfo } from "../../../services/usersService";
 import getTimeCurrent from "../../../helpers/time";
 import TextArea from "antd/es/input/TextArea";
 import { getCookie } from "../../../helpers/cookie";
-import { postsCreate } from "../../../services/postsServices";
+import { createPost } from "../../../services/postsService";
 
 export const CreateBlog = () => {
   const [form] = Form.useForm();
@@ -11,14 +11,14 @@ export const CreateBlog = () => {
 
   const handleSubmit = async (values) => {
     try {
-      const userInfo = await usersInfo();
+      const userInfo = await getUserInfo();
 
       values.createdAt = getTimeCurrent();
       values.updatedAt = getTimeCurrent();
       values.createdBy = userInfo.fullName;
       values.status = values.status ? "active" : "inactive";
 
-      const res = await postsCreate(values);
+      const res = await createPost(values);
 
       console.log(res);
 

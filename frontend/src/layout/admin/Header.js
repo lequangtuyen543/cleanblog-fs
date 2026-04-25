@@ -4,7 +4,7 @@ import {
   UserOutlined, LogoutOutlined, MenuUnfoldOutlined, MenuFoldOutlined, SettingOutlined, CreditCardOutlined,
 } from '@ant-design/icons';
 import { useEffect, useState } from "react";
-import { usersInfo } from "../../services/usersService";
+import { getUserInfo } from "../../services/usersService";
 import logo from "../../assets/img/logo.png";
 
 export const Header = (props) => {
@@ -13,7 +13,7 @@ export const Header = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await usersInfo();
+      const res = await getUserInfo();
       if (res) {
         setData(res.data);
       }

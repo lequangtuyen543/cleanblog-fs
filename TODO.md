@@ -53,7 +53,7 @@
 
 ### 5: `pages/admin`
 
-- [ ] Code Dashboard và các trang quản lý (User, Category, Role, Settings)
+- [x] Code Dashboard và các trang quản lý (User, Category, Role, Settings)
 
 ### 6: `components/` 
 

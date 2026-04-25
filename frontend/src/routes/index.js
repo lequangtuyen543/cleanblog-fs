@@ -11,8 +11,7 @@ import { PostDetail } from "../pages/client/Posts/detail.js";
 import { About } from "../pages/client/About/index.js";
 import { Contact } from "../pages/client/Contact/index.js";
 
-import { CreateUser } from "../pages/admin/Users/create.js";
-import { DetailUser } from "../pages/admin/Users/detail.js";
+
 import { BlogList } from "../pages/admin/Blogs/index.js";
 import { CreateBlog } from "../pages/admin/Blogs/create.js";
 import { DetailBlog } from "../pages/admin/Blogs/detail.js";
@@ -21,13 +20,11 @@ import { UserList } from "../pages/admin/Users/index.js";
 import { UserProfile } from "../pages/admin/User/Profile.jsx";
 import { LayoutAuth } from "../layout/auth/index.js";
 import { RolesIndex } from "../pages/admin/Roles/index.js";
-import { RolesCreate } from "../pages/admin/Roles/create.js";
-import RolesPermissions from "../pages/admin/Roles/Permissions.jsx";
+
 import { UserPreferences } from "../pages/admin/User/Preferences.jsx";
 
-// Import các trang Admin còn thiếu (Placeholder nếu chưa có file)
-// import { CategoryList } from "../pages/admin/Categories";
-// import { SettingsPage } from "../pages/admin/Settings";
+import { CategoryList } from "../pages/admin/Categories/index.js";
+import { SettingsPage } from "../pages/admin/Settings/index.js";
 
 export const routes = [
   // 1. Public Layout (Dành cho khách)
@@ -73,21 +70,19 @@ export const routes = [
           
           // Quản lý Người dùng (Users)
           { path: "users", element: <UserList /> },
-          { path: "users/create", element: <CreateUser /> },
-          { path: "users/edit/:id", element: <DetailUser /> },
+
           
           // Quản lý Vai trò (Roles)
           { path: "roles", element: <RolesIndex /> },
-          { path: "roles/create", element: <RolesCreate /> },
-          { path: "roles/permissions", element: <RolesPermissions /> },
+
 
           // Thông tin cá nhân
           { path: "profile", element: <UserProfile /> },
           { path: "preferences", element: <UserPreferences /> },
 
-          // Quản lý Danh mục & Cài đặt (Sẽ bổ sung sau)
-          // { path: "categories", element: <CategoryList /> },
-          // { path: "settings", element: <SettingsPage /> },
+          // Quản lý Danh mục & Cài đặt
+          { path: "categories", element: <CategoryList /> },
+          { path: "settings", element: <SettingsPage /> },
         ],
       },
     ],

@@ -22,4 +22,4 @@
 - [x] Code file setting.controller
 
 ## Frontend
-- [ ] Thiết kế giao diện bằng Stitch
+- [x] Thiết kế giao diện bằng Stitch

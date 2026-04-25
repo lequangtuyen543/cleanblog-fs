@@ -1,5 +1,5 @@
 # 🔄 System Flow  
-## Blog Management System (Clean Blog FS)
+## Blog Management System (Clean Blog)
 
 ---
 

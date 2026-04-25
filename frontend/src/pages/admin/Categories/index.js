@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Table, Tooltip, Input, Modal, Form, message, Space, Switch, Tag } from 'antd';
+import { Button, Table, Tooltip, Input, Modal, Form, message, Space, Switch, Tag, Popconfirm } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, AppstoreOutlined } from "@ant-design/icons";
 import { getCategories, createCategory, updateCategory, deleteCategory } from "../../../services/categoriesService";
 
@@ -11,10 +11,10 @@ export const CategoryList = () => {
   const [form] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
 
-  const fetchData = async () => {
+  const fetchData = async (keyword = '') => {
     setLoading(true);
     try {
-      const res = await getCategories();
+      const res = await getCategories({ keyword });
       if (res?.data) setData(res.data);
     } catch (error) {
       messageApi.error("Không thể tải danh sách danh mục");
@@ -65,7 +65,7 @@ export const CategoryList = () => {
         }
       } else {
         const res = await createCategory(payload);
-        if (res?.code === 200) {
+        if (res?.code === 200 || res?.code === 201) {
           messageApi.success("Tạo mới thành công!");
           handleModalClose();
           fetchData();
@@ -74,31 +74,22 @@ export const CategoryList = () => {
         }
       }
     } catch (error) {
-      messageApi.error("Đã có lỗi xảy ra");
+      messageApi.error(error.response?.data?.message || "Đã có lỗi xảy ra");
     }
   };
 
-  const handleDelete = (id) => {
-    Modal.confirm({
-      title: 'Bạn có chắc chắn muốn xóa danh mục này?',
-      content: 'Hành động này sẽ áp dụng Soft Delete.',
-      okText: 'Xóa',
-      okType: 'danger',
-      cancelText: 'Hủy',
-      onOk: async () => {
-        try {
-          const res = await deleteCategory(id);
-          if (res?.code === 200) {
-            messageApi.success("Xóa thành công!");
-            fetchData();
-          } else {
-            messageApi.error(res?.message || "Lỗi xóa");
-          }
-        } catch (error) {
-          messageApi.error("Không thể xóa danh mục");
-        }
+  const handleDelete = async (id) => {
+    try {
+      const res = await deleteCategory(id);
+      if (res?.code === 200) {
+        message.success("Xóa thành công!");
+        fetchData();
+      } else {
+        message.error(res?.message || "Lỗi xóa");
       }
-    });
+    } catch (error) {
+      message.error("Không thể xóa danh mục");
+    }
   };
 
   const columns = [
@@ -139,12 +130,42 @@ export const CategoryList = () => {
             <Button type="text" icon={<EditOutlined className="text-blue-600" />} onClick={() => showModal(record)} />
           </Tooltip>
           <Tooltip title="Xóa">
-            <Button type="text" danger icon={<DeleteOutlined />} onClick={() => handleDelete(record._id)} />
+            <Popconfirm
+              title="Xóa danh mục"
+              description="Bạn có chắc chắn muốn xóa danh mục này?"
+              onConfirm={() => handleDelete(record._id)}
+              okText="Xóa"
+              cancelText="Hủy"
+              okButtonProps={{ danger: true }}
+            >
+              <Button type="text" danger icon={<DeleteOutlined />} />
+            </Popconfirm>
           </Tooltip>
         </Space>
       ),
     },
   ];
+
+  const convertToSlug = (text) => {
+    return text
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[đĐ]/g, 'd')
+      .replace(/([^0-9a-z-\s])/g, '')
+      .replace(/(\s+)/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  };
+
+  const handleTitleChange = (e) => {
+    const title = e.target.value;
+    const currentSlug = form.getFieldValue('slug');
+    // Chỉ tự động điền slug nếu trường slug đang trống hoặc khớp với slug cũ của title
+    if (!currentSlug || currentSlug === convertToSlug(form.getFieldsValue(['title']).title || '')) {
+      form.setFieldsValue({ slug: convertToSlug(title) });
+    }
+  };
 
   return (
     <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
@@ -157,9 +178,10 @@ export const CategoryList = () => {
         </div>
         
         <div className="flex items-center gap-3">
-          <Input 
-            placeholder="Tìm kiếm..." 
-            prefix={<SearchOutlined className="text-gray-400" />}
+          <Input.Search 
+            placeholder="Tìm kiếm danh mục..." 
+            onSearch={(val) => fetchData(val)}
+            allowClear
             className="w-64"
           />
           <Button 
@@ -191,10 +213,10 @@ export const CategoryList = () => {
       >
         <Form form={form} layout="vertical" onFinish={handleSubmit} className="mt-4">
           <Form.Item label="Tên danh mục" name='title' rules={[{ required: true, message: 'Vui lòng nhập tên danh mục!' }]}>
-            <Input placeholder="Ví dụ: Công nghệ" />
+            <Input placeholder="Ví dụ: Công nghệ" onChange={handleTitleChange} />
           </Form.Item>
 
-          <Form.Item label="Đường dẫn (Slug)" name='slug' extra="Để trống để tự động tạo từ tên danh mục.">
+          <Form.Item label="Đường dẫn (Slug)" name='slug' rules={[{ required: true, message: 'Vui lòng nhập slug!' }]}>
             <Input placeholder="cong-nghe" />
           </Form.Item>
 

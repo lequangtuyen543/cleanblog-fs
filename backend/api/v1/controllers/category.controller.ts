@@ -89,7 +89,7 @@ export const create = async (req: Request, res: Response): Promise<void> => {
     const saved = await record.save();
 
     res.json({
-      code: 201,
+      code: 200,
       message: "Tạo danh mục thành công",
       data: saved,
     });

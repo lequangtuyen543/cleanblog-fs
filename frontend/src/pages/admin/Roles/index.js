@@ -65,7 +65,7 @@ export const RolesIndex = () => {
         }
       }
     } catch (error) {
-      messageApi.error("Đã có lỗi xảy ra");
+      messageApi.error(error.response?.data?.message || "Đã có lỗi xảy ra");
     }
   };
 

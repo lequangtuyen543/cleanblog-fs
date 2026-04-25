@@ -58,7 +58,7 @@
 - [x] Hoàn thiện các chức năng và giao diện của Blogs
 - [x] Hoàn thiện các chức năng và giao diện của Users
 - [x] Hoàn thiện các chức năng và giao diện của Roles
-- [ ] Hoàn thiện các chức năng và giao diện của Categories
+- [x] Hoàn thiện các chức năng và giao diện của Categories
 - [ ] Hoàn thiện các chức năng và giao diện của Settings
 - [ ] Hoàn thiện các chức năng và giao diện của User
 

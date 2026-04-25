@@ -36,14 +36,14 @@ export const CreateBlog = () => {
       };
 
       const res = await createPost(payload);
-      if (res?.code === 200) {
+      if (res?.code === 200 || res?.code === 201) {
         messageApi.success("Tạo bài viết thành công!");
         setTimeout(() => navigate('/admin/posts'), 1000);
       } else {
         messageApi.error(res?.message || "Lỗi tạo bài viết");
       }
     } catch (error) {
-      messageApi.error("Đã có lỗi xảy ra");
+      messageApi.error(error.response?.data?.message || "Đã có lỗi xảy ra");
     } finally {
       setLoading(false);
     }

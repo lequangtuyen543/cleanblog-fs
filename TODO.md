@@ -54,6 +54,7 @@
 ### 5: `pages/admin`
 
 - [x] Code Dashboard và các trang quản lý (User, Category, Role, Settings)
+- [x] Cập nhật lại code trang Dashboard cho đẹp hơn 
 
 ### 6: `components/` 
 
